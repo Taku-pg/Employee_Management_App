@@ -1,17 +1,17 @@
 # Angular specific
-/dist/
-/out-tsc/
-/tmp/
-/coverage/
-/e2e/test-output/
-/.angular/
+dist/
+out-tsc/
+tmp/
+coverage/
+e2e/test-output/
 .angular/
-/bazel-out
+.angular/
+bazel-out
 
 # Node modules and dependency files
-/node_modules/
-/package-lock.json
-/yarn.lock
+node_modules/
+package-lock.json
+yarn.lock
 npm-debug.log
 yarn-error.log
 
@@ -33,11 +33,11 @@ yarn-error.log
 .history/*
 
 # Environment files
-/.env
+.env
 
 # Angular CLI and build artefacts
-/.angular-cli.json
-/.ng/
+.angular-cli.json
+.ng/
 
 # TypeScript cache
 *.tsbuildinfo
@@ -48,13 +48,13 @@ yarn-debug.log*
 yarn-error.log*
 
 # Miscellaneous
-/.angular/cache
+.angular/cache
 .sass-cache/
-/connect.lock
-/coverage
-/libpeerconnection.log
+connect.lock
+coverage
+libpeerconnection.log
 testem.log
-/typings
+typings
 __screenshots__/
 
 # System files
