@@ -1,95 +1,144 @@
-const db=require('./db');
+const db = require('./db');
 
-class EmployeeModel{
-    static findAllEmployee(callback){
-        const sql='SELECT * FROM employee';
-        db.all(sql,[],(err,rows)=>{
-            if(err)return callback(err);
+class EmployeeModel {
+    static findAllEmployee() {
+        return new Promise((resolve, reject) => {
+            const sql = 'SELECT * FROM employee';
+            db.all(sql, [], (err, rows) => {
+                if (err) return reject(err);
 
-            const result=rows.map(r=>({
-                id: r.id,
-                firstname: r.firstname,
-                lastname: r.lastname,
-                email: r.emal,
-                password: r.password,
-                hireDate: r.hired_date,
-                salary: r.salary,
-                department_id: r.department_id,
-                role_id: r.role_id
-            }));
+                const result = rows.map(r => ({
+                    id: r.id,
+                    firstname: r.firstname,
+                    lastname: r.lastname,
+                    email: r.email,
+                    password: r.password,
+                    hireDate: r.hired_date,
+                    salary: r.salary,
+                    department_id: r.department_id,
+                    role_id: r.role_id
+                }));
 
-            callback(null,result);
+                resolve(result);
+            });
         });
+
     }
 
-    static findAllEmployeeWithSimpleData(callback){
-        //only employee
-        const sql='SELECT id, lastname FROM employee WHERE role_id=3';
+    static findAllEmployeeWithSimpleData() {
+        return new Promise((resolve,reject)=>{
+            //only employee
+            const sql = 'SELECT id, lastname FROM employee WHERE role_id=3';
 
-        db.all(sql,[],(err,rows)=>{
-            if(err)return callback(err);
+            db.all(sql, [], (err, rows) => {
+                if (err) return reject(err);
 
-            const result=rows.map(r=>({
-                id: r.id,
-                firstname: r.firstname
-            }));
+                const result = rows.map(r => ({
+                    id: r.id,
+                    firstname: r.firstname
+                }));
 
-            callback(null,result);
+                resolve(result);
+            });
         });
+        
     }
 
-    static findEmpAndMngWithSimpleData(callback){
-        //with manager and emplyee
-        const sql='SELECT id, lastname FROM employee WHERE role_id=3 OR role_id=2';
+    static findEmpAndMngWithSimpleData() {
+        return new Promise((resolve,reject)=>{
+            //with manager and emplyee
+            const sql = 'SELECT id, lastname FROM employee WHERE role_id=3 OR role_id=2';
 
-        db.all(sql,[],(err,rows)=>{
-            if(err)return callback(err);
+            db.all(sql, [], (err, rows) => {
+                if (err) return reject(err);
 
-            const result=rows.map(r=>({
-                id: r.id,
-                firstname: r.firstname
-            }));
+                const result = rows.map(r => ({
+                    id: r.id,
+                    firstname: r.firstname
+                }));
 
-            callback(null,result);
+                resolve(result);
+            });
         });
+        
     }
 
-    static findEmployeeById(id,callback){
-        //should join and query dept, role name and region  table
-        const sql=`SELECT * FROM employee WHERE id=?`;
+    static findEmployeeById(id) {
+        return new Promise((resolve,reject)=>{
+            //should join and query dept, role name and region  table
+            const sql = `SELECT * FROM employee WHERE id=?`;
 
-        db.get(sql,[id],(err,row)=>{
-            if(err)return callback(err);
-            const result={
-                id: row.id,
-                firstname: row.firstname,
-                lastname: row.lastname,
-                email: row.emal,
-                hireDate: row.hired_date,
-                salary: row.salary,
-                department_id: row.department_id,
-                role_id: row.role_id
-            };
+            db.get(sql, [id], (err, row) => {
+                if (err) return reject(err);
+                const result = {
+                    id: row.id,
+                    firstname: row.firstname,
+                    lastname: row.lastname,
+                    email: row.emal,
+                    hireDate: row.hired_date,
+                    salary: row.salary,
+                    department_id: row.department_id,
+                    role_id: row.role_id
+                };
 
-            callback(null,result);
+                resolve(result);
+            });
         });
+        
     }
 
-    static updateEmployee(data,callback){
-        const sql=`UPDATE employee 
+    static addEmployee(data) {
+        return new Promise((resolve,reject)=>{
+            const sql = `INSERT INTO employee(
+                    firstname,
+                    lastname,
+                    email,
+                    [password],
+                    hired_date,
+                    salary,
+                    manager_id,
+                    department_id,
+                    role_id) 
+                    VALUES(?,?,?,?,?,?,?,?,?)`;
+
+            db.run(sql, data, function(err) {
+                if (err) return reject(err);
+                resolve(this.lastID);
+            });
+        });
+        
+    }
+
+    static updateEmployee(data) {
+        return new Promise((resolve,reject)=>{
+            const sql = `UPDATE employee 
                         SET firstname=?,
-                            email=?,
+                            lastname=?,
                             email=?,
                             salary=?,
                             department_id=?,
                             role_id=?,
                         WHERE id=?`;
-        db.run(sql,data,(err)=>{
-            if(err)return callback(err);
-            callback(null);
-        })
+            db.run(sql, data, (err) => {
+                if (err) return reject(err);
+                resolve();
+            });
+        });
+        
+    }
+
+    static deleteEmployeeById(id) {
+        return new Promise((resolve,reject)=>{
+            const sql = `DELETE FROM employee WHERE id=?`
+
+            db.run(sql, [id], (err) => {
+                if (err) return reject(err);
+                resolve();
+            });
+        });
+        
     }
 
 }
 
-module.exports=EmployeeModel;
+module.exports = EmployeeModel;

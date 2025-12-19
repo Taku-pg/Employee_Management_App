@@ -1,15 +1,15 @@
 const db=require('./db');
 
-class DepartmentModel{
-    static findAllDeptName(){
+class RoleModel{
+    static findAllRole(){
         return new Promise((resolve,reject)=>{
-            const sql=`SELECT department_name FROM department`
+            const sql=`SELECT role_name FROM role`
 
             db.all(sql,[],(err,rows)=>{
                 if(err)return reject(err);
 
                 const result=rows.map(r=>({
-                    deptName: r.department_name
+                    roleName: r.role_name
                 }));
                 resolve(result);
             });
@@ -18,4 +18,4 @@ class DepartmentModel{
     }
 }
 
-module.exports=DepartmentModel;
+module.exports=RoleModel;

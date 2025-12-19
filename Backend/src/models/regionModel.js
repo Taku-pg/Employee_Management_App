@@ -1,15 +1,16 @@
 const db=require('./db');
 
-class DepartmentModel{
-    static findAllDeptName(){
+class RegionModel{
+    static findAllRegion(){
         return new Promise((resolve,reject)=>{
-            const sql=`SELECT department_name FROM department`
+            const sql=`SELECT * FROM region`
 
             db.all(sql,[],(err,rows)=>{
                 if(err)return reject(err);
 
                 const result=rows.map(r=>({
-                    deptName: r.department_name
+                    regionName: r.region_name,
+                    utc: r.utc_offset
                 }));
                 resolve(result);
             });
@@ -18,4 +19,4 @@ class DepartmentModel{
     }
 }
 
-module.exports=DepartmentModel;
+module.exports=RegionModel;
