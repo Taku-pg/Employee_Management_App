@@ -74,7 +74,7 @@ class EmployeeModel {
                     id: row.id,
                     firstname: row.firstname,
                     lastname: row.lastname,
-                    email: row.emal,
+                    email: row.email,
                     hireDate: row.hired_date,
                     salary: row.salary,
                     department_id: row.department_id,
@@ -85,6 +85,17 @@ class EmployeeModel {
             });
         });
         
+    }
+
+    static findEmployeeByEmail(email){
+        return new Promise((resolve,reject)=>{
+            const sql=`SELECT * FROM employee WHERE email=?`
+
+            db.get(sql,[email],(err,row)=>{
+                if(err) return reject(err);
+                resolve(row);
+            })
+        })
     }
 
     static addEmployee(data) {
