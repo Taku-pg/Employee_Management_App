@@ -89,7 +89,9 @@ class EmployeeModel {
 
     static findEmployeeByEmail(email){
         return new Promise((resolve,reject)=>{
-            const sql=`SELECT * FROM employee WHERE email=?`
+            const sql=`SELECT * FROM employee AS e `+ 
+                        `INNER JOIN role_ AS r ON e.role_id=r.id `+
+                            `WHERE e.email=?`
 
             db.get(sql,[email],(err,row)=>{
                 if(err) return reject(err);
