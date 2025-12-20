@@ -27,7 +27,7 @@ class EmployeeModel {
 
     static findAllEmployeeByDeptId(department_id){
         return new Promise((resolve,reject)=>{
-            const sql=`SELECT * FROM employee AS e `+ 
+            const sql=`SELECT e.id, e.firstname FROM employee AS e `+ 
                         `INNER JOIN department AS d ON e.department_id=d.id `+
                         `WHERE e.department_id=?`
 
@@ -35,14 +35,7 @@ class EmployeeModel {
                 if(err)return reject(err);
                 const result=rows.map(r => ({
                     id: r.id,
-                    firstname: r.firstname,
-                    lastname: r.lastname,
-                    email: r.email,
-                    password: r.password,
-                    hireDate: r.hired_date,
-                    salary: r.salary,
-                    department_id: r.department_id,
-                    role_id: r.role_id
+                    firstname: r.firstname
                 }));
                 resolve(result);
             });

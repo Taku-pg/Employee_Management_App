@@ -1,1 +1,22 @@
-<p>manager works!</p>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Firstname</th>
+        <th></th>
+        <th></th>
+    </tr>
+    @for(emp of deptEmployees(); track emp.id){
+        <tr>
+            <td>{{emp.id}}</td>
+            <td>{{emp.firstname}}</td>
+
+            <form>
+                <td><button type="submit">update</td>
+            </form>
+
+            <form>
+                <td>delete</td>
+            </form>
+        </tr>
+    }
+</table>
