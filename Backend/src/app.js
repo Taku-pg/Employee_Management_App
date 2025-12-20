@@ -17,9 +17,4 @@ app.use('/updateEmployee',require('./routes/updateEmp'));*/
 app.use('/api/emp',require('./routes/employeeRouter'));
 app.use('/api/login',require('./routes/loginRouter'));
 
-app.get('/api/hello',(req,res)=>{
-    console.log('hello from backend');
-    res.json({message: 'hello'});
-})
-
 module.exports=app;

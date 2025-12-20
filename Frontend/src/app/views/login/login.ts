@@ -17,13 +17,13 @@ export class Login {
   password='';
   onLogin(){
     //サーバーからemailでデータ取得、パスワードがあっているか、合わないor　no dataでエラー
-    console.log('login start');
     console.log(this.email);
     console.log(this.password);
     this.authService.login(this.email,this.password).subscribe(
       {
         next:(res)=>{
           //次にやること、データをempに渡して、遷移,interceptor
+          //roleごとに違うurlへ
           sessionStorage.setItem('token', res.token);
           this.router.navigate(['/emp',res.emp.id]);
           console.log('success');

@@ -10,17 +10,10 @@ import { Login } from './views/login/login';
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
-export class App implements OnInit{
+export class App {
   protected readonly title = signal('Frontend');
-  private apiService=inject(ApiService);
+  //private apiService=inject(ApiService);
   //loggedin=signal(false);
-  ngOnInit(){
-    console.log('hello from front')
-    this.apiService.getHello('/hello').subscribe({
-      next: (res)=>console.log(res),
-      error: ()=>console.log('error')
-    });
-  }
   //control login and role
 
 }
