@@ -21,6 +21,7 @@ export class Login {
         break;
       }
       case 'manager':{
+        //manager componentで取得、urlに含めない
         this.router.navigate(['/manager']);
         break;
       } 

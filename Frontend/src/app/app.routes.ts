@@ -20,7 +20,8 @@ export const routes: Routes = [
         component: Emp
     },
     {
-        path:'manager/:dept',
+        //[authguard]を設定,express側は実装済み
+        path:'manager',
         component: Manager
     },
     {
