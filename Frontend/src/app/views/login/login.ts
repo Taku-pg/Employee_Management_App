@@ -13,6 +13,24 @@ export class Login {
   private authService=inject(AuthService);
   private router=inject(Router);
 
+  switchRole(role: string, empId: number){
+    switch(role){
+      case 'employee': {
+        console.log('emp login');
+        this.router.navigate(['/emp',empId]);
+        break;
+      }
+      case 'manager':{
+        this.router.navigate(['/manager']);
+        break;
+      } 
+      case 'admin':{
+        this.router.navigate(['/admin']);
+        break;
+      }
+    }
+  }
+
   email='';
   password='';
   onLogin(){
@@ -25,9 +43,9 @@ export class Login {
           //次にやること、データをempに渡して、遷移,interceptor
           //roleごとに違うurlへ
           sessionStorage.setItem('token', res.token);
-          this.router.navigate(['/emp',res.emp.id]);
+          this.switchRole(res.emp.role,res.emp.id);
+          //this.router.navigate(['/emp',res.emp.id]);
           console.log('success');
-          console.log(res.emp.id);
         },
         error:()=>console.log('error')
       }

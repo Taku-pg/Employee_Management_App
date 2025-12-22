@@ -22,7 +22,7 @@ class LoginService{
             process.env.JWT_SECRET_KEY,
             {expiresIn: '1h'}
         );
-        return {token: token,emp: {id: emp.id, role_id: emp.role_id}};
+        return {token: token,emp: {id: emp.id, role: emp.role_name}};
     }
 }
 

@@ -106,7 +106,7 @@ class EmployeeModel {
 
     static findEmployeeByEmail(email){
         return new Promise((resolve,reject)=>{
-            const sql=`SELECT * FROM employee AS e `+ 
+            const sql=`SELECT e.id, e.email, e.password, r.role_name FROM employee AS e `+ 
                         `INNER JOIN role_ AS r ON e.role_id=r.id `+
                             `WHERE e.email=?`
 
