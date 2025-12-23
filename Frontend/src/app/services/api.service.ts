@@ -22,4 +22,8 @@ export class ApiService{
     getAllDeptEmp(){
         return this.httpClient.get<{employees:SimpleEmployeeModel[]}>(`${this.baseUrl}/emp/manager`);
     }
+
+    getAllEmp(){
+        return this.httpClient.get<{employees: SimpleEmployeeModel[]}>(`${this.baseUrl}/emp/admin`);
+    }
 }

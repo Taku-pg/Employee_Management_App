@@ -1,1 +1,35 @@
-<p>admin works!</p>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Firstname</th>
+        <th></th>
+        <th></th>
+        <th></th>
+    </tr>
+    @for(emp of allEmployees(); track emp.id){
+        <tr>
+            <td>{{emp.id}}</td>
+            <td>{{emp.firstname}}</td>
+
+            <td>
+                <form>
+                    <!--linkにするかも-->
+                    <button type="submit">view detail</button>
+                </form>
+            </td>
+
+            <td>
+                <form>
+                    <button type="submit">update</button>
+                </form>
+            </td>    
+
+            <td>
+                <form>
+                    <button type="submit">delete</button>
+                </form>
+            </td>
+        </tr>
+    }
+</table>
+

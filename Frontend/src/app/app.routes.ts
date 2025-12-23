@@ -16,7 +16,7 @@ export const routes: Routes = [
         component: Login
     },
     {
-        path:'emp/:id',
+        path:'emp',
         component: Emp
     },
     {

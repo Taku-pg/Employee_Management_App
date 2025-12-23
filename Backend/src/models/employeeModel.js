@@ -10,13 +10,13 @@ class EmployeeModel {
                 const result = rows.map(r => ({
                     id: r.id,
                     firstname: r.firstname,
-                    lastname: r.lastname,
+                    /*lastname: r.lastname,
                     email: r.email,
                     password: r.password,
                     hireDate: r.hired_date,
                     salary: r.salary,
                     department_id: r.department_id,
-                    role_id: r.role_id
+                    role_id: r.role_id*/
                 }));
 
                 resolve(result);
