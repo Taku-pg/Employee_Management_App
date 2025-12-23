@@ -9,7 +9,7 @@ import { ApiService } from '../../services/api.service';
   styleUrl: './manager.css',
 })
 export class Manager implements OnInit {
-  deptEmployees=signal<SimpleEmployeeModel[]|null>(null);
+  deptEmployees=signal<SimpleEmployeeModel[]>([]);
   private apiService=inject(ApiService);
 
   ngOnInit(){
@@ -17,7 +17,7 @@ export class Manager implements OnInit {
     this.apiService.getAllDeptEmp().subscribe({
       next:(res)=>{
         console.log(res);
-        this.deptEmployees.set(res);
+        this.deptEmployees.set(res.employees);
       },
       error: ()=>console.log('erorr')
     })

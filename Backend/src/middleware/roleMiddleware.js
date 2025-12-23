@@ -1,7 +1,9 @@
 module.exports=function authorize(role){
     return (req,res,next)=>{
-        if(role!==req.emp.role_name){
-            res.semdStatus(403);
+        console.log(role);
+        console.log(req.emp.role)
+        if(role!==req.emp.role){
+            res.sendStatus(403);
         }
         next();
     }

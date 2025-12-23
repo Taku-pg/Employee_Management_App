@@ -20,6 +20,6 @@ export class ApiService{
     }
 
     getAllDeptEmp(){
-        return this.httpClient.get<SimpleEmployeeModel[]>(`${this.baseUrl}/manager`);
+        return this.httpClient.get<{employees:SimpleEmployeeModel[]}>(`${this.baseUrl}/emp/manager`);
     }
 }

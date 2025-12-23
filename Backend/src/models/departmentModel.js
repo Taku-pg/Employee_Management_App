@@ -16,6 +16,21 @@ class DepartmentModel{
         });
         
     }
+
+    static findDeptByEmpId(id){
+        return new Promise((resolve, reject)=>{
+             const sql =`SELECT d.id FROM department AS d `+
+                    `INNER JOIN employee AS e ON e.department_id=d.id `+
+                    `WHERE e.id=?`;
+
+            db.get(sql,[id],(err,row)=>{
+                if(err)return reject(err);
+                resolve(row);
+            });
+        })
+       
+
+    }
 }
 
 module.exports=DepartmentModel;

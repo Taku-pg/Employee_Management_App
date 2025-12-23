@@ -4,19 +4,31 @@
         <th>Firstname</th>
         <th></th>
         <th></th>
+        <th></th>
     </tr>
     @for(emp of deptEmployees(); track emp.id){
         <tr>
             <td>{{emp.id}}</td>
             <td>{{emp.firstname}}</td>
 
-            <form>
-                <td><button type="submit">update</button></td>
-            </form>
+            <td>
+                <form>
+                    <!--linkにするかも-->
+                    <button type="submit">view detail</button>
+                </form>
+            </td>
 
-            <form>
-                <td>delete</td>
-            </form>
+            <td>
+                <form>
+                    <button type="submit">update</button>
+                </form>
+            </td>    
+
+            <td>
+                <form>
+                    <button type="submit">delete</button>
+                </form>
+            </td>
         </tr>
     }
 </table>
