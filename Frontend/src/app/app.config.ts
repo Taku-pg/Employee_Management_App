@@ -1,8 +1,11 @@
-import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { ApplicationConfig, inject, provideBrowserGlobalErrorListeners } from '@angular/core';
+import { provideRouter, Router } from '@angular/router';
 
 import { routes } from './app.routes';
 import { HttpHandlerFn, HttpRequest, provideHttpClient, withInterceptors } from '@angular/common/http';
+import { catchError } from 'rxjs';
+
+
 
 function authInterceptor(request: HttpRequest<unknown>, next: HttpHandlerFn){
   const token = sessionStorage.getItem('token');
@@ -17,9 +20,29 @@ function authInterceptor(request: HttpRequest<unknown>, next: HttpHandlerFn){
   return next(request);
 } 
 
+function errorInterceptor(request: HttpRequest<unknown>, next: HttpHandlerFn){
+  const router=inject(Router);
+
+  return next(request).pipe(
+    catchError(err=>{
+      if(err.satus===401){
+        router.navigate(['error/401']);
+      }else if(err.status===403){
+        router.navigate(['error/403']);
+      }else if(err.status===500){
+        router.navigate(['error/500']);
+      }
+
+      throw err;
+    })
+  )
+}
+
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideHttpClient(withInterceptors([authInterceptor])),
+    provideHttpClient(
+      withInterceptors([authInterceptor,errorInterceptor])
+    ),
     provideRouter(routes)
   ]
 };

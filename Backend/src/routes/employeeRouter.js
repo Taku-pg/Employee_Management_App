@@ -15,7 +15,7 @@ router.get('/me',authenticate,async (req,res)=>{
          res.json({emp:employeeInfo});
     }catch(err){
         console.log(err);
-        res.json({ok:false}).sendStatus(500);
+        res.status(500).json({message: 'Internal server error'});
     }
 });
 
@@ -26,7 +26,7 @@ router.get('/admin',authenticate,authorize('admin'),async (req,res)=>{
         res.json({employees:allEmployees});
     }catch(err){
         console.log(err);
-        res.json().sendStatus(500);
+        res.status(500).json({message: 'Internal server error'});
     }
 });
 
@@ -43,8 +43,21 @@ router.get('/manager',authenticate,authorize('manager'),async (req,res)=>{
         res.json({employees:employeesByDept});
     }catch(err){
         console.log(err);
-        res.json().sendStatus(500);
+        res.status(500).json({message: 'Internal server error'});
     }
 });
+
+router.get('/role', authenticate,async(req,res)=>{
+    console.log('get role called');
+    try{
+        const empId=req.emp.empId;
+        const emp=await EmpModel.findEmployeeWithRoleNameById(empId);
+        console.log(emp);
+        res.json({role: emp.role_name});
+    }catch(err){
+        console.log(err);
+        res.status(500).json({message: 'Internal server error'});
+    }
+})
 
 module.exports=router;

@@ -104,6 +104,19 @@ class EmployeeModel {
         
     }
 
+    static findEmployeeWithRoleNameById(id){
+        return new Promise((resolve,reject)=>{
+            const sql=`SELECT r.role_name FROM employee AS e `+ 
+                        `INNER JOIN role_ AS r ON e.role_id=r.id `+
+                            `WHERE e.id=?`
+
+            db.get(sql,[id],(err,row)=>{
+                if(err) return reject(err);
+                resolve(row);
+            })
+        })
+    }
+
     static findEmployeeByEmail(email){
         return new Promise((resolve,reject)=>{
             const sql=`SELECT e.id, e.email, e.password, r.role_name FROM employee AS e `+ 

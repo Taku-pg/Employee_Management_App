@@ -15,20 +15,20 @@ export class Login {
 
   switchRole(role: string){
     switch(role){
-      case 'employee': {
+      case 'employee': 
         console.log('emp login');
         this.router.navigate(['/emp']);
         break;
-      }
-      case 'manager':{
+      
+      case 'manager':
         //manager componentで取得、urlに含めない
         this.router.navigate(['/manager']);
         break;
-      } 
-      case 'admin':{
+      
+      case 'admin':
         this.router.navigate(['/admin']);
         break;
-      }
+      
     }
   }
 
@@ -45,10 +45,13 @@ export class Login {
           //roleごとに違うurlへ
           sessionStorage.setItem('token', res.token);
           this.switchRole(res.emp.role);
-          //this.router.navigate(['/emp',res.emp.id]);
           console.log('success');
         },
-        error:()=>console.log('error')
+        error:()=>{
+          console.log('error');
+          this.router.navigate(['error/500']);
+        }
+
       }
     );
   }

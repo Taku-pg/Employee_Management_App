@@ -17,4 +17,8 @@ export class AuthService{
             password
         });
     }
+
+    getCurrentEmpRole(){
+        return this.httpClient.get<{role: string}>(`${this.baseUrl}/emp/role`);
+    }
 }
