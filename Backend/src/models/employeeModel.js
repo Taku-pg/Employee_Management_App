@@ -83,7 +83,16 @@ class EmployeeModel {
     static findEmployeeById(id) {
         return new Promise((resolve,reject)=>{
             //should join and query dept, role name and region  table
-            const sql = `SELECT * FROM employee WHERE id=?`;
+            //inner selectしなければならない
+            const sql = `SELECT e.id,e.firstname,e.lastname,e.email,`+
+                        `e.hired_date,e.salary,d.department_name,r.role_name,`+
+                        `n.nationality,re.region_name `+ 
+                        `FROM employee AS e `+
+                        `INNER JOIN department AS d ON e.department_id=d.id `+
+                        `INNER JOIN role_ AS r ON e.role_id=r.id `+
+                        `INNER JOIN nationality AS n ON e.id=n.employee_id `+
+                        `INNER JOIN region AS re ON re.id=n.region_id `+
+                        `WHERE e.id=?`;
 
             db.get(sql, [id], (err, row) => {
                 if (err) return reject(err);
@@ -94,8 +103,10 @@ class EmployeeModel {
                     email: row.email,
                     hireDate: row.hired_date,
                     salary: row.salary,
-                    department_id: row.department_id,
-                    role_id: row.role_id
+                    department: row.department_name,
+                    role: row.role_name,
+                    nationality: row.nationality,
+                    region: row.region_name
                 };
 
                 resolve(result);

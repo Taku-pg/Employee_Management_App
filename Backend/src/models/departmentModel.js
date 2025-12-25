@@ -9,7 +9,7 @@ class DepartmentModel{
                 if(err)return reject(err);
 
                 const result=rows.map(r=>({
-                    deptName: r.department_name
+                    depts: r.department_name
                 }));
                 resolve(result);
             });

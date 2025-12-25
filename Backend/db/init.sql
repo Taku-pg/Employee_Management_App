@@ -82,12 +82,14 @@ CREATE TABLE IF NOT EXISTS nationality(
             region_id INTEGER,
             nationality TEXT NOT NULL,
             FOREIGN KEY(employee_id) REFERENCES employee(id),
-            FOREIGN KEY(region_id) REFERENCES region(id)   
+            FOREIGN KEY(region_id) REFERENCES region(id),
+            PRIMARY KEY(employee_id,region_id)   
             );
 
 INSERT OR IGNORE INTO nationality(employee_id, region_id, nationality) VALUES(1,1,'Poland');
 INSERT OR IGNORE INTO nationality(employee_id, region_id, nationality) VALUES(2,1,'Poland');
 INSERT OR IGNORE INTO nationality(employee_id, region_id, nationality) VALUES(3,1,'England');
+INSERT OR IGNORE INTO nationality(employee_id, region_id, nationality) VALUES(3,1,'Italy');
 INSERT OR IGNORE INTO nationality(employee_id, region_id, nationality) VALUES(4,1,'Portugal');
 INSERT OR IGNORE INTO nationality(employee_id, region_id, nationality) VALUES(5,1,'Spain');
 INSERT OR IGNORE INTO nationality(employee_id, region_id, nationality) VALUES(6,1,'France');
