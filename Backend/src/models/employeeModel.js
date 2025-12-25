@@ -94,20 +94,36 @@ class EmployeeModel {
                         `INNER JOIN region AS re ON re.id=n.region_id `+
                         `WHERE e.id=?`;
 
-            db.get(sql, [id], (err, row) => {
+            db.all(sql, [id], (err, rows) => {
                 if (err) return reject(err);
-                const result = {
-                    id: row.id,
-                    firstname: row.firstname,
-                    lastname: row.lastname,
-                    email: row.email,
-                    hireDate: row.hired_date,
-                    salary: row.salary,
-                    department: row.department_name,
-                    role: row.role_name,
-                    nationality: row.nationality,
-                    region: row.region_name
-                };
+
+                console.log(rows.length);
+                const result = rows.reduce((acc,row)=>{
+                    if(!acc.id){
+                    acc.id= row.id;
+                    acc.firstname= row.firstname;
+                    acc.lastname= row.lastname;
+                    acc.email= row.email;
+                    acc.hireDate= row.hired_date;
+                    acc.salary= row.salary;
+                    acc.department= row.department_name;
+                    acc.role= row.role_name;
+                    acc.nationalities= [];
+                    }
+
+                    if(row.nationality){
+                        console.log(acc.nationalities);
+                        console.log(row.nationality);
+                        console.log(row.region_name);
+                        acc.nationalities.push({
+                            nationality: row.nationality,
+                            region: row.region_name
+                        });
+                    }
+
+                    return acc;
+                },{}
+            );
 
                 resolve(result);
             });

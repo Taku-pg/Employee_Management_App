@@ -28,7 +28,7 @@ export class ApiService{
     }
 
     getAllDept(){
-        return this.httpClient.get<{depts: string[]}>(`${this.baseUrl}/dept`);
+        return this.httpClient.get<string[]>(`${this.baseUrl}/dept`);
     }
 
     getEmpDetail(empId: string){

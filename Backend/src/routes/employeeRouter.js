@@ -66,12 +66,9 @@ router.get('/:id', authenticate, authorize(['manager','admin']), async(req,res)=
     try{
         const empId=req.params.id;
         if(req.emp.role==='manager'){
-            console.log(empId);
             const mngId=req.emp.empId;
             const empDept=await DeptModel.findDeptByEmpId(empId);
             const mngDept=await DeptModel.findDeptByEmpId(mngId);
-            console.log(empDept);
-            console.log(mngDept);
 
             if(empDept.id!==mngDept.id){
                 return res.status(403)

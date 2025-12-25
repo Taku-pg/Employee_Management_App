@@ -8,9 +8,7 @@ class DepartmentModel{
             db.all(sql,[],(err,rows)=>{
                 if(err)return reject(err);
 
-                const result=rows.map(r=>({
-                    depts: r.department_name
-                }));
+                const result=rows.map(r=>(r.department_name));
                 resolve(result);
             });
         });

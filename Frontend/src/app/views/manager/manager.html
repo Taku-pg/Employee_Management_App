@@ -16,8 +16,13 @@
     }
 </table>
 
+
 @if(selectedEmpId()){
-    <app-emp-detail [empId]="selectedEmpId()!" [depts]="depts()"/>
+    <app-emp-detail [empId]="selectedEmpId()!"/>
 }
 
-<app-new-emp [depts]="depts()"></app-new-emp>
+<button type="button" (click)="onRegister()">register</button>
+
+
+
+

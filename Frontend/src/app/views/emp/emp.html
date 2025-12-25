@@ -23,11 +23,21 @@
         <input type="number" id="salary" readonly [value]="emp()?.salary">
     </label><br><br>
 
-    <label for="department">Department ID:
+    <label for="department">Department:
         <input type="text" id="department" readonly [value]="emp()?.department">
     </label><br><br>
 
-    <label for="role">Role ID:
+    <label for="role">Role:
         <input type="text" id="role" readonly [value]="emp()?.role">
     </label><br><br>
+
+    @for(nationality of emp()?.nationalities; track nationality.nationality){
+        <label for="nationality">Nationality:
+            <input type="text" id="nationality" readonly [value]="nationality.nationality">
+        </label><br><br>
+
+        <label for="region">Region:
+            <input type="text" id="region" readonly [value]="nationality.region">
+        </label><br><br>
+    }
 </div>

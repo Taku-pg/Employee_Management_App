@@ -78,35 +78,35 @@ INSERT OR IGNORE INTO employee(id, firstname, lastname, email, [password], hired
 INSERT OR IGNORE INTO employee(id, firstname, lastname, email, [password], hired_date, salary, manager_id, department_id, role_id) VALUES(21, 'Shah', 'Teodoro', 'shah@mail.com', '$2a$10$EkVEqkTvvZFjHNT.LnPqiuAc8UJC.LPw3m4Wvk55/HkBhTEUk87dq', '2024-07-10', 6200, 6, 5, 3);
 
 CREATE TABLE IF NOT EXISTS nationality(
+            id PRIMARY KEY,
             employee_id INTEGER,
             region_id INTEGER,
             nationality TEXT NOT NULL,
             FOREIGN KEY(employee_id) REFERENCES employee(id),
-            FOREIGN KEY(region_id) REFERENCES region(id),
-            PRIMARY KEY(employee_id,region_id)   
+            FOREIGN KEY(region_id) REFERENCES region(id)
             );
 
-INSERT OR IGNORE INTO nationality(employee_id, region_id, nationality) VALUES(1,1,'Poland');
-INSERT OR IGNORE INTO nationality(employee_id, region_id, nationality) VALUES(2,1,'Poland');
-INSERT OR IGNORE INTO nationality(employee_id, region_id, nationality) VALUES(3,1,'England');
-INSERT OR IGNORE INTO nationality(employee_id, region_id, nationality) VALUES(3,1,'Italy');
-INSERT OR IGNORE INTO nationality(employee_id, region_id, nationality) VALUES(4,1,'Portugal');
-INSERT OR IGNORE INTO nationality(employee_id, region_id, nationality) VALUES(5,1,'Spain');
-INSERT OR IGNORE INTO nationality(employee_id, region_id, nationality) VALUES(6,1,'France');
-INSERT OR IGNORE INTO nationality(employee_id, region_id, nationality) VALUES(7,1,'Italy');
-INSERT OR IGNORE INTO nationality(employee_id, region_id, nationality) VALUES(8,2,'China');
-INSERT OR IGNORE INTO nationality(employee_id, region_id, nationality) VALUES(9,2,'Korea');
-INSERT OR IGNORE INTO nationality(employee_id, region_id, nationality) VALUES(10,2,'Japan');
-INSERT OR IGNORE INTO nationality(employee_id, region_id, nationality) VALUES(11,2,'Thailand');
-INSERT OR IGNORE INTO nationality(employee_id, region_id, nationality) VALUES(12,2,'China');
-INSERT OR IGNORE INTO nationality(employee_id, region_id, nationality) VALUES(13,3,'America');
-INSERT OR IGNORE INTO nationality(employee_id, region_id, nationality) VALUES(14,3,'America');
-INSERT OR IGNORE INTO nationality(employee_id, region_id, nationality) VALUES(15,3,'America');
-INSERT OR IGNORE INTO nationality(employee_id, region_id, nationality) VALUES(16,3,'Mexico');
-INSERT OR IGNORE INTO nationality(employee_id, region_id, nationality) VALUES(17,4,'Algeria');
-INSERT OR IGNORE INTO nationality(employee_id, region_id, nationality) VALUES(18,4,'Ethiopia');
-INSERT OR IGNORE INTO nationality(employee_id, region_id, nationality) VALUES(19,4,'Ghana');
-INSERT OR IGNORE INTO nationality(employee_id, region_id, nationality) VALUES(20,4,'Ghana');
-INSERT OR IGNORE INTO nationality(employee_id, region_id, nationality) VALUES(21,4,'Angola');
+INSERT OR IGNORE INTO nationality(id, employee_id, region_id, nationality) VALUES(1,1,1,'Poland');
+INSERT OR IGNORE INTO nationality(id, employee_id, region_id, nationality) VALUES(2,2,1,'Poland');
+INSERT OR IGNORE INTO nationality(id, employee_id, region_id, nationality) VALUES(3,3,1,'England');
+INSERT OR IGNORE INTO nationality(id, employee_id, region_id, nationality) VALUES(4,3,1,'Italy');
+INSERT OR IGNORE INTO nationality(id, employee_id, region_id, nationality) VALUES(5,4,1,'Portugal');
+INSERT OR IGNORE INTO nationality(id, employee_id, region_id, nationality) VALUES(6,5,1,'Spain');
+INSERT OR IGNORE INTO nationality(id, employee_id, region_id, nationality) VALUES(7,6,1,'France');
+INSERT OR IGNORE INTO nationality(id, employee_id, region_id, nationality) VALUES(8,7,1,'Italy');
+INSERT OR IGNORE INTO nationality(id, employee_id, region_id, nationality) VALUES(9,8,2,'China');
+INSERT OR IGNORE INTO nationality(id, employee_id, region_id, nationality) VALUES(10,9,2,'Korea');
+INSERT OR IGNORE INTO nationality(id, employee_id, region_id, nationality) VALUES(11,10,2,'Japan');
+INSERT OR IGNORE INTO nationality(id, employee_id, region_id, nationality) VALUES(12,11,2,'Thailand');
+INSERT OR IGNORE INTO nationality(id, employee_id, region_id, nationality) VALUES(13,12,2,'China');
+INSERT OR IGNORE INTO nationality(id, employee_id, region_id, nationality) VALUES(14,13,3,'America');
+INSERT OR IGNORE INTO nationality(id, employee_id, region_id, nationality) VALUES(15,14,3,'America');
+INSERT OR IGNORE INTO nationality(id, employee_id, region_id, nationality) VALUES(16,15,3,'America');
+INSERT OR IGNORE INTO nationality(id, employee_id, region_id, nationality) VALUES(17,16,3,'Mexico');
+INSERT OR IGNORE INTO nationality(id, employee_id, region_id, nationality) VALUES(18,17,4,'Algeria');
+INSERT OR IGNORE INTO nationality(id, employee_id, region_id, nationality) VALUES(19,18,4,'Ethiopia');
+INSERT OR IGNORE INTO nationality(id, employee_id, region_id, nationality) VALUES(20,19,4,'Ghana');
+INSERT OR IGNORE INTO nationality(id, employee_id, region_id, nationality) VALUES(21,20,4,'Ghana');
+INSERT OR IGNORE INTO nationality(id, employee_id, region_id, nationality) VALUES(22,21,4,'Angola');
 
 COMMIT;

@@ -1,13 +1,14 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { SimpleEmployeeModel } from '../../models/simpleEmp.model';
 import { ApiService } from '../../services/api.service';
-import { Router } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { EmpDetail } from '../emp-detail/emp-detail';
 import { NewEmp } from '../new-emp/new-emp';
+import { CommonModule, NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-manager',
-  imports: [EmpDetail,NewEmp],
+  imports: [EmpDetail,NewEmp,RouterOutlet],
   templateUrl: './manager.html',
   styleUrl: './manager.css',
 })
@@ -29,15 +30,24 @@ export class Manager implements OnInit {
     });
 
     this.apiService.getAllDept().subscribe({
-      next:(res)=>this.depts.set(res.depts),
-      error:()=>this.router.navigate(['error/500'])
-    })
+            next: (res)=>{
+              this.depts.set(res);
+              console.log(res);
+            },
+            error: ()=>this.router.navigate(['error/500'])
+        });
+
   };
 
   onViewDetail(id: string){
+    //this.router.navigate([`manager/emp/${id}`]);
     this.selectedEmpId.set(id);
     console.log(this.selectedEmpId());
     console.log('fetch detail');
+  }
+
+  onRegister(){
+    this.router.navigate(['manager/register']);
   }
 
   //detailとnewでdeptの取得

@@ -34,11 +34,26 @@
         }
     </select>
 
-    <label for="role">Role ID:
+    <label for="role">Role:
         <input type="text" id="role" [value]="emp()?.role" readonly>
     </label><br><br>
+
+    @for(nationality of emp()?.nationalities; track nationality.nationality){
+        <form (ngSubmit)="onSubmitNationality()">
+            <label for="nationality">Nationality:
+                <input type="text" id="nationality" [value]="nationality.nationality">
+            </label><br><br>
+
+            <label for="region">Region:
+                <input type="text" id="region" [value]="nationality.region">
+            </label><br><br>
+
+            <button type="submit" (click)="mode='delete'">delete nationality</button>
+        </form>
+    }
+
     
     <button type="submit">Update</button>
     </form>
-    <button type="button" (click)="onDelete()"></button>
+    <button type="button" (click)="onDelete()">Delete</button>
 </div>

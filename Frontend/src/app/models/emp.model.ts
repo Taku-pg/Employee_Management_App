@@ -1,3 +1,8 @@
+interface nationality{
+    nationality: string,
+    region: string
+}
+
 export interface EmployeeModel{
     id: number,
     firstname: string,
@@ -8,6 +13,5 @@ export interface EmployeeModel{
     salary: number,
     department: string,
     role: string,
-    nationality: string,
-    region: string
+    nationalities: nationality[]
 }

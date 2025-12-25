@@ -6,7 +6,7 @@ import { Login } from './views/login/login';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Emp, Login],
+  imports: [RouterOutlet],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
@@ -15,5 +15,4 @@ export class App {
   //private apiService=inject(ApiService);
   //loggedin=signal(false);
   //control login and role
-
 }

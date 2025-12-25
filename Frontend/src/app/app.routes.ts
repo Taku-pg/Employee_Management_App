@@ -5,6 +5,7 @@ import { Admin } from './views/admin/admin';
 import { Manager } from './views/manager/manager';
 import { authGuard, AuthGuard } from './services/authGuard';
 import { ErrorPage } from './views/error/error';
+import { NewEmp } from './views/new-emp/new-emp';
 
 export const routes: Routes = [
     {
@@ -26,7 +27,14 @@ export const routes: Routes = [
         path:'manager',
         canActivate: [authGuard],
         data: {role: 'manager'},
-        component: Manager
+        component: Manager,
+        //loadChildren: ()=> import('./views/manager/manager.routes').then(m=>m.MANAGER_ROUTE)
+    },
+    {
+        path:'manager/register',
+        canActivate: [authGuard],
+        data: {role: 'manager'},
+        component: NewEmp
     },
     {
         path:'admin',
