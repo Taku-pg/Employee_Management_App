@@ -1,6 +1,6 @@
-interface nationality{
-    nationality: string,
-    region: string
+interface language{
+    language_name: string,
+    language_level: string
 }
 
 export interface EmployeeModel{
@@ -13,5 +13,5 @@ export interface EmployeeModel{
     salary: number,
     department: string,
     role: string,
-    nationalities: nationality[]
+    languages: language[]
 }

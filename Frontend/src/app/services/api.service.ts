@@ -31,7 +31,13 @@ export class ApiService{
         return this.httpClient.get<string[]>(`${this.baseUrl}/dept`);
     }
 
+    getAllLanguage(){
+        return this,this.httpClient.get<string[]>(`${this.baseUrl}/language`);
+    }
+
     getEmpDetail(empId: string){
         return this.httpClient.get<{emp:EmployeeModel}>(`${this.baseUrl}/emp/${empId}`).pipe(map(res=>res.emp));
     }
+
+
 }

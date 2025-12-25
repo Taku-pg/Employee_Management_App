@@ -2,7 +2,7 @@ BEGIN TRANSACTION;
 
 DROP TABLE IF EXISTS nationality;
 DROP TABLE IF EXISTS employee;
-DROP TABLE IF EXISTS region;
+DROP TABLE IF EXISTS language_;
 DROP TABLE IF EXISTS role_;
 DROP TABLE IF EXISTS department;
 
@@ -28,16 +28,16 @@ INSERT OR IGNORE INTO role_(id, role_name) VALUES(1, 'admin');
 INSERT OR IGNORE INTO role_(id, role_name) VALUES(2, 'manager');
 INSERT OR IGNORE INTO role_(id, role_name) VALUES(3, 'employee');
 
-CREATE TABLE IF NOT EXISTS region(
+CREATE TABLE IF NOT EXISTS language_(
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            region_name TEXT NOT NULL,
-            utc_offset INTEGER NOT NULL
+            language_name TEXT NOT NULL,
+            number_of_native_country TEXT NOT NULL
             ); 
 
-INSERT OR IGNORE INTO region(id, region_name, utc_offset) VALUES(1, 'Europe', 0);
-INSERT OR IGNORE INTO region(id, region_name, utc_offset) VALUES(2, 'Asia', 9);
-INSERT OR IGNORE INTO region(id, region_name, utc_offset) VALUES(3, 'America', -8);
-INSERT OR IGNORE INTO region(id, region_name, utc_offset) VALUES(4, 'Africa', 2);
+INSERT OR IGNORE INTO language_(id, language_name, number_of_native_country) VALUES(1, 'Polish', 1);
+INSERT OR IGNORE INTO language_(id, language_name, number_of_native_country) VALUES(2, 'English', 5);
+INSERT OR IGNORE INTO language_(id, language_name, number_of_native_country) VALUES(3, 'Spanish', 6);
+INSERT OR IGNORE INTO language_(id, language_name, number_of_native_country) VALUES(4, 'Japanese', 1);
 
 CREATE TABLE IF NOT EXISTS employee(
            id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -77,36 +77,36 @@ INSERT OR IGNORE INTO employee(id, firstname, lastname, email, [password], hired
 INSERT OR IGNORE INTO employee(id, firstname, lastname, email, [password], hired_date, salary, manager_id, department_id, role_id) VALUES(20, 'Forbes', 'Ivan', 'forbs@mail.com', '$2a$10$CpjgUSkSnvccH5MgTNrTHecxzJN/cxH39.cYbNnRi2VF8bMeetnqO', '2024-06-10', 6200, 6, 5, 3);
 INSERT OR IGNORE INTO employee(id, firstname, lastname, email, [password], hired_date, salary, manager_id, department_id, role_id) VALUES(21, 'Shah', 'Teodoro', 'shah@mail.com', '$2a$10$EkVEqkTvvZFjHNT.LnPqiuAc8UJC.LPw3m4Wvk55/HkBhTEUk87dq', '2024-07-10', 6200, 6, 5, 3);
 
-CREATE TABLE IF NOT EXISTS nationality(
-            id PRIMARY KEY,
+CREATE TABLE IF NOT EXISTS language_skill(
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
             employee_id INTEGER,
-            region_id INTEGER,
-            nationality TEXT NOT NULL,
+            language_id INTEGER,
+            language_level TEXT NOT NULL,
             FOREIGN KEY(employee_id) REFERENCES employee(id),
-            FOREIGN KEY(region_id) REFERENCES region(id)
+            FOREIGN KEY(language_id) REFERENCES language(id)
             );
 
-INSERT OR IGNORE INTO nationality(id, employee_id, region_id, nationality) VALUES(1,1,1,'Poland');
-INSERT OR IGNORE INTO nationality(id, employee_id, region_id, nationality) VALUES(2,2,1,'Poland');
-INSERT OR IGNORE INTO nationality(id, employee_id, region_id, nationality) VALUES(3,3,1,'England');
-INSERT OR IGNORE INTO nationality(id, employee_id, region_id, nationality) VALUES(4,3,1,'Italy');
-INSERT OR IGNORE INTO nationality(id, employee_id, region_id, nationality) VALUES(5,4,1,'Portugal');
-INSERT OR IGNORE INTO nationality(id, employee_id, region_id, nationality) VALUES(6,5,1,'Spain');
-INSERT OR IGNORE INTO nationality(id, employee_id, region_id, nationality) VALUES(7,6,1,'France');
-INSERT OR IGNORE INTO nationality(id, employee_id, region_id, nationality) VALUES(8,7,1,'Italy');
-INSERT OR IGNORE INTO nationality(id, employee_id, region_id, nationality) VALUES(9,8,2,'China');
-INSERT OR IGNORE INTO nationality(id, employee_id, region_id, nationality) VALUES(10,9,2,'Korea');
-INSERT OR IGNORE INTO nationality(id, employee_id, region_id, nationality) VALUES(11,10,2,'Japan');
-INSERT OR IGNORE INTO nationality(id, employee_id, region_id, nationality) VALUES(12,11,2,'Thailand');
-INSERT OR IGNORE INTO nationality(id, employee_id, region_id, nationality) VALUES(13,12,2,'China');
-INSERT OR IGNORE INTO nationality(id, employee_id, region_id, nationality) VALUES(14,13,3,'America');
-INSERT OR IGNORE INTO nationality(id, employee_id, region_id, nationality) VALUES(15,14,3,'America');
-INSERT OR IGNORE INTO nationality(id, employee_id, region_id, nationality) VALUES(16,15,3,'America');
-INSERT OR IGNORE INTO nationality(id, employee_id, region_id, nationality) VALUES(17,16,3,'Mexico');
-INSERT OR IGNORE INTO nationality(id, employee_id, region_id, nationality) VALUES(18,17,4,'Algeria');
-INSERT OR IGNORE INTO nationality(id, employee_id, region_id, nationality) VALUES(19,18,4,'Ethiopia');
-INSERT OR IGNORE INTO nationality(id, employee_id, region_id, nationality) VALUES(20,19,4,'Ghana');
-INSERT OR IGNORE INTO nationality(id, employee_id, region_id, nationality) VALUES(21,20,4,'Ghana');
-INSERT OR IGNORE INTO nationality(id, employee_id, region_id, nationality) VALUES(22,21,4,'Angola');
+INSERT OR IGNORE INTO language_skill(id, employee_id, language_id, language_level) VALUES(1,1,1,'Native');
+INSERT OR IGNORE INTO language_skill(id, employee_id, language_id, language_level) VALUES(2,2,1,'Native');
+INSERT OR IGNORE INTO language_skill(id, employee_id, language_id, language_level) VALUES(3,3,1,'A1');
+INSERT OR IGNORE INTO language_skill(id, employee_id, language_id, language_level) VALUES(4,3,1,'Native');
+INSERT OR IGNORE INTO language_skill(id, employee_id, language_id, language_level) VALUES(5,4,1,'Native');
+INSERT OR IGNORE INTO language_skill(id, employee_id, language_id, language_level) VALUES(6,5,1,'Native');
+INSERT OR IGNORE INTO language_skill(id, employee_id, language_id, language_level) VALUES(7,6,1,'Native');
+INSERT OR IGNORE INTO language_skill(id, employee_id, language_id, language_level) VALUES(8,7,1,'Native');
+INSERT OR IGNORE INTO language_skill(id, employee_id, language_id, language_level) VALUES(9,8,2,'Native');
+INSERT OR IGNORE INTO language_skill(id, employee_id, language_id, language_level) VALUES(10,9,2,'Native');
+INSERT OR IGNORE INTO language_skill(id, employee_id, language_id, language_level) VALUES(11,10,2,'Native');
+INSERT OR IGNORE INTO language_skill(id, employee_id, language_id, language_level) VALUES(12,11,2,'Native');
+INSERT OR IGNORE INTO language_skill(id, employee_id, language_id, language_level) VALUES(13,12,2,'Native');
+INSERT OR IGNORE INTO language_skill(id, employee_id, language_id, language_level) VALUES(14,13,3,'Native');
+INSERT OR IGNORE INTO language_skill(id, employee_id, language_id, language_level) VALUES(15,14,3,'Native');
+INSERT OR IGNORE INTO language_skill(id, employee_id, language_id, language_level) VALUES(16,15,3,'Native');
+INSERT OR IGNORE INTO language_skill(id, employee_id, language_id, language_level) VALUES(17,16,3,'Native');
+INSERT OR IGNORE INTO language_skill(id, employee_id, language_id, language_level) VALUES(18,17,4,'Native');
+INSERT OR IGNORE INTO language_skill(id, employee_id, language_id, language_level) VALUES(19,18,4,'Native');
+INSERT OR IGNORE INTO language_skill(id, employee_id, language_id, language_level) VALUES(20,19,4,'Native');
+INSERT OR IGNORE INTO language_skill(id, employee_id, language_id, language_level) VALUES(21,20,4,'Native');
+INSERT OR IGNORE INTO language_skill(id, employee_id, language_id, language_level) VALUES(22,21,4,'Native');
 
 COMMIT;

@@ -19,15 +19,21 @@ export class NewEmp {
   salary=0;
   department='';
   depts=signal<string[]>([]);
+  languages=signal<string[]>([]);
 
   ngOnInit(){
     this.apiService.getAllDept().subscribe({
-            next: (res)=>{
-              this.depts.set(res);
-              console.log(res);
-            },
-            error: ()=>this.router.navigate(['error/500'])
-        });
+      next: (res)=>{
+        this.depts.set(res);
+        console.log(res);
+      },
+      error: ()=>this.router.navigate(['error/500'])
+    });
+
+    this.apiService.getAllLanguage().subscribe({
+      next: (res)=>this.languages.set(res),
+      error: ()=>this.router.navigate(['error/500'])
+    });
     console.log(this.depts());
   }
 

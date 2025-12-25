@@ -86,12 +86,12 @@ class EmployeeModel {
             //inner selectしなければならない
             const sql = `SELECT e.id,e.firstname,e.lastname,e.email,`+
                         `e.hired_date,e.salary,d.department_name,r.role_name,`+
-                        `n.nationality,re.region_name `+ 
+                        `ls.language_level,l.language_name `+ 
                         `FROM employee AS e `+
                         `INNER JOIN department AS d ON e.department_id=d.id `+
                         `INNER JOIN role_ AS r ON e.role_id=r.id `+
-                        `INNER JOIN nationality AS n ON e.id=n.employee_id `+
-                        `INNER JOIN region AS re ON re.id=n.region_id `+
+                        `INNER JOIN language_skill AS ls ON e.id=ls.employee_id `+
+                        `INNER JOIN language_ AS l ON l.id=ls.language_id `+
                         `WHERE e.id=?`;
 
             db.all(sql, [id], (err, rows) => {
@@ -108,16 +108,13 @@ class EmployeeModel {
                     acc.salary= row.salary;
                     acc.department= row.department_name;
                     acc.role= row.role_name;
-                    acc.nationalities= [];
+                    acc.languages= [];
                     }
 
-                    if(row.nationality){
-                        console.log(acc.nationalities);
-                        console.log(row.nationality);
-                        console.log(row.region_name);
-                        acc.nationalities.push({
-                            nationality: row.nationality,
-                            region: row.region_name
+                    if(row.language){
+                        acc.languages.push({
+                            language: row.language_name,
+                            skill: row.language_level
                         });
                     }
 

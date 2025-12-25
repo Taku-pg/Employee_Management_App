@@ -38,17 +38,17 @@
         <input type="text" id="role" [value]="emp()?.role" readonly>
     </label><br><br>
 
-    @for(nationality of emp()?.nationalities; track nationality.nationality){
-        <form (ngSubmit)="onSubmitNationality()">
-            <label for="nationality">Nationality:
-                <input type="text" id="nationality" [value]="nationality.nationality">
-            </label><br><br>
+    @for(language of emp()?.languages; track language.language_name){
+        <form (ngSubmit)="onDeleteNationality()">
+            <label for="language">Language:
+            <input type="text" id="language" [value]="language.language_name">
+        </label><br><br>
 
-            <label for="region">Region:
-                <input type="text" id="region" [value]="nationality.region">
-            </label><br><br>
+        <label for="level">Level:
+            <input type="text" id="level" [value]="language.language_level">
+        </label><br><br>
 
-            <button type="submit" (click)="mode='delete'">delete nationality</button>
+            <button type="submit" >delete</button>
         </form>
     }
 

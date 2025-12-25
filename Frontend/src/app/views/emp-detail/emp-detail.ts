@@ -30,7 +30,7 @@ export class EmpDetail implements OnInit{
     });
   }
 
-  ngOnInit(): void {
+  ngOnInit(){
 
     /*this.activatedRoute.paramMap.subscribe(params=>{
       this.empId=params.get('id');
@@ -51,29 +51,15 @@ export class EmpDetail implements OnInit{
   }
 
   onUpdate(){
-
+    //update entire employee
   }
 
   onDelete(){
-
+    //delete entire employee
   }
 
-  mode: 'update'|'delete'='update';
-
-  updateNationality(){
-
-  }
-
-  deleteNationality(){
-
-  }
-
-  onSubmitNationality(){
-    if(this.mode==='update'){
-      this.updateNationality();
-    }else{
-      this.deleteNationality();
-    }
+  onDeleteNationality(){
+    //delete this nationality
   }
 
 

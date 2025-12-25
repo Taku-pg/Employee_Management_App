@@ -31,13 +31,13 @@
         <input type="text" id="role" readonly [value]="emp()?.role">
     </label><br><br>
 
-    @for(nationality of emp()?.nationalities; track nationality.nationality){
-        <label for="nationality">Nationality:
-            <input type="text" id="nationality" readonly [value]="nationality.nationality">
+    @for(language of emp()?.languages; track language.language_name){
+        <label for="language">Language:
+            <input type="text" id="language" readonly [value]="language.language_name">
         </label><br><br>
 
-        <label for="region">Region:
-            <input type="text" id="region" readonly [value]="nationality.region">
+        <label for="level">Level:
+            <input type="text" id="level" readonly [value]="language.language_level">
         </label><br><br>
     }
 </div>

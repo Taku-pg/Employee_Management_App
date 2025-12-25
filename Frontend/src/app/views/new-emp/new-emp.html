@@ -15,8 +15,24 @@
         <input type="number" id="salary">
     </label><br><br>
 
-    <label for="department">Department ID:
-        <input type="text" id="department">
+    <label>Department:
+    <select>
+        @for(dept of depts(); track dept){
+            <option value="dept">{{dept}}</option>
+        }
+    </select><br><br>
+    </label>
+
+    <label>Language: 
+    <select>
+        @for(language of languages(); track language){
+            <option value="language">{{language}}</option>
+        }
+    </select><br><br>
+    </label>
+
+    <label for="level">Level:
+        <input type="text" id="level">
     </label><br><br>
 
     <button type="submit">register</button>

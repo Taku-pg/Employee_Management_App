@@ -1,17 +1,16 @@
 const db=require('./db');
 
 class RegionModel{
-    static findAllRegion(){
+    static findAllLanguage(){
         return new Promise((resolve,reject)=>{
-            const sql=`SELECT * FROM region`
+            const sql=`SELECT * FROM language_`
 
             db.all(sql,[],(err,rows)=>{
                 if(err)return reject(err);
 
-                const result=rows.map(r=>({
-                    regionName: r.region_name,
-                    utc: r.utc_offset
-                }));
+                const result=rows.map(r=>(
+                    r.language_name
+                ));
                 resolve(result);
             });
         });
