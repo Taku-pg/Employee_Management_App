@@ -3,7 +3,7 @@ import { Login } from './views/login/login';
 import { Emp } from './views/emp/emp';
 import { Admin } from './views/admin/admin';
 import { Manager } from './views/manager/manager';
-import { authGuard } from './services/authGuard';
+import { authGuard, AuthGuard } from './services/authGuard';
 import { ErrorPage } from './views/error/error';
 
 export const routes: Routes = [

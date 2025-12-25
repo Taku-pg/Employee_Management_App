@@ -1,0 +1,37 @@
+<div>
+    <form (ngSubmit)="onUpdate()">
+    <label for="id">ID:
+        <input type="number" id="id" [value]="emp()?.id" required>
+    </label><br><br>
+
+    <label for="firstname">Firstname:
+        <input type="text" id="firstname" [value]="emp()?.firstname" required>
+    </label><br><br>
+
+    <label for="lastname">Lastname:
+        <input type="text" id="lastname" [value]="emp()?.lastname" required>
+    </label><br><br>
+
+    <label for="email">Email:
+        <input type="email" id="email" [value]="emp()?.email" required>
+    </label><br><br>
+
+    <label for="hire_date">HireDate:
+        <input type="date" id="hire_date" [value]="emp()?.hireDate" readonly>
+    </label><br><br>
+
+    <label for="salary">Salary:
+        <input type="number" id="salary" [value]="emp()?.salary" required>
+    </label><br><br>
+
+    <label for="department_id">Department ID:
+        <input type="number" id="department_id" [value]="emp()?.department_id" required>
+    </label><br><br>
+
+    <label for="role_id">Role ID:
+        <input type="number" id="role_id" [value]="emp()?.role_id" required>
+    </label><br><br>
+    <button type="submit">Update</button>
+    </form>
+    <button type="button" (click)="onDelete()"></button>
+</div>

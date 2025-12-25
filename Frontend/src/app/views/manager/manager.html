@@ -12,23 +12,20 @@
             <td>{{emp.firstname}}</td>
 
             <td>
-                <form>
-                    <!--linkにするかも-->
-                    <button type="submit">view detail</button>
-                </form>
+                <button type="button" (click)="onViewDetail(emp.id)">view detail</button>
             </td>
 
             <td>
-                <form>
-                    <button type="submit">update</button>
-                </form>
+                <button type="button" (click)="onUpdate(emp.id)">update</button>
             </td>    
 
             <td>
-                <form>
-                    <button type="submit">delete</button>
-                </form>
+                <button type="button" (click)="onDelete(emp.id)">delete</button>
             </td>
         </tr>
     }
 </table>
+
+@if(selectedEmpId()){
+    <app-emp-detail [empId]="selectedEmpId()!" />
+}

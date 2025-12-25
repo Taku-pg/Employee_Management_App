@@ -4,6 +4,7 @@ const DeptModel=require('../models/departmentModel');
 const router=express.Router();
 const authenticate=require('../middleware/jwtMiddleware');
 const authorize=require('../middleware/roleMiddleware');
+const EmployeeModel = require('../models/employeeModel');
 
 router.get('/me',authenticate,async (req,res)=>{
     console.log('call /me api');
@@ -19,7 +20,7 @@ router.get('/me',authenticate,async (req,res)=>{
     }
 });
 
-router.get('/admin',authenticate,authorize('admin'),async (req,res)=>{
+router.get('/admin',authenticate,authorize(['admin']),async (req,res)=>{
     console.log('admin accessed');
     try{
         const allEmployees=await EmpModel.findAllEmployee();
@@ -30,7 +31,7 @@ router.get('/admin',authenticate,authorize('admin'),async (req,res)=>{
     }
 });
 
-router.get('/manager',authenticate,authorize('manager'),async (req,res)=>{
+router.get('/manager',authenticate,authorize(['manager']),async (req,res)=>{
     console.log('manager accessed');
     const empId=req.emp.empId;
     console.log(empId);
@@ -57,6 +58,32 @@ router.get('/role', authenticate,async(req,res)=>{
     }catch(err){
         console.log(err);
         res.status(500).json({message: 'Internal server error'});
+    }
+});
+
+router.get('/:id', authenticate, authorize(['manager','admin']), async(req,res)=>{
+    console.log('get emp detail');
+    try{
+        const empId=req.params.id;
+        if(req.emp.role==='manager'){
+            console.log(empId);
+            const mngId=req.emp.empId;
+            const empDept=await DeptModel.findDeptByEmpId(empId);
+            const mngDept=await DeptModel.findDeptByEmpId(mngId);
+            console.log(empDept);
+            console.log(mngDept);
+
+            if(empDept.id!==mngDept.id){
+                return res.status(403)
+                .json({message: 'You are not authorized to view this employee'});
+            }
+        }
+
+        const employeeInfo=await EmployeeModel.findEmployeeById(empId);
+        res.json({emp:employeeInfo});
+    }catch(err){
+        console.log(err);
+        res.status(500).json({message: 'internal server error'});
     }
 })
 

@@ -15,7 +15,7 @@ export class ApiService{
     private httpClient=inject(HttpClient);
 
     getMyInfo(){
-        return this.httpClient.get<EmployeeResponseModel>(`${this.baseUrl}/emp/me`)
+        return this.httpClient.get<{emp:EmployeeModel}>(`${this.baseUrl}/emp/me`)
         .pipe(map(res=>res.emp));
     }
 
@@ -25,5 +25,9 @@ export class ApiService{
 
     getAllEmp(){
         return this.httpClient.get<{employees: SimpleEmployeeModel[]}>(`${this.baseUrl}/emp/admin`);
+    }
+
+    getEmpDetail(empId: string){
+        return this.httpClient.get<{emp:EmployeeModel}>(`${this.baseUrl}/emp/${empId}`).pipe(map(res=>res.emp));
     }
 }
