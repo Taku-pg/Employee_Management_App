@@ -6,6 +6,8 @@ export interface EmployeeModel{
     password: string,
     hireDate: Date,
     salary: number,
-    department_id: number,
-    role_id: number
+    department: string,
+    role: string,
+    nationality: string,
+    region: string
 }

@@ -16,5 +16,6 @@ app.use('/updateEmployee',require('./routes/updateEmp'));*/
 
 app.use('/api/emp',require('./routes/employeeRouter'));
 app.use('/api/login',require('./routes/loginRouter'));
+app.use('/api/dept',require('./routes/departmentRouter'));
 
 module.exports=app;

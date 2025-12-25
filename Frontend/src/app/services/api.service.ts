@@ -27,6 +27,10 @@ export class ApiService{
         return this.httpClient.get<{employees: SimpleEmployeeModel[]}>(`${this.baseUrl}/emp/admin`);
     }
 
+    getAllDept(){
+        return this.httpClient.get<{depts: string[]}>(`${this.baseUrl}/dept`);
+    }
+
     getEmpDetail(empId: string){
         return this.httpClient.get<{emp:EmployeeModel}>(`${this.baseUrl}/emp/${empId}`).pipe(map(res=>res.emp));
     }

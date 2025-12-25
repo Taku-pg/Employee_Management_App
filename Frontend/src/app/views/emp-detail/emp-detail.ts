@@ -15,6 +15,7 @@ export class EmpDetail{
   private apiService=inject(ApiService);
   private router=inject(Router);
   empId=input.required<string>();
+  depts=input.required<string[]>();
   emp=signal<EmployeeModel|null>(null);
 
   constructor(){
@@ -31,7 +32,7 @@ export class EmpDetail{
   }
 
   onDelete(){
-    
+
   }
 
 }

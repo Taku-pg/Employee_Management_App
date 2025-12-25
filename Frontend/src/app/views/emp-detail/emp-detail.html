@@ -24,13 +24,20 @@
         <input type="number" id="salary" [value]="emp()?.salary" required>
     </label><br><br>
 
-    <label for="department_id">Department ID:
-        <input type="number" id="department_id" [value]="emp()?.department_id" required>
-    </label><br><br>
+    <select>
+        @for(dept of depts(); track dept){
+            @if(dept===emp()?.department){
+                <option value="dept" selected>{{dept}}</option>
+            }@else{
+                <option value="dept">{{dept}}</option>
+            }
+        }
+    </select>
 
-    <label for="role_id">Role ID:
-        <input type="number" id="role_id" [value]="emp()?.role_id" required>
+    <label for="role">Role ID:
+        <input type="text" id="role" [value]="emp()?.role" readonly>
     </label><br><br>
+    
     <button type="submit">Update</button>
     </form>
     <button type="button" (click)="onDelete()"></button>

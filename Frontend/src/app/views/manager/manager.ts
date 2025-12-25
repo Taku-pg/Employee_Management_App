@@ -3,14 +3,16 @@ import { SimpleEmployeeModel } from '../../models/simpleEmp.model';
 import { ApiService } from '../../services/api.service';
 import { Router } from '@angular/router';
 import { EmpDetail } from '../emp-detail/emp-detail';
+import { NewEmp } from '../new-emp/new-emp';
 
 @Component({
   selector: 'app-manager',
-  imports: [EmpDetail],
+  imports: [EmpDetail,NewEmp],
   templateUrl: './manager.html',
   styleUrl: './manager.css',
 })
 export class Manager implements OnInit {
+  depts=signal<string[]>([]);
   deptEmployees=signal<SimpleEmployeeModel[]>([]);
   private apiService=inject(ApiService);
   private router=inject(Router);
@@ -23,7 +25,12 @@ export class Manager implements OnInit {
         console.log(res);
         this.deptEmployees.set(res.employees);
       },
-      error: ()=>console.log('erorr')
+      error: ()=>this.router.navigate(['error/500'])
+    });
+
+    this.apiService.getAllDept().subscribe({
+      next:(res)=>this.depts.set(res.depts),
+      error:()=>this.router.navigate(['error/500'])
     })
   };
 
@@ -33,11 +40,5 @@ export class Manager implements OnInit {
     console.log('fetch detail');
   }
 
-  onUpdate(id: string){
-
-  }
-
-  onDelete(id: string){
-
-  }
+  //detailとnewでdeptの取得
 }

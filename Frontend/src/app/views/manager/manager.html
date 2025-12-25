@@ -3,8 +3,6 @@
         <th>ID</th>
         <th>Firstname</th>
         <th></th>
-        <th></th>
-        <th></th>
     </tr>
     @for(emp of deptEmployees(); track emp.id){
         <tr>
@@ -14,18 +12,12 @@
             <td>
                 <button type="button" (click)="onViewDetail(emp.id)">view detail</button>
             </td>
-
-            <td>
-                <button type="button" (click)="onUpdate(emp.id)">update</button>
-            </td>    
-
-            <td>
-                <button type="button" (click)="onDelete(emp.id)">delete</button>
-            </td>
         </tr>
     }
 </table>
 
 @if(selectedEmpId()){
-    <app-emp-detail [empId]="selectedEmpId()!" />
+    <app-emp-detail [empId]="selectedEmpId()!" [depts]="depts()"/>
 }
+
+<app-new-emp [depts]="depts()"></app-new-emp>

@@ -80,6 +80,7 @@ router.get('/:id', authenticate, authorize(['manager','admin']), async(req,res)=
         }
 
         const employeeInfo=await EmployeeModel.findEmployeeById(empId);
+        console.log(employeeInfo);
         res.json({emp:employeeInfo});
     }catch(err){
         console.log(err);
