@@ -1,6 +1,6 @@
-const db=require('./db');
+const {db}=require('./db');
 
-class NationalityModel{
+class LanguageSkillModel{
     static findAllNationality(){
         return new Promise((resolve,reject)=>{
             const sql=`SELECT * FROM nationality`
@@ -17,9 +17,9 @@ class NationalityModel{
         
     }
 
-    static addNationality(data){
+    static addLanguageSkill(data){
         return new Promise((resolve,reject)=>{
-            const sql=`INSERT INTO nationality(employee_id,region_id,nationality) VALUES(?,?,?)`
+            const sql=`INSERT INTO language_skill(employee_id,language_id,language_level_id) VALUES(?,?,?)`
 
             db.run(sql,data,(err)=>{
                 if(err)return reject(err);
@@ -29,4 +29,4 @@ class NationalityModel{
     }
 }
 
-module.exports=RoleModel;
+module.exports=LanguageSkillModel;

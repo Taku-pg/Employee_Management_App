@@ -1,4 +1,4 @@
-const db=require('./db');
+const {db}=require('./db');
 
 class DepartmentModel{
     static findAllDeptName(){
@@ -26,8 +26,18 @@ class DepartmentModel{
                 resolve(row);
             });
         })
-       
+    }
 
+    static findMinSalById(deptId){
+        return new Promise((resolve, reject)=>{
+             const sql =`SELECT minimum_salary FROM department WHERE id=?`;
+
+            db.get(sql,[deptId],(err,row)=>{
+                if(err)return reject(err);
+                console.log(row);
+                resolve(row);
+            });
+        })
     }
 }
 

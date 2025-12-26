@@ -1,4 +1,4 @@
-const db = require('./db');
+const { db } = require('./db');
 
 class EmployeeModel {
     static findAllEmployee() {
@@ -37,6 +37,18 @@ class EmployeeModel {
                     id: r.id,
                     firstname: r.firstname
                 }));
+                resolve(result);
+            });
+        });
+    }
+
+    static findAllEmail(){
+        return new Promise((resolve, reject) => {
+            const sql = 'SELECT email FROM employee';
+            db.all(sql, [], (err, rows) => {
+                if (err) return reject(err);
+
+                const result = rows.map(r => (r.email));
                 resolve(result);
             });
         });
@@ -86,12 +98,13 @@ class EmployeeModel {
             //inner selectしなければならない
             const sql = `SELECT e.id,e.firstname,e.lastname,e.email,`+
                         `e.hired_date,e.salary,d.department_name,r.role_name,`+
-                        `ls.language_level,l.language_name `+ 
+                        `ll.language_level,l.language_name `+ 
                         `FROM employee AS e `+
                         `INNER JOIN department AS d ON e.department_id=d.id `+
                         `INNER JOIN role_ AS r ON e.role_id=r.id `+
                         `INNER JOIN language_skill AS ls ON e.id=ls.employee_id `+
                         `INNER JOIN language_ AS l ON l.id=ls.language_id `+
+                        `INNER JOIN language_level AS ll ON ll.id=ls.language_level_id `+
                         `WHERE e.id=?`;
 
             db.all(sql, [id], (err, rows) => {
@@ -111,10 +124,10 @@ class EmployeeModel {
                     acc.languages= [];
                     }
 
-                    if(row.language){
+                    if(row.language_name){
                         acc.languages.push({
-                            language: row.language_name,
-                            skill: row.language_level
+                            language_name: row.language_name,
+                            language_level: row.language_level
                         });
                     }
 

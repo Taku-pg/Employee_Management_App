@@ -1,6 +1,6 @@
-const db=require('./db');
+const {db}=require('./db');
 
-class RegionModel{
+class LanguageModel{
     static findAllLanguage(){
         return new Promise((resolve,reject)=>{
             const sql=`SELECT * FROM language_`
@@ -14,8 +14,18 @@ class RegionModel{
                 resolve(result);
             });
         });
-        
+    }
+
+    static findLanguageIdByName(name){
+        return new Promise((resolve, reject)=>{
+            const sql=`SELECT id FROM language_ WHERE language_name=?`;
+
+            db.get(sql,[name],(err,row)=>{
+                if(err)return reject(err);
+                resolve(row.id);
+            })
+        })
     }
 }
 
-module.exports=RegionModel;
+module.exports=LanguageModel;

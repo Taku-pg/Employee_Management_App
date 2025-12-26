@@ -20,4 +20,13 @@ db.exec(init, (err) => {
     if (err) console.error('execution error: ' + err.message);
 });
 
-module.exports = db; 
+function runSql(sql){
+    return new Promise((resolve,reject)=>{
+        db.run(sql,[],function(err){
+            if(err)return reject(err);
+            resolve(this);
+        })
+    })
+}
+
+module.exports = {db, runSql}; 
