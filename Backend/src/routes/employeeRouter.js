@@ -5,6 +5,7 @@ const router=express.Router();
 const authenticate=require('../middleware/jwtMiddleware');
 const authorize=require('../middleware/roleMiddleware');
 const EmployeeModel = require('../models/employeeModel');
+const TransactionService = require('../services/transactionService');
 
 router.get('/me',authenticate,async (req,res)=>{
     console.log('call /me api');
@@ -61,6 +62,24 @@ router.get('/role', authenticate,async(req,res)=>{
     }
 });
 
+router.get('/check-email', authenticate,authorize(['manager']), async(req,res)=>{
+    console.log('validate email');
+    try{
+        var result=true;
+        const allEmail=await EmployeeModel.findAllEmail();
+        for(let email of allEmail){
+            if(email===req.query.email){
+                result=false;
+            }
+        }
+        console.log(result);
+        res.json(result);
+    }catch(err){
+        console.log(err);
+        res.status(500).json({message: 'internal server error'});
+    }
+})
+
 router.get('/:id', authenticate, authorize(['manager','admin']), async(req,res)=>{
     console.log('get emp detail');
     try{
@@ -69,6 +88,8 @@ router.get('/:id', authenticate, authorize(['manager','admin']), async(req,res)=
             const mngId=req.emp.empId;
             const empDept=await DeptModel.findDeptByEmpId(empId);
             const mngDept=await DeptModel.findDeptByEmpId(mngId);
+            console.log(empDept);
+            console.log(mngDept);
 
             if(empDept.id!==mngDept.id){
                 return res.status(403)
@@ -82,6 +103,35 @@ router.get('/:id', authenticate, authorize(['manager','admin']), async(req,res)=
     }catch(err){
         console.log(err);
         res.status(500).json({message: 'internal server error'});
+    }
+})
+
+
+
+router.post('/new-emp',authenticate,authorize(['manager']), async(req,res)=>{
+    console.log('create new employee');
+    console.log(req.body);
+    console.log(req.body.newEmp.languages);
+    const mngId=req.emp.empId;
+    try{
+        const dept=await DeptModel.findDeptByEmpId(mngId);
+        const password=req.body.newEmp.firstname;
+        const now=new Date();
+
+        await TransactionService.createNewEmp([
+            req.body.newEmp.firstname,
+            req.body.newEmp.lastname,
+            req.body.newEmp.email,
+            password,
+            now,
+            req.body.newEmp.salary,
+            mngId,
+            dept.id,
+            3
+        ],req.body.newEmp.languages);
+
+    }catch(err){
+        res.status(500).json({message: 'Internal server error'});
     }
 })
 

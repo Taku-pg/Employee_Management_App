@@ -1,39 +1,99 @@
-<form (ngSubmit)="onRegister()">
+<form (ngSubmit)="onRegister()" [formGroup]="newEmpForm">
     <label for="firstname">Firstname:
-        <input type="text" id="firstname">
+        <input type="text" id="firstname" formControlName="firstname" required>
     </label><br><br>
-
+    @if(firstname?.invalid && (firstname?.dirty || firstname?.touched)){
+        @if(firstname?.hasError('required')){
+            <p>Firstname is required</p>
+        }
+    }
+    
     <label for="lastname">Lastname:
-        <input type="text" id="lastname">
+        <input type="text" id="lastname" formControlName="lastname" required>
     </label><br><br>
+    @if(lastname?.invalid && (lastname?.dirty || lastname?.touched)){
+        @if(lastname?.hasError('required')){
+            <p>Lastname is required</p>
+        }
+    }
 
     <label for="email">Email:
-        <input type="email" id="email">
+        <input type="email" id="email" formControlName="email" required>
     </label><br><br>
+    @if(email?.invalid && (email?.dirty || email?.touched)){
+        @if(email?.hasError('required')){
+            <p>Email is required</p>
+        }
+        @if(email?.hasError('pattern')){
+            <p>Invalid email</p>
+        }
+        <!--custom unieque-->
+        @if(email?.hasError('isUniqueEmail')){
+            <p>This email is already used</p>
+        }
+    }
 
     <label for="salary">Salary:
-        <input type="number" id="salary">
+        <input type="number" id="salary" formControlName="salary" required>
     </label><br><br>
-
-    <label>Department:
-    <select>
-        @for(dept of depts(); track dept){
-            <option value="dept">{{dept}}</option>
+    @if(salary?.invalid && (salary?.dirty || salary?.touched)){
+        @if(salary?.hasError('required')){
+            <p>Salary is required</p>
         }
-    </select><br><br>
-    </label>
-
-    <label>Language: 
-    <select>
-        @for(language of languages(); track language){
-            <option value="language">{{language}}</option>
+        <!--custom min-->
+        @if(salary?.hasError('min')){
+            <p>Salary has to be more than {{minSalary}}</p>
         }
-    </select><br><br>
-    </label>
+    }
 
-    <label for="level">Level:
-        <input type="text" id="level">
-    </label><br><br>
+    <div formArrayName="selectedLanguages">
+        @for(selectedLanguage of selectedLanguages.controls; track $index; let i=$index){
+            <div [formGroupName]="i"> 
+                <label>Language: 
+                    <select formControlName="language_name">
+                        @for(language of availableLanguages(); track language){
+                            @if(!isSelectedLanguage(language,i)){
+                                <option [value]="language">{{language}}</option>
+                            }
+                        }
+                    </select><br><br>
+                    @if(selectedLanguage.get('language_name')?.invalid &&
+                        (selectedLanguage.get('language_name')?.dirty || selectedLanguage.get('language_name')?.touched)
+                        ){
+                        @if(selectedLanguage.get('language_name')?.hasError){
+                            <p>select language</p>
+                        }
+                    }
+                </label>
+
+                <label for="level">Level:
+                    <input type="text" id="level" formControlName="language_level">
+                </label><br><br>
+
+                @if(selectedLanguage.get('language_level')?.invalid &&
+                    (selectedLanguage.get('language_level')?.dirty || selectedLanguage.get('language_level')?.touched)
+                    ){
+                    @if(selectedLanguage.get('language_level')?.hasError('required')){
+                        <p>Enter your level of language</p>
+                    }
+                }
+
+                @if(selectedLanguages.length>1){
+                    <button type="button" (click)="removeSelectedLanguage(i)">remove language</button>
+                }
+
+                @if(selectedLanguage.errors?.['duplicateLanguage']){
+                    <p>You can't select same language</p>
+                }
+            </div>
+
+        }
+                
+        @if(!isSelectedAll()){
+            <button type="button" (click)="addSelectedLanguage()" [disabled]="!isValidLanguageForm()">add language</button>
+        }
+
+    </div>
 
     <button type="submit">register</button>
 </form>

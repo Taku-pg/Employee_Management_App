@@ -1,43 +1,132 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, input, signal } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormArray, FormBuilder, FormsModule, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
 import { Router } from '@angular/router';
+import { duplicateLanguageValidator } from '../../services/validators/languageValidator';
+import { type NewEmployeeModel } from '../../models/newEmp.model';
+import { form } from '@angular/forms/signals';
+import { uniqueEmailValidator } from '../../services/validators/emailValidator';
 
 @Component({
   selector: 'app-new-emp',
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, ReactiveFormsModule],
   templateUrl: './new-emp.html',
   styleUrl: './new-emp.css',
 })
+
 export class NewEmp {
   apiService=inject(ApiService);
   router=inject(Router);
-  firstname='';
-  lastname='';
-  email='';
-  salary=0;
-  department='';
-  depts=signal<string[]>([]);
-  languages=signal<string[]>([]);
+  fb=inject(FormBuilder);
+  availableLanguages=signal<string[]>([]);
+  minSalary=0;
+  emailRegex= /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 
   ngOnInit(){
-    this.apiService.getAllDept().subscribe({
-      next: (res)=>{
-        this.depts.set(res);
-        console.log(res);
-      },
+    this.apiService.getAllLanguage().subscribe({
+      next: (res)=>this.availableLanguages.set(res),
       error: ()=>this.router.navigate(['error/500'])
     });
 
-    this.apiService.getAllLanguage().subscribe({
-      next: (res)=>this.languages.set(res),
-      error: ()=>this.router.navigate(['error/500'])
+    this.apiService.getMinSalary().subscribe({
+      next:(res)=>{
+        this.minSalary=res.minimum_salary;
+        console.log(res);
+      },
+      error:()=>this.router.navigate(['error/500'])
+    })
+  }
+
+  newEmpForm=this.fb.group({
+    firstname: ['',Validators.required],
+    lastname: ['',Validators.required],
+    email: ['',[Validators.required, Validators.pattern(this.emailRegex)]
+    ,uniqueEmailValidator(this.apiService)],
+    salary: [0, [Validators.required,Validators.min(this.minSalary)]],
+    selectedLanguages:this.fb.array([
+      this.createLanguageControl()
+    ], {validators: duplicateLanguageValidator})
+  });
+
+  get firstname(){
+    return this.newEmpForm.get('firstname');
+  }
+
+  get lastname(){
+    return this.newEmpForm.get('lastname');
+  }
+
+  get email(){
+    return this.newEmpForm.get('email');
+  }
+
+  get salary(){
+    return this.newEmpForm.get('salary');
+  }
+
+  createLanguageControl(){
+    return this.fb.group({
+      language_name: this.fb.control(null, Validators.required),
+      language_level: ['',Validators.required]
     });
-    console.log(this.depts());
+  }
+
+  get selectedLanguages(): FormArray{
+    return this.newEmpForm.get('selectedLanguages') as FormArray;
+  }
+
+  addSelectedLanguage(){
+    this.selectedLanguages.push(this.createLanguageControl());
+    //console.log(this.selectedLanguages);
+    console.log(this.availableLanguages().length);
+    console.log(this.selectedLanguages.length);
+  }
+
+  removeSelectedLanguage(index: number){
+    this.selectedLanguages.removeAt(index);
+  }
+
+  isSelectedLanguage(language: string, current: number): boolean{
+    return this.selectedLanguages.controls.some((ctrl,index)=>{
+      if(current===index)return false;
+      return ctrl.get('language_name')?.value===language;
+    })
+  }
+
+  isSelectedAll(): boolean{
+    return  this.availableLanguages().length === this.selectedLanguages.length;
+  }
+
+  isValidLanguageForm(){
+    return this.selectedLanguages.valid;
   }
 
   onRegister(){
+    if(this.newEmpForm.invalid){
+      this.newEmpForm.markAllAsTouched();
+      return;
+    }
 
+    const formValue=this.newEmpForm.value;
+
+    const newEmp: NewEmployeeModel={
+      firstname: formValue.firstname!,
+      lastname: formValue.lastname!,
+      email: formValue.email!,
+      salary: formValue.salary!,
+      languages: formValue.selectedLanguages!
+      //.filter((l:any)=>l.language_name && l.language_name)
+      .map((l:any)=>({
+        language_name: l.language_name,
+        language_level: l.language_level
+      }))
+    };
+
+    this.apiService.createEmployee(newEmp).subscribe({
+      next:()=>this.router.navigate(['manager']),
+      error:()=>this.router.navigate(['error/500'])
+    })
   }
+
 }

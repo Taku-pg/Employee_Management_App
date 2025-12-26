@@ -5,6 +5,7 @@ import { EmployeeModel } from "../models/emp.model";
 import { map } from "rxjs";
 import { EmployeeResponseModel } from "../models/empResponseModel";
 import { SimpleEmployeeModel } from "../models/simpleEmp.model";
+import { NewEmployeeModel } from "../models/newEmp.model";
 
 
 @Injectable({
@@ -39,5 +40,18 @@ export class ApiService{
         return this.httpClient.get<{emp:EmployeeModel}>(`${this.baseUrl}/emp/${empId}`).pipe(map(res=>res.emp));
     }
 
+    getMinSalary(){
+        return this.httpClient.get<{minimum_salary:number}>(`${this.baseUrl}/dept/min-salary`);
+    }
+
+    checkUniqueEmail(email: string){
+        return this.httpClient.get<boolean>(`${this.baseUrl}/emp/check-email`, {params: {email}});
+    }
+
+    createEmployee(newEmp: NewEmployeeModel){
+        return this.httpClient.post(`${this.baseUrl}/emp/new-emp`,{
+            newEmp
+        })
+    }
 
 }

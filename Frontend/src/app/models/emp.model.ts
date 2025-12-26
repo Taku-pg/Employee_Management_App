@@ -1,4 +1,4 @@
-interface language{
+export interface language{
     language_name: string,
     language_level: string
 }
