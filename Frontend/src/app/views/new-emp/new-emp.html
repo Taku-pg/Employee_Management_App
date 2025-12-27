@@ -6,6 +6,9 @@
         @if(firstname?.hasError('required')){
             <p>Firstname is required</p>
         }
+        @if(firstname?.hasError('serverValidationError')){
+            <p>{{newEmpForm.get('firstname')?.errors?.['serverValidationError']}}</p>
+        }
     }
     
     <label for="lastname">Lastname:
@@ -14,6 +17,9 @@
     @if(lastname?.invalid && (lastname?.dirty || lastname?.touched)){
         @if(lastname?.hasError('required')){
             <p>Lastname is required</p>
+        }
+        @if(lastname?.hasError('serverValidationError')){
+            <p>{{newEmpForm.get('lastname')?.errors?.['serverValidationError']}}</p>
         }
     }
 
@@ -31,6 +37,9 @@
         @if(email?.hasError('isUniqueEmail')){
             <p>This email is already used</p>
         }
+        @if(email?.hasError('serverValidationError')){
+            <p>{{newEmpForm.get('email')?.errors?.['serverValidationError']}}</p>
+        }
     }
 
     <label for="salary">Salary:
@@ -42,7 +51,10 @@
         }
         <!--custom min-->
         @if(salary?.hasError('min')){
-            <p>Salary has to be more than {{minSalary}}</p>
+            <p>Minimum salary is {{minSalary}}</p>
+        }
+        @if(salary?.hasError('serverValidationError')){
+            <p>{{newEmpForm.get('salary')?.errors?.['serverValidationError']}}</p>
         }
     }
 
@@ -60,14 +72,21 @@
                     @if(selectedLanguage.get('language_name')?.invalid &&
                         (selectedLanguage.get('language_name')?.dirty || selectedLanguage.get('language_name')?.touched)
                         ){
-                        @if(selectedLanguage.get('language_name')?.hasError){
+                        @if(selectedLanguage.get('language_name')?.hasError('required')){
                             <p>select language</p>
+                        }
+                        @if(selectedLanguage.get('language_name')?.hasError('serverValidationError')){
+                            <p>{{selectedLanguage.get('language_name')?.errors?.['serverValidationError']}}</p>
                         }
                     }
                 </label>
 
                 <label for="level">Level:
-                    <input type="text" id="level" formControlName="language_level">
+                    <select formControlName="language_level">
+                        @for(languageLevel of languageLevels(); track languageLevel){
+                            <option [value]="languageLevel">{{languageLevel}}</option>
+                        }
+                    </select><br><br>
                 </label><br><br>
 
                 @if(selectedLanguage.get('language_level')?.invalid &&
@@ -75,6 +94,9 @@
                     ){
                     @if(selectedLanguage.get('language_level')?.hasError('required')){
                         <p>Enter your level of language</p>
+                    }
+                    @if(selectedLanguage.get('language_level')?.hasError('serverValidationError')){
+                        <p>{{selectedLanguage.get('language_level')?.errors?.['serverValidationError']}}</p>
                     }
                 }
 

@@ -33,7 +33,11 @@ export class ApiService{
     }
 
     getAllLanguage(){
-        return this,this.httpClient.get<string[]>(`${this.baseUrl}/language`);
+        return this.httpClient.get<string[]>(`${this.baseUrl}/language`);
+    }
+
+    getLanguageLevels(){
+        return this.httpClient.get<string[]>(`${this.baseUrl}/language/language-level`);
     }
 
     getEmpDetail(empId: string){
@@ -41,7 +45,7 @@ export class ApiService{
     }
 
     getMinSalary(){
-        return this.httpClient.get<{minimum_salary:number}>(`${this.baseUrl}/dept/min-salary`);
+        return this.httpClient.get<number>(`${this.baseUrl}/dept/min-salary`);
     }
 
     checkUniqueEmail(email: string){
@@ -49,9 +53,7 @@ export class ApiService{
     }
 
     createEmployee(newEmp: NewEmployeeModel){
-        return this.httpClient.post(`${this.baseUrl}/emp/new-emp`,{
-            newEmp
-        })
+        return this.httpClient.post(`${this.baseUrl}/emp/new-emp`,newEmp)
     }
 
 }

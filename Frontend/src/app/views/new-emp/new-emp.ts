@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, input, signal } from '@angular/core';
-import { FormArray, FormBuilder, FormsModule, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
 import { Router } from '@angular/router';
 import { duplicateLanguageValidator } from '../../services/validators/languageValidator';
@@ -20,6 +20,7 @@ export class NewEmp {
   router=inject(Router);
   fb=inject(FormBuilder);
   availableLanguages=signal<string[]>([]);
+  languageLevels=signal<string[]>([]);
   minSalary=0;
   emailRegex= /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 
@@ -29,13 +30,19 @@ export class NewEmp {
       error: ()=>this.router.navigate(['error/500'])
     });
 
+    this.apiService.getLanguageLevels().subscribe({
+      next: (res)=>this.languageLevels.set(res),
+      error: ()=>this.router.navigate(['error/500'])
+    });
+
     this.apiService.getMinSalary().subscribe({
       next:(res)=>{
-        this.minSalary=res.minimum_salary;
+        this.minSalary=res;
         console.log(res);
+        console.log(this.minSalary);
       },
       error:()=>this.router.navigate(['error/500'])
-    })
+    });
   }
 
   newEmpForm=this.fb.group({
@@ -68,7 +75,7 @@ export class NewEmp {
   createLanguageControl(){
     return this.fb.group({
       language_name: this.fb.control(null, Validators.required),
-      language_level: ['',Validators.required]
+      language_level: this.fb.control(null, Validators.required)
     });
   }
 
@@ -102,6 +109,41 @@ export class NewEmp {
     return this.selectedLanguages.valid;
   }
 
+  setServerError(errors: Record<string, any>){
+    Object.keys(errors).forEach(key=>{
+      console.log(key);
+      const control=this.newEmpForm.get(key);
+      console.log(control);
+      if(control){
+        if(control instanceof FormArray){
+          this.setLanguageServerError(errors[key]);
+        }else{
+          control.setErrors({
+            serverValidationError: errors[key]
+          });
+        }
+        
+        control.markAsTouched();
+      }
+    })
+  }
+
+  setLanguageServerError(errors: any[]){
+    errors.forEach((item,index)=>{
+      const group=this.selectedLanguages.at(index) as FormGroup;
+      if(!group)return;
+
+      Object.keys(item).forEach(key=>{
+        const control=group.get(key);
+        if(control){
+          control.setErrors({
+            serverValidationError: item[key]
+          })
+        }
+      })
+    })
+  }
+
   onRegister(){
     if(this.newEmpForm.invalid){
       this.newEmpForm.markAllAsTouched();
@@ -125,7 +167,15 @@ export class NewEmp {
 
     this.apiService.createEmployee(newEmp).subscribe({
       next:()=>this.router.navigate(['manager']),
-      error:()=>this.router.navigate(['error/500'])
+      error:(err)=>{
+        console.log(err.status);
+        console.log(err.error);
+        if(err.status===400 && err.error?.errors){
+          this.setServerError(err.error.errors);
+        }else{
+          this.router.navigate(['error/500']);
+        }
+      }
     })
   }
 
