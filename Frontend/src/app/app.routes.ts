@@ -23,7 +23,6 @@ export const routes: Routes = [
         component: Emp
     },
     {
-        //[authguard]を設定,express側は実装済み
         path:'manager',
         canActivate: [authGuard],
         data: {role: 'manager'},
@@ -31,7 +30,7 @@ export const routes: Routes = [
         //loadChildren: ()=> import('./views/manager/manager.routes').then(m=>m.MANAGER_ROUTE)
     },
     {
-        path:'manager/register',
+        path:'register',
         canActivate: [authGuard],
         data: {role: 'manager'},
         component: NewEmp

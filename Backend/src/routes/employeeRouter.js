@@ -102,7 +102,6 @@ router.get('/:id', authenticate, authorize(['manager','admin']), async(req,res)=
         console.log(employeeInfo);
         res.json({emp:employeeInfo});
     }catch(err){
-        console.log(err);
         res.status(500).json({message: 'internal server error'});
     }
 })
@@ -115,7 +114,6 @@ router.post('/new-emp',authenticate,authorize(['manager']),newEmpValidator, asyn
     console.log(req.body.languages);
 
     const vr=validationResult(req);
-    console.log(vr);
     if(!vr.isEmpty()){
         const errorMsg={};
         vr.array().forEach(e => {
@@ -140,23 +138,27 @@ router.post('/new-emp',authenticate,authorize(['manager']),newEmpValidator, asyn
     }
 
     const mngId=req.emp.empId;
+    console.log(mngId);
     try{
         const dept=await DeptModel.findDeptByEmpId(mngId);
-        const password=req.body.newEmp.firstname;
+        const password=req.body.firstname;
         const now=new Date();
+        const formattedDate=now.getFullYear()+'-'+(now.getMonth()+1)+'-'+now.getDate();
+
 
         await TransactionService.createNewEmp([
-            req.body.newEmp.firstname,
-            req.body.newEmp.lastname,
-            req.body.newEmp.email,
+            req.body.firstname,
+            req.body.lastname,
+            req.body.email,
             password,
-            now,
-            req.body.newEmp.salary,
+            formattedDate,
+            req.body.salary,
             mngId,
             dept.id,
             3
-        ],req.body.newEmp.languages);
+        ],req.body.languages);
 
+        res.status(200).json();
     }catch(err){
         res.status(500).json({message: 'Internal server error'});
     }

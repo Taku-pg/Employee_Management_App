@@ -100,17 +100,18 @@
                     }
                 }
 
-                @if(selectedLanguages.length>1){
-                    <button type="button" (click)="removeSelectedLanguage(i)">remove language</button>
-                }
+                 
 
-                @if(selectedLanguage.errors?.['duplicateLanguage']){
+                @if(selectedLanguage?.hasError('duplicate')){
                     <p>You can't select same language</p>
                 }
             </div>
-
+            @if(selectedLanguages.length>1 && i!==0){
+                    <button type="button" (click)="removeSelectedLanguage(i)">remove language</button>
+            } 
         }
-                
+        
+
         @if(!isSelectedAll()){
             <button type="button" (click)="addSelectedLanguage()" [disabled]="!isValidLanguageForm()">add language</button>
         }

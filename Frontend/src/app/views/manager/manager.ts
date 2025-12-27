@@ -47,7 +47,7 @@ export class Manager implements OnInit {
   }
 
   onRegister(){
-    this.router.navigate(['manager/register']);
+    this.router.navigate(['register']);
   }
 
   //detailとnewでdeptの取得

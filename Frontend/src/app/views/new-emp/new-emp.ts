@@ -38,6 +38,9 @@ export class NewEmp {
     this.apiService.getMinSalary().subscribe({
       next:(res)=>{
         this.minSalary=res;
+        const salaryControl=this.newEmpForm.get('salary');
+        salaryControl?.setValidators([Validators.required,Validators.min(res)]);
+        salaryControl?.updateValueAndValidity();
         console.log(res);
         console.log(this.minSalary);
       },
@@ -50,7 +53,7 @@ export class NewEmp {
     lastname: ['',Validators.required],
     email: ['',[Validators.required, Validators.pattern(this.emailRegex)]
     ,uniqueEmailValidator(this.apiService)],
-    salary: [0, [Validators.required,Validators.min(this.minSalary)]],
+    salary: [0, [Validators.required,Validators.min(0)]],
     selectedLanguages:this.fb.array([
       this.createLanguageControl()
     ], {validators: duplicateLanguageValidator})
@@ -91,6 +94,7 @@ export class NewEmp {
   }
 
   removeSelectedLanguage(index: number){
+    console.log(index);
     this.selectedLanguages.removeAt(index);
   }
 
@@ -166,10 +170,9 @@ export class NewEmp {
     };
 
     this.apiService.createEmployee(newEmp).subscribe({
-      next:()=>this.router.navigate(['manager']),
+      next:()=>
+        this.router.navigate(['manager']),
       error:(err)=>{
-        console.log(err.status);
-        console.log(err.error);
         if(err.status===400 && err.error?.errors){
           this.setServerError(err.error.errors);
         }else{
