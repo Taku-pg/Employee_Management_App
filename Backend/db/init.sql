@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS employee(
            id INTEGER PRIMARY KEY AUTOINCREMENT,
            firstname TEXT NOT NULL,
            lastname TEXT NOT NULL,
-           email TEXT NOT NULL ,
+           email TEXT NOT NULL UNIQUE,
            [password] TEXT NOT NULL,
            hired_date DATE NOT NULL,
            salary INTEGER NOT NULL,
