@@ -42,14 +42,13 @@ class EmployeeModel {
         });
     }
 
-    static findAllEmail(){
+    static existsEmail(email){
         return new Promise((resolve, reject) => {
-            const sql = 'SELECT email FROM employee';
-            db.all(sql, [], (err, rows) => {
+            const sql = `SELECT 1 FROM employee WHERE EXISTS `+ 
+                        `(SELECT email FROM employee WHERE email=?)`;
+            db.get(sql, [email], (err,row) => {
                 if (err) return reject(err);
-
-                const result = rows.map(r => (r.email));
-                resolve(result);
+                resolve(row);
             });
         });
     }

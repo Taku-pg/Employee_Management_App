@@ -7,6 +7,7 @@ const LanguageSkillModel=require('../models/languageSkillModel');
 class TransactionService{
     static async createNewEmp(newEmp,languages){
         try{
+            console.log('start inserting')
             await runSql('BEGIN TRANSACTION');
 
             const newEmpId=await EmployeeModel.addEmployee(newEmp);
@@ -18,6 +19,7 @@ class TransactionService{
             }
 
             await runSql('COMMIT');
+            console.log('finish');
         }catch(err){
             await runSql('ROLLBACK');
             throw err;

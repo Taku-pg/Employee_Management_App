@@ -16,15 +16,26 @@ class LanguageModel{
         });
     }
 
-    static findLanguageIdByName(name){
+    static findLanguageIdByName(language_name){
         return new Promise((resolve, reject)=>{
             const sql=`SELECT id FROM language_ WHERE language_name=?`;
 
-            db.get(sql,[name],(err,row)=>{
+            db.get(sql,[language_name],(err,row)=>{
                 if(err)return reject(err);
                 resolve(row.id);
             })
         })
+    }
+
+    static existsLanguage(language){
+        return new Promise((resolve, reject) => {
+            const sql = `SELECT 1 FROM language_ WHERE EXISTS `+ 
+                        `(SELECT * FROM language_ WHERE language_name=?)`;
+            db.get(sql, [language], (err,row) => {
+                if (err) return reject(err);
+                resolve(row);
+            });
+        });
     }
 }
 

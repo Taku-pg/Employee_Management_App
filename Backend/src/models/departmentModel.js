@@ -34,8 +34,7 @@ class DepartmentModel{
 
             db.get(sql,[deptId],(err,row)=>{
                 if(err)return reject(err);
-                console.log(row);
-                resolve(row);
+                resolve(row.minimum_salary);
             });
         })
     }

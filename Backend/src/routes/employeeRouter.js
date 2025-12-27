@@ -6,6 +6,8 @@ const authenticate=require('../middleware/jwtMiddleware');
 const authorize=require('../middleware/roleMiddleware');
 const EmployeeModel = require('../models/employeeModel');
 const TransactionService = require('../services/transactionService');
+const newEmpValidator = require('../middleware/validators/newEmpValidator');
+const {validationResult}=require('express-validator');
 
 router.get('/me',authenticate,async (req,res)=>{
     console.log('call /me api');
@@ -66,12 +68,11 @@ router.get('/check-email', authenticate,authorize(['manager']), async(req,res)=>
     console.log('validate email');
     try{
         var result=true;
-        const allEmail=await EmployeeModel.findAllEmail();
-        for(let email of allEmail){
-            if(email===req.query.email){
-                result=false;
-            }
+        const isExist=await EmployeeModel.existsEmail(req.query.email);
+        if(isExist){
+            result=false;
         }
+        console.log(isExist);
         console.log(result);
         res.json(result);
     }catch(err){
@@ -108,10 +109,36 @@ router.get('/:id', authenticate, authorize(['manager','admin']), async(req,res)=
 
 
 
-router.post('/new-emp',authenticate,authorize(['manager']), async(req,res)=>{
+router.post('/new-emp',authenticate,authorize(['manager']),newEmpValidator, async(req,res)=>{
     console.log('create new employee');
     console.log(req.body);
-    console.log(req.body.newEmp.languages);
+    console.log(req.body.languages);
+
+    const vr=validationResult(req);
+    console.log(vr);
+    if(!vr.isEmpty()){
+        const errorMsg={};
+        vr.array().forEach(e => {
+            const languageError=e.path.split(/[\.\[\]]/);
+            console.log(languageError);
+            if(languageError.length>1){
+                const index=parseInt(languageError[1]);
+                const key=languageError[3];
+                if(!errorMsg.selectedLanguages)
+                    errorMsg.selectedLanguages=[];
+
+                if(!errorMsg.selectedLanguages[index])
+                    errorMsg.selectedLanguages[index]={};
+
+                errorMsg.selectedLanguages[index][key]=e.msg;
+            }else{
+                errorMsg[e.path]=e.msg;
+            }
+        });
+        console.log(errorMsg);
+        return res.status(400).json({errors:errorMsg});
+    }
+
     const mngId=req.emp.empId;
     try{
         const dept=await DeptModel.findDeptByEmpId(mngId);
