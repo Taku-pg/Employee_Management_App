@@ -18,6 +18,7 @@ export class Manager implements OnInit {
   private apiService=inject(ApiService);
   private router=inject(Router);
   selectedEmpId=signal<string|null>(null);
+  minSalary=signal<number>(0);
 
   ngOnInit(){
     console.log('display manager page');
@@ -35,7 +36,19 @@ export class Manager implements OnInit {
               console.log(res);
             },
             error: ()=>this.router.navigate(['error/500'])
-        });
+    });
+
+    this.apiService.getMinSalary().subscribe({
+      next:(res)=>{
+        this.minSalary.set(res);
+        /*const salaryControl=this.newEmpForm.get('salary');
+        salaryControl?.setValidators([Validators.required,Validators.min(res)]);
+        salaryControl?.updateValueAndValidity();*/
+        console.log(res);
+        console.log(this.minSalary);
+      },
+      error:()=>this.router.navigate(['error/500'])
+    });
 
   };
 
@@ -44,10 +57,11 @@ export class Manager implements OnInit {
     this.selectedEmpId.set(id);
     console.log(this.selectedEmpId());
     console.log('fetch detail');
+    this.router.navigate(['emp',this.selectedEmpId()]);
   }
 
   onRegister(){
-    this.router.navigate(['register']);
+    this.router.navigate(['register',this.minSalary()]);
   }
 
   //detailとnewでdeptの取得

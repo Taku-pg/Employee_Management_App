@@ -56,4 +56,7 @@ export class ApiService{
         return this.httpClient.post(`${this.baseUrl}/emp/new-emp`,newEmp)
     }
 
+    patchEmp(id: string, patchData: any){
+        return this.httpClient.patch(`${this.baseUrl}/emp/${id}`,patchData);
+    }
 }

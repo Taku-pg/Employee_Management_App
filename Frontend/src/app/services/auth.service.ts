@@ -1,7 +1,7 @@
 import { inject, Injectable } from "@angular/core";
 import { env } from "../../environment/env";
 import { HttpClient } from "@angular/common/http";
-import { type SessionInfoModel } from "../models/sessionInfoModel";
+import { type SessionInfoModel } from "../models/sessionInfo.model";
 
 @Injectable({
     providedIn: 'root'

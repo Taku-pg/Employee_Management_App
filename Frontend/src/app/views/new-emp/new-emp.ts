@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, input, signal } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { duplicateLanguageValidator } from '../../services/validators/languageValidator';
 import { type NewEmployeeModel } from '../../models/newEmp.model';
 import { form } from '@angular/forms/signals';
@@ -18,6 +18,7 @@ import { uniqueEmailValidator } from '../../services/validators/emailValidator';
 export class NewEmp {
   apiService=inject(ApiService);
   router=inject(Router);
+  route=inject(ActivatedRoute);
   fb=inject(FormBuilder);
   availableLanguages=signal<string[]>([]);
   languageLevels=signal<string[]>([]);
@@ -35,7 +36,7 @@ export class NewEmp {
       error: ()=>this.router.navigate(['error/500'])
     });
 
-    this.apiService.getMinSalary().subscribe({
+    /*this.apiService.getMinSalary().subscribe({
       next:(res)=>{
         this.minSalary=res;
         const salaryControl=this.newEmpForm.get('salary');
@@ -45,7 +46,18 @@ export class NewEmp {
         console.log(this.minSalary);
       },
       error:()=>this.router.navigate(['error/500'])
-    });
+    });*/
+
+    this.route.paramMap.subscribe({
+      next:(params)=>{
+        this.minSalary=Number(params.get('minSal'));
+        const salaryControl=this.newEmpForm.get('salary');
+        salaryControl?.setValidators([Validators.required,Validators.min(this.minSalary)]);
+        salaryControl?.updateValueAndValidity();
+        console.log(this.minSalary);
+      },
+      error:()=>this.router.navigate(['error/500'])
+    })
   }
 
   newEmpForm=this.fb.group({

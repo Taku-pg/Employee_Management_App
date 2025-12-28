@@ -188,22 +188,13 @@ class EmployeeModel {
         
     }
 
-    static updateEmployee(data) {
+    static updateEmployee(sql,data) {
         return new Promise((resolve,reject)=>{
-            const sql = `UPDATE employee 
-                        SET firstname=?,
-                            lastname=?,
-                            email=?,
-                            salary=?,
-                            department_id=?,
-                            role_id=?,
-                        WHERE id=?`;
             db.run(sql, data, (err) => {
                 if (err) return reject(err);
                 resolve();
             });
         });
-        
     }
 
     static deleteEmployeeById(id) {

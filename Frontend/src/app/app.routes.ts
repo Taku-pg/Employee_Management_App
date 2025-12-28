@@ -6,6 +6,7 @@ import { Manager } from './views/manager/manager';
 import { authGuard, AuthGuard } from './services/authGuard';
 import { ErrorPage } from './views/error/error';
 import { NewEmp } from './views/new-emp/new-emp';
+import { EmpDetail } from './views/emp-detail/emp-detail';
 
 export const routes: Routes = [
     {
@@ -23,6 +24,12 @@ export const routes: Routes = [
         component: Emp
     },
     {
+        path:'emp/:id',
+        canActivate: [authGuard],
+        data: {role: 'manager'},
+        component: EmpDetail
+    },
+    {
         path:'manager',
         canActivate: [authGuard],
         data: {role: 'manager'},
@@ -30,7 +37,7 @@ export const routes: Routes = [
         //loadChildren: ()=> import('./views/manager/manager.routes').then(m=>m.MANAGER_ROUTE)
     },
     {
-        path:'register',
+        path:'register/:minSal',
         canActivate: [authGuard],
         data: {role: 'manager'},
         component: NewEmp

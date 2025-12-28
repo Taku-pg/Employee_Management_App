@@ -1,56 +1,140 @@
 <div>
-    <form (ngSubmit)="onUpdate()">
+    <form (ngSubmit)="onUpdate()" [formGroup]="updateEmpForm">
     <label for="id">ID:
-        <input type="number" id="id" [value]="emp()?.id" required>
+        <input type="number" id="id" [value]="originalEmp()?.id" required readonly>
     </label><br><br>
 
     <label for="firstname">Firstname:
-        <input type="text" id="firstname" [value]="emp()?.firstname" required>
+        <input type="text" id="firstname" [value]="originalEmp()?.firstname" formControlName="firstname" required>
     </label><br><br>
+    @if(firstname?.invalid && (firstname?.dirty || firstname?.touched)){
+        @if(firstname?.hasError('required')){
+            <p>Firstname is required</p>
+        }
+        @if(firstname?.hasError('serverValidationError')){
+            <p>{{updateEmpForm.get('firstname')?.errors?.['serverValidationError']}}</p>
+        }
+    }
 
     <label for="lastname">Lastname:
-        <input type="text" id="lastname" [value]="emp()?.lastname" required>
+        <input type="text" id="lastname" [value]="originalEmp()?.lastname" formControlName="lastname" required>
     </label><br><br>
+    @if(lastname?.invalid && (lastname?.dirty || lastname?.touched)){
+        @if(lastname?.hasError('required')){
+            <p>Lastname is required</p>
+        }
+        @if(lastname?.hasError('serverValidationError')){
+            <p>{{updateEmpForm.get('lastname')?.errors?.['serverValidationError']}}</p>
+        }
+    }
 
     <label for="email">Email:
-        <input type="email" id="email" [value]="emp()?.email" required>
+        <input type="email" id="email" [value]="originalEmp()?.email" formControlName="email" required>
     </label><br><br>
+    @if(email?.invalid && (email?.dirty || email?.touched)){
+        @if(email?.hasError('required')){
+            <p>Email is required</p>
+        }
+        @if(email?.hasError('pattern')){
+            <p>Invalid email</p>
+        }
+         @if(email?.hasError('isUniqueEmail')){
+            <p>This email is already used</p>
+        }
+        @if(email?.hasError('serverValidationError')){
+            <p>{{updateEmpForm.get('email')?.errors?.['serverValidationError']}}</p>
+        } 
+    }
 
     <label for="hire_date">HireDate:
-        <input type="date" id="hire_date" [value]="emp()?.hireDate" readonly>
+        <input type="date" id="hire_date" [value]="originalEmp()?.hireDate" readonly>
     </label><br><br>
 
     <label for="salary">Salary:
-        <input type="number" id="salary" [value]="emp()?.salary" required>
+        <input type="number" id="salary" [value]="originalEmp()?.salary" formControlName="salary" required>
     </label><br><br>
+    @if(salary?.invalid && (salary?.dirty || salary?.touched)){
+        @if(salary?.hasError('required')){
+            <p>Salary is required</p>
+        }
+        @if(salary?.hasError('min')){
+            <p>Minimum salary is {{minSalary}}</p>
+        }
+        @if(salary?.hasError('serverValidationError')){
+            <p>{{updateEmpForm.get('salary')?.errors?.['serverValidationError']}}</p>
+        }
+    }
 
-    <select>
-        @for(dept of depts(); track dept){
-            @if(dept===emp()?.department){
-                <option value="dept" selected>{{dept}}</option>
-            }@else{
-                <option value="dept">{{dept}}</option>
-            }
+    <select formControlName="dept">
+        @for(dept of depts; track dept){
+            <option [value]="dept">{{dept}}</option>
         }
     </select>
 
     <label for="role">Role:
-        <input type="text" id="role" [value]="emp()?.role" readonly>
+        <input type="text" id="role" [value]="originalEmp()?.role" readonly>
     </label><br><br>
 
-    @for(language of emp()?.languages; track language.language_name){
-        <form (ngSubmit)="onDeleteNationality()">
-            <label for="language">Language:
-            <input type="text" id="language" [value]="language.language_name">
-        </label><br><br>
+    <div formArrayName="selectedLanguages">
+        @for(selectedLanguage of selectedLanguages.controls; track selectedLanguage; let i=$index){
+            <div [formGroupName]="i"> 
+                <!-- for language -->
+                <label>Language: 
+                     <select formControlName="language_name">
+                        @for(language of availableLanguages; track language){
+                              @if(!isSelectedLanguage(language,i)){
+                                <option [ngValue]="language">{{language}}</option>
+                            }  
+                        }
+                    </select><br><br> 
+                    <!-- validation -->
+                    @if(selectedLanguage.get('language_name')?.invalid &&
+                        (selectedLanguage.get('language_name')?.dirty || selectedLanguage.get('language_name')?.touched)
+                        ){
+                        @if(selectedLanguage.get('language_name')?.hasError('required')){
+                            <p>select language</p>
+                        }
+                        @if(selectedLanguage.get('language_name')?.hasError('serverValidationError')){
+                            <p>{{selectedLanguage.get('language_name')?.errors?.['serverValidationError']}}</p>
+                        }
+                    }
+                </label>
 
-        <label for="level">Level:
-            <input type="text" id="level" [value]="language.language_level">
-        </label><br><br>
+                <!-- for level -->
+                <label for="level">Level:
+                    <select formControlName="language_level">
+                         @for(languageLevel of languageLevels; track languageLevel){
+                                <option [ngValue]="languageLevel">{{languageLevel}}</option>
+                        }
+                    </select><br><br>
+                </label><br><br>
+                <!-- validation -->
+                @if(selectedLanguage.get('language_level')?.invalid &&
+                    (selectedLanguage.get('language_level')?.dirty || selectedLanguage.get('language_level')?.touched)
+                    ){
+                    @if(selectedLanguage.get('language_level')?.hasError('required')){
+                        <p>Enter your level of language</p>
+                    }
+                    @if(selectedLanguage.get('language_level')?.hasError('serverValidationError')){
+                        <p>{{selectedLanguage.get('language_level')?.errors?.['serverValidationError']}}</p>
+                    }
+                }
 
-            <button type="submit" >delete</button>
-        </form>
-    }
+                 
+
+                @if(selectedLanguage?.hasError('duplicate')){
+                    <p>You can't select same language</p>
+                }
+            </div>
+            <!-- iが元の長さ以上であれば -->
+            @if(selectedLanguages.length>originalLanguageLength && i>=originalLanguageLength){
+                <button type="button" (click)="onRemoveSelectedLanguage(i)">remove language</button>
+            } 
+        }
+         @if(!isSelectedAll()){
+            <button type="button" (click)="onAddSelectedLanguage()" [disabled]="!isValidLanguageForm()">add language</button>
+        }
+    </div>
 
     
     <button type="submit">Update</button>

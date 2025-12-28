@@ -94,36 +94,36 @@ INSERT OR IGNORE INTO language_level(id, language_level) VALUES(7,'C2');
 
 
 CREATE TABLE IF NOT EXISTS language_skill(
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
             employee_id INTEGER,
             language_id INTEGER,
             language_level_id INTEGER,
             FOREIGN KEY(employee_id) REFERENCES employee(id),
             FOREIGN KEY(language_id) REFERENCES language_(id),
-            FOREIGN KEY(language_level_id) REFERENCES language_level(id)
+            FOREIGN KEY(language_level_id) REFERENCES language_level(id),
+            PRIMARY KEY(employee_id,language_id)
             );
 
-INSERT OR IGNORE INTO language_skill(id, employee_id, language_id, language_level_id) VALUES(1,1,1,1);
-INSERT OR IGNORE INTO language_skill(id, employee_id, language_id, language_level_id) VALUES(2,2,1,1);
-INSERT OR IGNORE INTO language_skill(id, employee_id, language_id, language_level_id) VALUES(3,3,1,2);
-INSERT OR IGNORE INTO language_skill(id, employee_id, language_id, language_level_id) VALUES(4,3,2,1);
-INSERT OR IGNORE INTO language_skill(id, employee_id, language_id, language_level_id) VALUES(5,4,1,1);
-INSERT OR IGNORE INTO language_skill(id, employee_id, language_id, language_level_id) VALUES(6,5,1,1);
-INSERT OR IGNORE INTO language_skill(id, employee_id, language_id, language_level_id) VALUES(7,6,1,1);
-INSERT OR IGNORE INTO language_skill(id, employee_id, language_id, language_level_id) VALUES(8,7,1,1);
-INSERT OR IGNORE INTO language_skill(id, employee_id, language_id, language_level_id) VALUES(9,8,2,1);
-INSERT OR IGNORE INTO language_skill(id, employee_id, language_id, language_level_id) VALUES(10,9,2,1);
-INSERT OR IGNORE INTO language_skill(id, employee_id, language_id, language_level_id) VALUES(11,10,2,1);
-INSERT OR IGNORE INTO language_skill(id, employee_id, language_id, language_level_id) VALUES(12,11,2,1);
-INSERT OR IGNORE INTO language_skill(id, employee_id, language_id, language_level_id) VALUES(13,12,2,1);
-INSERT OR IGNORE INTO language_skill(id, employee_id, language_id, language_level_id) VALUES(14,13,3,1);
-INSERT OR IGNORE INTO language_skill(id, employee_id, language_id, language_level_id) VALUES(15,14,3,1);
-INSERT OR IGNORE INTO language_skill(id, employee_id, language_id, language_level_id) VALUES(16,15,3,1);
-INSERT OR IGNORE INTO language_skill(id, employee_id, language_id, language_level_id) VALUES(17,16,3,1);
-INSERT OR IGNORE INTO language_skill(id, employee_id, language_id, language_level_id) VALUES(18,17,4,1);
-INSERT OR IGNORE INTO language_skill(id, employee_id, language_id, language_level_id) VALUES(19,18,4,1);
-INSERT OR IGNORE INTO language_skill(id, employee_id, language_id, language_level_id) VALUES(20,19,4,1);
-INSERT OR IGNORE INTO language_skill(id, employee_id, language_id, language_level_id) VALUES(21,20,4,1);
-INSERT OR IGNORE INTO language_skill(id, employee_id, language_id, language_level_id) VALUES(22,21,4,1);
+INSERT OR IGNORE INTO language_skill(employee_id, language_id, language_level_id) VALUES(1,1,1);
+INSERT OR IGNORE INTO language_skill(employee_id, language_id, language_level_id) VALUES(2,1,1);
+INSERT OR IGNORE INTO language_skill(employee_id, language_id, language_level_id) VALUES(3,1,2);
+INSERT OR IGNORE INTO language_skill(employee_id, language_id, language_level_id) VALUES(3,2,1);
+INSERT OR IGNORE INTO language_skill(employee_id, language_id, language_level_id) VALUES(4,1,1);
+INSERT OR IGNORE INTO language_skill(employee_id, language_id, language_level_id) VALUES(5,1,1);
+INSERT OR IGNORE INTO language_skill(employee_id, language_id, language_level_id) VALUES(6,1,1);
+INSERT OR IGNORE INTO language_skill(employee_id, language_id, language_level_id) VALUES(7,1,1);
+INSERT OR IGNORE INTO language_skill(employee_id, language_id, language_level_id) VALUES(8,2,1);
+INSERT OR IGNORE INTO language_skill(employee_id, language_id, language_level_id) VALUES(9,2,1);
+INSERT OR IGNORE INTO language_skill(employee_id, language_id, language_level_id) VALUES(10,2,1);
+INSERT OR IGNORE INTO language_skill(employee_id, language_id, language_level_id) VALUES(11,2,1);
+INSERT OR IGNORE INTO language_skill(employee_id, language_id, language_level_id) VALUES(12,2,1);
+INSERT OR IGNORE INTO language_skill(employee_id, language_id, language_level_id) VALUES(13,3,1);
+INSERT OR IGNORE INTO language_skill(employee_id, language_id, language_level_id) VALUES(14,3,1);
+INSERT OR IGNORE INTO language_skill(employee_id, language_id, language_level_id) VALUES(15,3,1);
+INSERT OR IGNORE INTO language_skill(employee_id, language_id, language_level_id) VALUES(16,3,1);
+INSERT OR IGNORE INTO language_skill(employee_id, language_id, language_level_id) VALUES(17,4,1);
+INSERT OR IGNORE INTO language_skill(employee_id, language_id, language_level_id) VALUES(18,4,1);
+INSERT OR IGNORE INTO language_skill(employee_id, language_id, language_level_id) VALUES(19,4,1);
+INSERT OR IGNORE INTO language_skill(employee_id, language_id, language_level_id) VALUES(20,4,1);
+INSERT OR IGNORE INTO language_skill(employee_id, language_id, language_level_id) VALUES(21,4,1);
 
 COMMIT;

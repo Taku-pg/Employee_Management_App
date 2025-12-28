@@ -28,6 +28,18 @@ class DepartmentModel{
         })
     }
 
+    static findDeptByName(name){
+        return new Promise((resolve, reject)=>{
+             const sql =`SELECT id FROM department `+
+                    `WHERE department_name=?`;
+
+            db.get(sql,[name],(err,row)=>{
+                if(err)return reject(err);
+                resolve(row.id);
+            });
+        })
+    }
+
     static findMinSalById(deptId){
         return new Promise((resolve, reject)=>{
              const sql =`SELECT minimum_salary FROM department WHERE id=?`;

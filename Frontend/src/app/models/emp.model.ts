@@ -1,4 +1,4 @@
-export interface language{
+export interface Language{
     language_name: string,
     language_level: string
 }
@@ -13,5 +13,5 @@ export interface EmployeeModel{
     salary: number,
     department: string,
     role: string,
-    languages: language[]
+    languages: Language[]
 }
