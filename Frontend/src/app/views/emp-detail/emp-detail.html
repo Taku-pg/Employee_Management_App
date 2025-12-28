@@ -65,10 +65,18 @@
         }
     }
 
-    <select formControlName="dept">
+    <select formControlName="department">
         @for(dept of depts; track dept){
             <option [value]="dept">{{dept}}</option>
         }
+        @if(department?.invalid && (department?.dirty || department?.touched)){
+        @if(department?.hasError('required')){
+            <p>Select department</p>
+        }
+        @if(department?.hasError('serverValidationError')){
+            <p>{{updateEmpForm.get('department')?.errors?.['serverValidationError']}}</p>
+        }
+    }
     </select>
 
     <label for="role">Role:

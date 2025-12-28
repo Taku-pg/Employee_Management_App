@@ -12,6 +12,7 @@ const LanguageModel = require('../models/languageModel');
 const LanguageLevelModel = require('../models/languageLevelModel');
 const LanguageSkillModel = require('../models/languageSkillModel');
 const DepartmentModel = require('../models/departmentModel');
+const updateEmpValidator = require('../middleware/validators/updateEmpValidator');
 
 router.get('/me', authenticate, async (req, res) => {
     console.log('call /me api');
@@ -110,8 +111,6 @@ router.get('/:id', authenticate, authorize(['manager', 'admin']), async (req, re
     }
 })
 
-
-
 router.post('/new-emp', authenticate, authorize(['manager']), newEmpValidator, async (req, res) => {
     console.log('create new employee');
     console.log(req.body);
@@ -168,10 +167,34 @@ router.post('/new-emp', authenticate, authorize(['manager']), newEmpValidator, a
     }
 })
 
-router.patch('/:id', authenticate, authorize(['manager']), async (req, res) => {
+router.patch('/:id', authenticate, authorize(['manager']), updateEmpValidator, async (req, res) => {
     console.log(req.body);
     const empId = req.params.id;
     const patchData = req.body;
+
+    const vr = validationResult(req);
+    if (!vr.isEmpty()) {
+        const errorMsg = {};
+        vr.array().forEach(e => {
+            const languageError = e.path.split(/[\.\[\]]/);
+            console.log(languageError);
+            if (languageError.length > 1) {
+                const index = parseInt(languageError[1]);
+                const key = languageError[3];
+                if (!errorMsg.selectedLanguages)
+                    errorMsg.selectedLanguages = [];
+
+                if (!errorMsg.selectedLanguages[index])
+                    errorMsg.selectedLanguages[index] = {};
+
+                errorMsg.selectedLanguages[index][key] = e.msg;
+            } else {
+                errorMsg[e.path] = e.msg;
+            }
+        });
+        console.log(errorMsg);
+        return res.status(400).json({ errors: errorMsg });
+    }
 
     try {
         if (!patchData || Object.keys(patchData).length === 0) {

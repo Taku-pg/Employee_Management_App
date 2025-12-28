@@ -32,6 +32,7 @@ export class EmpDetail implements OnInit {
   minSalary = 0;
   originalEmp = signal<EmployeeModel | null>(null);
   currentEmp=signal<Partial<UpdateEmpModel>>({});
+  originalEmail='';
   availableLanguages: string[] = [];
   languageLevels: string[] = [];
   originalLanguageLength = 0;
@@ -63,19 +64,6 @@ export class EmpDetail implements OnInit {
     return patchData;
   })
 
-  // constructor(){
-  //   effect(()=>{
-  //     //const id=this.empId();
-  //     this.apiService.getEmpDetail(this.empId).subscribe({
-  //       next:(res)=>{
-  //         this.emp.set(res);
-  //         console.log(res.languages);
-  //         this.setLanguagesToForm(res.languages);
-  //       }
-  //     });
-  //   });
-  // }
-
   ngOnInit() {
     this.apiService.getAllLanguage().subscribe({
       next: (res) => this.availableLanguages = res,
@@ -97,23 +85,21 @@ export class EmpDetail implements OnInit {
     this.apiService.getEmpDetail(this.empId).subscribe({
       next: (res) => {
         this.originalEmp.set(res);
+        //set copy
         this.currentEmp.set({...res});
-         this.updateEmpForm.patchValue(res,{emitEvent: false});
+        this.updateEmpForm.patchValue(res,{emitEvent: false});
         console.log(res.languages);
+        //set value to form
         this.setLanguagesToForm(res.languages);
         this.setDeptToForm(res.department);
+
+        //set validator to email
+        this.originalEmail=res.email;
+        this.setEmailValidator(res.email);
       }
     });
 
     this.updateEmpForm.valueChanges.subscribe(emp=>{
-      // const updateModel: UpdateEmpModel={};
-
-      // if(emp.firstname)updateModel.firstname=emp.firstname;
-      // if(emp.lastname)updateModel.lastname=emp.lastname;
-      // if(emp.email)updateModel.email=emp.email;
-      // if(emp.salary)updateModel.salary=emp.salary;
-      // if(emp.dept)updateModel.department=emp.dept;
-      // if(emp.selectedLanguages)updateModel.languages=emp.selectedLanguages as Language[];
 
       const value=this.updateEmpForm.getRawValue();
 
@@ -122,7 +108,7 @@ export class EmpDetail implements OnInit {
         lastname: value.lastname!,
         email: value.email!,
         salary: value.salary!,
-        department: value.dept!,
+        department: value.department!,
         languages: value.selectedLanguages as Language[],
       });
     })
@@ -138,9 +124,7 @@ export class EmpDetail implements OnInit {
     this.apiService.getMinSalary().subscribe({
       next: (res) => {
         this.minSalary = res;
-        const salaryControl = this.updateEmpForm.get('salary');
-        salaryControl?.setValidators([Validators.required, Validators.min(res)]);
-        salaryControl?.updateValueAndValidity();
+        this.setSalaryValidator(res);
         console.log(res);
         console.log(this.minSalary);
       },
@@ -152,9 +136,9 @@ export class EmpDetail implements OnInit {
     firstname: ['', Validators.required],
     lastname: ['', Validators.required],
     email: ['', [Validators.required, Validators.pattern(this.emailRegex)]
-      , uniqueEmailValidator(this.apiService)],
+      , uniqueEmailValidator(this.apiService,this.originalEmail)],
     salary: [0, [Validators.required, Validators.min(this.minSalary)]],
-    dept: ['', Validators.required],
+    department: ['', Validators.required],
     selectedLanguages: this.fb.array([], { validators: duplicateLanguageValidator })
   });
 
@@ -173,8 +157,8 @@ export class EmpDetail implements OnInit {
     data.forEach((lang: any) => {
       this.selectedLanguages.push(
         this.fb.group({
-          language_name: [{ value: lang.language_name, disabled: true }],
-          language_level: [{ value: lang.language_level, disabled: false }]
+          language_name: [{ value: lang.language_name, disabled: true }, Validators.required],
+          language_level: [{ value: lang.language_level, disabled: false }, Validators.required]
         })
       )
     })
@@ -182,7 +166,20 @@ export class EmpDetail implements OnInit {
   }
 
   setDeptToForm(dept: string) {
-    this.updateEmpForm.get('dept')?.setValue(dept);
+    this.updateEmpForm.get('department')!.setValue(dept);
+  }
+
+  setEmailValidator(original: string){
+    const control =this.updateEmpForm.get('email');
+    control?.setValidators([Validators.required, Validators.pattern(this.emailRegex)])
+    control?.setAsyncValidators(uniqueEmailValidator(this.apiService,original))
+    control?.updateValueAndValidity();
+  }
+
+  setSalaryValidator(minSal: number){
+    const salaryControl = this.updateEmpForm.get('salary');
+    salaryControl?.setValidators([Validators.required, Validators.min(minSal)]);
+    salaryControl?.updateValueAndValidity();
   }
 
   get firstname() {
@@ -201,8 +198,8 @@ export class EmpDetail implements OnInit {
     return this.updateEmpForm.get('salary');
   }
 
-  get dept() {
-    return this, this.updateEmpForm.get('dept')?.value;
+  get department() {
+    return this.updateEmpForm.get('department');
   }
 
   isSelectedLanguage(language: string, current: number) {
@@ -236,7 +233,45 @@ export class EmpDetail implements OnInit {
     this.selectedLanguages.push(this.createLanguageControl());
   }
 
+  setServerError(errors: Record<string, any>){
+    Object.keys(errors).forEach(key=>{
+      console.log(key);
+      const control=this.updateEmpForm.get(key);
+      console.log(control);
+      if(control){
+        if(control instanceof FormArray){
+          this.setLanguageServerError(errors[key]);
+        }else{
+          control.setErrors({
+            serverValidationError: errors[key]
+          });
+        }
+        control.markAsTouched();
+      }
+    })
+  }
+
+  setLanguageServerError(errors: any[]){
+    errors.forEach((item,index)=>{
+      const group=this.selectedLanguages.at(index) as FormGroup;
+      if(!group)return;
+
+      Object.keys(item).forEach(key=>{
+        const control=group.get(key);
+        if(control){
+          control.setErrors({
+            serverValidationError: item[key]
+          })
+        }
+      })
+    })
+  }
+
   onUpdate() {
+    if(this.updateEmpForm.invalid){
+      this.updateEmpForm.markAllAsTouched();
+      return;
+    }
     const patchData=this.patchEmp();
     if(Object.keys(patchData).length===0){
       return;
@@ -248,7 +283,7 @@ export class EmpDetail implements OnInit {
       next:()=>this.router.navigate(['manager']),
       error:(err)=>{
         if(err.status===400 && err.error?.errors){
-          console.log(err);
+          this.setServerError(err.error?.errors);
         }else{
           this.router.navigate(['error/500']);
         }

@@ -1,15 +1,18 @@
-const { body } = require('express-validator');
+const {body}=require('express-validator');
 const EmployeeModel = require('../../models/employeeModel');
 const DeptModel = require('../../models/departmentModel');
 const LanguageModel = require('../../models/languageModel');
 const LanguageLevelModel = require('../../models/languageLevelModel');
 
-module.exports= [
+module.exports=[
     body('firstname')
+        .optional()
         .notEmpty().withMessage('Firstname is required'),
     body('lastname')
+        .optional()
         .notEmpty().withMessage('Lastname is required'),
     body('email')
+        .optional()
         .custom(value => {
             console.log('email', value);
             const emailRegex = /\S+@\S+\.\S{2,4}/
@@ -28,6 +31,7 @@ module.exports= [
         })
         .notEmpty().withMessage('Email is required'),
     body('salary')
+        .optional()
         .notEmpty().withMessage('Salary is required')
         .isInt()
         .custom(async (value, { req }) => {
@@ -46,7 +50,19 @@ module.exports= [
 
             return true
         }),
+    body('department')
+        .optional()
+        .notEmpty().withMessage('Select department').bail()
+        .custom(async value => {
+            const allDept = await DeptModel.findAllDeptName();
+            console.log(allDept);
+            if (!allDept.includes(value)) {
+                throw new Error('Invalid department');
+            }
+            return true;
+        }),
     body('languages.*.language_name')
+        .optional()
         .notEmpty().withMessage('Select language').bail()
         .custom(async value => {
             const isExist = await LanguageModel.existsLanguage(value);
@@ -56,6 +72,7 @@ module.exports= [
             return true;
         }),
     body('languages.*.language_level')
+        .optional()
         .notEmpty().withMessage('Select your language level').bail()
         .custom(async value => {
             const isExist = await LanguageLevelModel.existsLanguageLevel(value);
