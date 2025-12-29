@@ -17,6 +17,18 @@ class RoleModel{
         });
     }
 
+    static findRoleByName(roleName){
+        return new Promise((resolve, reject)=>{
+             const sql =`SELECT id FROM role_ `+
+                            `WHERE role_name=?`;
+
+            db.get(sql,[roleName],(err,row)=>{
+                if(err)return reject(err);
+                resolve(row);
+            });
+        })
+    }
+
     static findRoleByEmpId(empId){
         return new Promise((resolve, reject)=>{
              const sql =`SELECT role_name FROM role_ AS r `+

@@ -22,7 +22,7 @@ INSERT OR IGNORE INTO department(id, department_name, minimum_salary) VALUES(6,'
 
 CREATE TABLE IF NOT EXISTS role_(
            id INTEGER PRIMARY KEY AUTOINCREMENT,
-           role_name TEXT NOT NULL
+           role_name TEXT NOT NULL UNIQUE
            );
 
 INSERT OR IGNORE INTO role_(id, role_name) VALUES(1, 'admin');
@@ -31,7 +31,7 @@ INSERT OR IGNORE INTO role_(id, role_name) VALUES(3, 'employee');
 
 CREATE TABLE IF NOT EXISTS language_(
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            language_name TEXT NOT NULL,
+            language_name TEXT NOT NULL UNIQUE,
             number_of_native_country TEXT NOT NULL
             ); 
 
@@ -80,7 +80,7 @@ INSERT OR IGNORE INTO employee(id, firstname, lastname, email, [password], hired
 
 CREATE TABLE IF NOT EXISTS language_level(
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            language_level TEXT NOT NULL
+            language_level TEXT NOT NULL UNIQUE
             );
 
 INSERT OR IGNORE INTO language_level(id, language_level) VALUES(1,'native');

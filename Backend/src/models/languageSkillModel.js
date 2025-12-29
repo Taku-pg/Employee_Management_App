@@ -61,6 +61,15 @@ class LanguageSkillModel{
             })
         })
     }
+    static createLanguageSkil(data){
+        return new Promise((resolve,reject)=>{
+            const sql=`INSERT INTO language_skill(employee_id, language_id, language_level_id) VALUES(?,?,?)`
+            db.run(sql, data, function(err){
+                if (err) return reject(err);
+                resolve(this.lastID);
+            });
+        });
+    }
 
     static addLanguageSkill(sql,data){
         return new Promise((resolve,reject)=>{

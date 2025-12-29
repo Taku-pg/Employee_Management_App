@@ -1,0 +1,46 @@
+<div>
+    <h2>Department detail</h2>
+    <label for="id">ID:
+        <input type="number" id="id" readonly [value]="dept()?.id">
+    </label><br><br>
+
+    <label for="lastname">Department name:
+        <input type="text" id="lastname" readonly [value]="dept()?.name">
+    </label><br><br>
+
+    <label for="min-salary">Minimum Salary:
+        <input type="number" id="min-salary" readonly [value]="dept()?.minSal">
+    </label><br><br>
+
+    <h3>Department employees</h3>
+    <!-- <table>
+            <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Manager</th>
+        </tr> -->
+        <form [formGroup]="managerSelectForm" (ngSubmit)="onChangeManager()">
+            <table>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Manager</th>
+            </tr>
+            @for(emp of dept()?.employees; track emp.id){
+
+                <tr>
+                    <td>{{emp.id}}</td>
+                    <td>{{emp.firstname}}</td>
+
+                    <td>
+                        <label>
+                            <input type="radio" formControlName="managerId" [value]="emp.id">
+                        </label>
+                    </td>
+                </tr>
+            }
+            </table>
+            <button type="submit">change manager</button>
+    </form>
+    <a routerLink="/admin">main</a>
+</div>

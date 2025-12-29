@@ -16,18 +16,15 @@ class DepartmentModel{
         });
     }
 
-    static findAllDeptName(){
+    static findDeptById(deptId){
         return new Promise((resolve,reject)=>{
-            const sql=`SELECT department_name FROM department`
+            const sql=`SELECT id, department_name, minimum_salary FROM department WHERE id=?`;
 
-            db.all(sql,[],(err,rows)=>{
+            db.get(sql,[deptId],(err, row)=>{
                 if(err)return reject(err);
-
-                const result=rows.map(r=>(r.department_name));
-                resolve(result);
-            });
-        });
-        
+                resolve(row);
+            })
+        })
     }
 
     static findDeptByEmpId(id){

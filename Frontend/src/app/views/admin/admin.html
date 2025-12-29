@@ -5,14 +5,14 @@
         <th>Name</th>
         <th></th>
     </tr>
-    @for(value of content()?.data; track value.id){
+    @for(value of content()?.data; track value.id; let i=$index){
     <tr>
         <td>{{value.id}}</td>
         <td>{{value.name}}</td>
 
         <td>
             <form>
-                <button type="button">view detail</button>
+                <button type="button" (click)="onViewDetail(i)">view detail</button>
             </form>
         </td>
     </tr>
@@ -21,5 +21,5 @@
 
 <button (click)="onPrev()" [disabled]="currentPage===0">prev</button>
 <button (click)="onNext()" [disabled]="currentPage===contents().length-1">next</button>
-
+<a routerLink="/emp">Personal Info</a>
 <button type="button" (click)="onLogout()">logout</button><br>

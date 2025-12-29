@@ -3,20 +3,23 @@ import { SimpleEmployeeModel } from '../../models/simpleEmp.model';
 import { ApiService } from '../../services/api.service';
 import { AuthService } from '../../services/auth.service';
 import { type TableDataModel } from '../../models/tableData.model';
+import { RouterUpgradeInitializer } from '@angular/router/upgrade';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-admin',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './admin.html',
   styleUrl: './admin.css',
 })
 export class Admin implements OnInit{
   private apiService=inject(ApiService);
   private authService=inject(AuthService);
+  private router=inject(Router);
+
   contents=signal<TableDataModel[]>([]);
   content=signal<TableDataModel|null>(null);
   currentPage=0;
-  pageContent: Record<string,number>={};
 
   ngOnInit(){
     this.apiService.getAllInfo().subscribe({
@@ -49,6 +52,20 @@ export class Admin implements OnInit{
       this.currentPage++;
       this.setPageContent();
     }
+  }
+
+  onViewDetail(i: number){
+    const tableName=this.content()?.table;
+    if(!tableName)return;
+
+    const id=this.content()?.data[i].id;
+    if(!id)return;
+
+    if(tableName==='employees'){
+      return this.router.navigate([`/emp/${id}`]);
+    }
+
+    return this.router.navigate([`/${tableName}/${id}`]); 
   }
 
   onLogout(){
