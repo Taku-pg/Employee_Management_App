@@ -30,14 +30,17 @@ export class EmpDetail implements OnInit {
   empId: string = '';
   depts: string[] = [];
   minSalary = 0;
-  originalEmp = signal<EmployeeModel | null>(null);
-  currentEmp=signal<Partial<UpdateEmpModel>>({});
   originalEmail='';
   availableLanguages: string[] = [];
   languageLevels: string[] = [];
   originalLanguageLength = 0;
   emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
   deleteErrMsg=signal<string>('');
+  
+  originalEmp = signal<EmployeeModel | null>(null);
+  currentEmp=signal<Partial<UpdateEmpModel>>({});
+  
+  
 
   patchEmp=computed(()=>{
     const original=this.originalEmp();

@@ -15,11 +15,11 @@ import { AuthService } from '../../services/auth.service';
   styleUrl: './emp.css',
 })
 export class Emp implements OnInit {
-  emp = signal<EmployeeModel | undefined>(undefined);
-  private router = inject(Router);
   private apiService = inject(ApiService);
   private authService=inject(AuthService);
   private fb = inject(FormBuilder);
+  
+  emp = signal<EmployeeModel | undefined>(undefined);
   role=signal<string|null>(null);
 
   ngOnInit() {
@@ -29,7 +29,6 @@ export class Emp implements OnInit {
         console.log(e);
         this.emp.set(e);
       }
-      //error: () => this.router.navigate(['error/500'])
     }
     );
     this.role.set(this.authService.getRole());
@@ -63,7 +62,6 @@ export class Emp implements OnInit {
 
     this.apiService.changePassword(passwords).subscribe({
       next:()=>this.ngOnInit(),
-      //error:()=>this.router.navigate(['error/500'])
     })
   }
 

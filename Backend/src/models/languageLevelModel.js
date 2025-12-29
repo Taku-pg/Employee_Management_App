@@ -3,11 +3,14 @@ const {db}=require('./db');
 class LanguageLevelModel{
     static findAllLanguageLevel(){   
         return new Promise((resolve, reject)=>{
-            const sql=`SELECT language_level FROM language_level`;
+            const sql=`SELECT id,language_level FROM language_level`;
 
             db.all(sql,[],(err,rows)=>{
                 if(err)return reject(err);
-                const result=rows.map(r=>r.language_level);
+                const result=rows.map(r=>({
+                    id: r.id,
+                    name: r.language_level
+                }));
                 resolve(result);
             })
         })

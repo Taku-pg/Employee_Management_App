@@ -16,10 +16,11 @@ import { uniqueEmailValidator } from '../../services/validators/emailValidator';
 })
 
 export class NewEmp {
-  apiService=inject(ApiService);
-  router=inject(Router);
-  route=inject(ActivatedRoute);
-  fb=inject(FormBuilder);
+  private apiService=inject(ApiService);
+  private router=inject(Router);
+  private route=inject(ActivatedRoute);
+  private fb=inject(FormBuilder);
+  
   availableLanguages=signal<string[]>([]);
   languageLevels=signal<string[]>([]);
   minSalary=0;
@@ -35,18 +36,6 @@ export class NewEmp {
       next: (res)=>this.languageLevels.set(res),
       error: ()=>this.router.navigate(['error/500'])
     });
-
-    /*this.apiService.getMinSalary().subscribe({
-      next:(res)=>{
-        this.minSalary=res;
-        const salaryControl=this.newEmpForm.get('salary');
-        salaryControl?.setValidators([Validators.required,Validators.min(res)]);
-        salaryControl?.updateValueAndValidity();
-        console.log(res);
-        console.log(this.minSalary);
-      },
-      error:()=>this.router.navigate(['error/500'])
-    });*/
 
     this.route.paramMap.subscribe({
       next:(params)=>{

@@ -5,7 +5,7 @@ const DeptModel = require('../models/departmentModel');
 const router = express.Router();
 const authenticate = require('../middleware/jwtMiddleware');
 const authorize = require('../middleware/roleMiddleware');
-const isSamDept = require('../middleware/deptMiddleware');
+const isSameDept = require('../middleware/deptMiddleware');
 const EmployeeModel = require('../models/employeeModel');
 const TransactionService = require('../services/transactionService');
 const newEmpValidator = require('../middleware/validators/newEmpValidator');
@@ -91,7 +91,7 @@ router.get('/check-email', authenticate, authorize(['manager']), async (req, res
     }
 })
 
-router.get('/:id', authenticate, authorize(['manager', 'admin']), isSamDept, async (req, res) => {
+router.get('/:id', authenticate, authorize(['manager', 'admin']), isSameDept, async (req, res) => {
     console.log('get emp detail');
     try {
         const empId = req.params.id;
@@ -236,7 +236,7 @@ router.patch('/:id', authenticate, authorize(['manager']), updateEmpValidator, a
     }
 })
 
-router.delete('/:id', authenticate, authorize(['manager']), isSamDept, async (req, res) => {
+router.delete('/:id', authenticate, authorize(['manager']), isSameDept, async (req, res) => {
     const empId = req.params.id;
 
     try {

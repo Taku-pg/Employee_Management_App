@@ -14,11 +14,12 @@ import { AuthService } from '../../services/auth.service';
   styleUrl: './manager.css',
 })
 export class Manager implements OnInit {
-  depts=signal<string[]>([]);
-  deptEmployees=signal<SimpleEmployeeModel[]>([]);
   private apiService=inject(ApiService);
   private router=inject(Router);
   private authService=inject(AuthService);
+
+  depts=signal<string[]>([]);
+  deptEmployees=signal<SimpleEmployeeModel[]>([]);
   selectedEmpId=signal<string|null>(null);
   minSalary=signal<number>(0);
 

@@ -67,4 +67,8 @@ export class ApiService{
     deleteEmp(id: string){
         return this.httpClient.delete(`${this.baseUrl}/emp/${id}`);
     }
+
+    getAllInfo(){
+        return this.httpClient.get<any[]>(`${this.baseUrl}/admin`);
+    }
 }

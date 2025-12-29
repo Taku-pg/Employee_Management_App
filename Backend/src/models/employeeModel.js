@@ -9,7 +9,7 @@ class EmployeeModel {
 
                 const result = rows.map(r => ({
                     id: r.id,
-                    firstname: r.firstname,
+                    name: r.firstname,
                 }));
 
                 resolve(result);

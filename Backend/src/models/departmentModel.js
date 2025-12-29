@@ -1,6 +1,21 @@
 const {db}=require('./db');
 
 class DepartmentModel{
+    static findAllDept(){
+        return new Promise((resolve,reject)=>{
+            const sql=`SELECT id,department_name FROM department`
+
+            db.all(sql,[],(err,rows)=>{
+                if(err)return reject(err);
+                const result=rows.map(r=>({
+                    id: r.id,
+                    name: r.department_name
+                }));
+                resolve(result);
+            });
+        });
+    }
+
     static findAllDeptName(){
         return new Promise((resolve,reject)=>{
             const sql=`SELECT department_name FROM department`
