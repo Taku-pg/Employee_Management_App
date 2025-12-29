@@ -1,14 +1,15 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { SimpleEmployeeModel } from '../../models/simpleEmp.model';
 import { ApiService } from '../../services/api.service';
-import { Router, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { EmpDetail } from '../emp-detail/emp-detail';
 import { NewEmp } from '../new-emp/new-emp';
 import { CommonModule, NgIf } from '@angular/common';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-manager',
-  imports: [EmpDetail,NewEmp,RouterOutlet],
+  imports: [RouterLink],
   templateUrl: './manager.html',
   styleUrl: './manager.css',
 })
@@ -17,6 +18,7 @@ export class Manager implements OnInit {
   deptEmployees=signal<SimpleEmployeeModel[]>([]);
   private apiService=inject(ApiService);
   private router=inject(Router);
+  private authService=inject(AuthService);
   selectedEmpId=signal<string|null>(null);
   minSalary=signal<number>(0);
 
@@ -64,5 +66,7 @@ export class Manager implements OnInit {
     this.router.navigate(['register',this.minSalary()]);
   }
 
-  //detailとnewでdeptの取得
+  onLogout(){
+    this.authService.logout();
+  }
 }

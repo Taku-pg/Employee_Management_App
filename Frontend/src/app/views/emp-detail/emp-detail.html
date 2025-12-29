@@ -147,5 +147,10 @@
     
     <button type="submit">Update</button>
     </form>
+    @if(deleteErrMsg()){
+        <p>{{deleteErrMsg()}}</p>
+    }
     <button type="button" (click)="onDelete()">Delete</button>
+
+    <a routerLink="/manager">main</a>
 </div>

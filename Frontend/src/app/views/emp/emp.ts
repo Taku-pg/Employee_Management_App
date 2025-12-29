@@ -1,34 +1,74 @@
 import { Component, inject, input, OnInit, signal } from '@angular/core';
 import { type EmployeeModel } from '../../models/emp.model';
 import { env } from '../../../environment/env';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ApiService } from '../../services/api.service';
 import { map } from 'rxjs';
+import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { PasswordMismatchValidator } from '../../services/validators/passwordValidator';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-emp',
-  imports: [],
+  imports: [FormsModule, ReactiveFormsModule, RouterLink],
   templateUrl: './emp.html',
   styleUrl: './emp.css',
 })
 export class Emp implements OnInit {
-  //親コンポーネントで設定inputを
-  //httpの設定
-  //backでcors設定、環境変数(env{baseurl: 'http://localhost:3000/api'}をexport)設定
-  emp=signal<EmployeeModel|undefined>(undefined);
-  private router=inject(Router);
-  private apiService=inject(ApiService);
+  emp = signal<EmployeeModel | undefined>(undefined);
+  private router = inject(Router);
+  private apiService = inject(ApiService);
+  private authService=inject(AuthService);
+  private fb = inject(FormBuilder);
+  role=signal<string|null>(null);
 
-  ngOnInit(){
+  ngOnInit() {
     console.log('emp page');
     this.apiService.getMyInfo().subscribe({
-      next:(e)=>{
+      next: (e) => {
         console.log(e);
         this.emp.set(e);
-      },
-      error:()=>this.router.navigate(['error/500'])
+      }
+      //error: () => this.router.navigate(['error/500'])
     }
     );
-    
+    this.role.set(this.authService.getRole());
   }
+
+  passwordForm = this.fb.group({
+    password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(20)]],
+    confirmPassword: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(20)]]
+  }, { validators: PasswordMismatchValidator });
+
+  get password() {
+    return this.passwordForm.get('password');
+  }
+
+  get confirmPassword() {
+    return this.passwordForm.get('confirmPassword');
+  }
+
+  onChangePassword() {
+    if(this.passwordForm.invalid){
+      this.passwordForm.markAllAsTouched();
+      return;
+    }
+
+    const pass=this.password?.value;
+    const confirmPass=this.confirmPassword?.value;
+
+    if(!pass || !confirmPass)return;
+
+    const passwords={password: pass,confirmPassword: confirmPass};
+
+    this.apiService.changePassword(passwords).subscribe({
+      next:()=>this.ngOnInit(),
+      //error:()=>this.router.navigate(['error/500'])
+    })
+  }
+
+  onLogout(){
+    this.authService.logout();
+  }
+
 }

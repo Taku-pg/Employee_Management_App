@@ -3,10 +3,6 @@
         <input type="number" id="id" readonly [value]="emp()?.id">
     </label><br><br>
 
-    <label for="firstname">Firstname:
-        <input type="text" id="firstname" readonly [value]="emp()?.firstname">
-    </label><br><br>
-
     <label for="lastname">Lastname:
         <input type="text" id="lastname" readonly [value]="emp()?.lastname">
     </label><br><br>
@@ -32,12 +28,66 @@
     </label><br><br>
 
     @for(language of emp()?.languages; track language.language_name){
-        <label for="language">Language:
-            <input type="text" id="language" readonly [value]="language.language_name">
-        </label><br><br>
+    <label for="language">Language:
+        <input type="text" id="language" readonly [value]="language.language_name">
+    </label><br><br>
 
-        <label for="level">Level:
-            <input type="text" id="level" readonly [value]="language.language_level">
+    <label for="level">Level:
+        <input type="text" id="level" readonly [value]="language.language_level">
+    </label><br><br>
+    }
+
+    <form [formGroup]="passwordForm" (ngSubmit)="onChangePassword()">
+        <label for="password">Password:
+            <input type="password" id="password" formControlName="password" required>
         </label><br><br>
+        @if(password?.invalid && (password?.dirty || password?.touched)){
+            @if(password?.hasError('required')){
+            <p>password is required</p>
+            }
+            @if(password?.hasError('minlength')){
+                <p>Password has to be more than 8 characters
+            }
+            @if(password?.hasError('maxlength')){
+                <p>Password has to be less than 20 characters
+            }
+            @if(password?.hasError('serverValidationError')){
+            <p>{{passwordForm.get('password')?.errors?.['serverValidationError']}}</p>
+            }
+        }
+
+        <label for="confirmPassword">Confirm Password:
+            <input type="password" id="confirmPassword" formControlName="confirmPassword" required>
+        </label><br><br>
+        @if(confirmPassword?.invalid && (confirmPassword?.dirty || confirmPassword?.touched)){
+            @if(confirmPassword?.hasError('required')){
+                <p>confirm password is required</p>
+            }
+            @if(confirmPassword?.hasError('minlength')){
+                <p>Password has to be more than 8 characters
+            }
+            @if(confirmPassword?.hasError('maxlength')){
+                <p>Password has to be less than 20 characters
+            }
+            @if(confirmPassword?.hasError('serverValidationError')){
+                <p>{{passwordForm.get('confirmPassword')?.errors?.['serverValidationError']}}</p>
+            }
+        }
+
+        @if(passwordForm?.hasError('passwordMismatch')
+            && (confirmPassword?.dirty || confirmPassword?.touched)
+            && (password?.dirty || password?.touched)
+            ){
+            <p>password does not match</p>
+        }
+
+        <button type="submit">change password</button>
+    </form>
+    @if(role()==='employee'){
+        <button type="button" (click)="onLogout()">logout</button>
+    }@else if(role()==='manager'){
+        <a routerLink="/manager">main</a>
+    }@else{
+        <a routerLink="/admin">main</a>
     }
 </div>

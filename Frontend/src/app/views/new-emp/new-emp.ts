@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, input, signal } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { duplicateLanguageValidator } from '../../services/validators/languageValidator';
 import { type NewEmployeeModel } from '../../models/newEmp.model';
 import { form } from '@angular/forms/signals';
@@ -10,7 +10,7 @@ import { uniqueEmailValidator } from '../../services/validators/emailValidator';
 
 @Component({
   selector: 'app-new-emp',
-  imports: [FormsModule, CommonModule, ReactiveFormsModule],
+  imports: [FormsModule, CommonModule, ReactiveFormsModule,RouterLink],
   templateUrl: './new-emp.html',
   styleUrl: './new-emp.css',
 })

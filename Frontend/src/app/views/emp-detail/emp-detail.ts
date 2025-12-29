@@ -1,6 +1,6 @@
 import { Component, inject, input, OnInit, computed, signal, effect, ChangeDetectorRef } from '@angular/core';
 import { ApiService } from '../../services/api.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { EmployeeModel, Language } from '../../models/emp.model';
 import { Observable } from 'rxjs';
@@ -16,7 +16,7 @@ function setPatch<K extends keyof UpdateEmpModel>(patch: Partial<UpdateEmpModel>
 
 @Component({
   selector: 'app-emp-detail',
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [FormsModule, ReactiveFormsModule, RouterLink],
   templateUrl: './emp-detail.html',
   styleUrl: './emp-detail.css',
 })
@@ -37,6 +37,7 @@ export class EmpDetail implements OnInit {
   languageLevels: string[] = [];
   originalLanguageLength = 0;
   emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+  deleteErrMsg=signal<string>('');
 
   patchEmp=computed(()=>{
     const original=this.originalEmp();
@@ -62,7 +63,7 @@ export class EmpDetail implements OnInit {
       }
     });
     return patchData;
-  })
+  });
 
   ngOnInit() {
     this.apiService.getAllLanguage().subscribe({
@@ -88,7 +89,7 @@ export class EmpDetail implements OnInit {
         //set copy
         this.currentEmp.set({...res});
         this.updateEmpForm.patchValue(res,{emitEvent: false});
-        console.log(res.languages);
+
         //set value to form
         this.setLanguagesToForm(res.languages);
         this.setDeptToForm(res.department);
@@ -96,6 +97,13 @@ export class EmpDetail implements OnInit {
         //set validator to email
         this.originalEmail=res.email;
         this.setEmailValidator(res.email);
+      },
+      error:(err)=>{
+        if(err.status===403){
+          this.router.navigate(['error/403']);
+        }else{
+          this.router.navigate(['error/500']);
+        }
       }
     });
 
@@ -293,10 +301,16 @@ export class EmpDetail implements OnInit {
   }
 
   onDelete() {
-    //delete entire employee
-  }
-
-  onDeleteNationality() {
-    //delete this nationality
+    this.apiService.deleteEmp(this.empId).subscribe({
+      next:()=>this.router.navigate(['manager']),
+      error:(err)=>{
+        if(err.status===400){
+          console.log(err);
+          this.deleteErrMsg.set(err.error.message);
+        }else{
+          this.router.navigate(['error/500']);
+        }
+      }   
+    })
   }
 }
