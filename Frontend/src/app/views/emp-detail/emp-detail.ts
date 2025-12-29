@@ -9,6 +9,7 @@ import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Va
 import { uniqueEmailValidator } from '../../services/validators/emailValidator';
 import { duplicateLanguageValidator } from '../../services/validators/languageValidator';
 import { UpdateEmpModel } from '../../models/updateEmp.model';
+import { AuthService } from '../../services/auth.service';
 
 function setPatch<K extends keyof UpdateEmpModel>(patch: Partial<UpdateEmpModel>, key: K, value: UpdateEmpModel[K]){
   patch[key]=value;
@@ -23,6 +24,7 @@ function setPatch<K extends keyof UpdateEmpModel>(patch: Partial<UpdateEmpModel>
 
 export class EmpDetail implements OnInit {
   private apiService = inject(ApiService);
+  private authService=inject(AuthService);
   private router = inject(Router);
   private fb = inject(FormBuilder);
   private route = inject(ActivatedRoute);
@@ -36,11 +38,20 @@ export class EmpDetail implements OnInit {
   originalLanguageLength = 0;
   emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
   deleteErrMsg=signal<string>('');
+  role=signal<string|null>(null);
   
   originalEmp = signal<EmployeeModel | null>(null);
   currentEmp=signal<Partial<UpdateEmpModel>>({});
   
-  
+  updateEmpForm = this.fb.group({
+    firstname: ['', Validators.required],
+    lastname: ['', Validators.required],
+    email: ['', [Validators.required, Validators.pattern(this.emailRegex)]
+      , uniqueEmailValidator(this.apiService,this.originalEmail)],
+    salary: [0, [Validators.required, Validators.min(this.minSalary)]],
+    department: ['', Validators.required],
+    selectedLanguages: this.fb.array([], { validators: duplicateLanguageValidator })
+  });
 
   patchEmp=computed(()=>{
     const original=this.originalEmp();
@@ -100,13 +111,6 @@ export class EmpDetail implements OnInit {
         //set validator to email
         this.originalEmail=res.email;
         this.setEmailValidator(res.email);
-      },
-      error:(err)=>{
-        if(err.status===403){
-          this.router.navigate(['error/403']);
-        }else{
-          this.router.navigate(['error/500']);
-        }
       }
     });
 
@@ -141,17 +145,11 @@ export class EmpDetail implements OnInit {
       },
       error: () => this.router.navigate(['error/500'])
     });
+
+    this.role.set(this.authService.getRole());
   }
 
-  updateEmpForm = this.fb.group({
-    firstname: ['', Validators.required],
-    lastname: ['', Validators.required],
-    email: ['', [Validators.required, Validators.pattern(this.emailRegex)]
-      , uniqueEmailValidator(this.apiService,this.originalEmail)],
-    salary: [0, [Validators.required, Validators.min(this.minSalary)]],
-    department: ['', Validators.required],
-    selectedLanguages: this.fb.array([], { validators: duplicateLanguageValidator })
-  });
+
 
   createLanguageControl() {
     return this.fb.group({

@@ -3,9 +3,9 @@ import { env } from "../../environment/env";
 import { HttpClient } from "@angular/common/http";
 import { EmployeeModel } from "../models/emp.model";
 import { map } from "rxjs";
-import { EmployeeResponseModel } from "../models/empResponseModel";
 import { SimpleEmployeeModel } from "../models/simpleEmp.model";
 import { NewEmployeeModel } from "../models/newEmp.model";
+import { DeptModel } from "../models/dept.model";
 
 
 @Injectable({
@@ -44,6 +44,10 @@ export class ApiService{
         return this.httpClient.get<{emp:EmployeeModel}>(`${this.baseUrl}/emp/${empId}`).pipe(map(res=>res.emp));
     }
 
+    getDeptDetail(deptId: string){
+        return this.httpClient.get<DeptModel>(`${this.baseUrl}/dept/${deptId}`);
+    }
+
     getMinSalary(){
         return this.httpClient.get<number>(`${this.baseUrl}/dept/min-salary`);
     }
@@ -58,6 +62,14 @@ export class ApiService{
 
     changePassword(passwords: any){
         return this.httpClient.post(`${this.baseUrl}/emp/change-password`,passwords);
+    }
+
+    changeManager(deptId: string,oldManagerID: string,newManagerId: string){
+        return this,this.httpClient.post(`${this.baseUrl}/dept/${deptId}`,
+            {
+                oldId: oldManagerID,
+                newId: newManagerId
+            });
     }
 
     patchEmp(id: string, patchData: any){

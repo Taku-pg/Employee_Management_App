@@ -11,15 +11,17 @@ const LanguageLevelModel = require('../models/languageLevelModel');
 
 router.get('',authenticate,authorize(['admin']), async(req,res)=>{
     console.log('get all info');
+    const adminId=req.emp.empId;
     const contents=[];
     try{
-        const emps=await EmployeeModel.findAllEmployee();
+        const emps=await EmployeeModel.findAllEmployee(adminId);
+        const withoutAdmin=emps.filter(e=>e.id!==adminId);
         const depts= await DepartmentModel.findAllDept();
         const langs=await LanguageModel.findAllLanguage();
         const roles=await RoleModel.findAllRole();
         const langLevels=await LanguageLevelModel.findAllLanguageLevel();
 
-        contents.push(  {table: 'employees', data:emps},
+        contents.push(  {table: 'employees', data:withoutAdmin},
                         {table: 'department', data:depts},
                         {table: 'role', data:roles},
                         {table: 'language', data:langs},

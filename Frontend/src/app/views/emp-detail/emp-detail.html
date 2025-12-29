@@ -1,4 +1,5 @@
-<div>
+@if(role()==='manager'){
+    <div>
     <form (ngSubmit)="onUpdate()" [formGroup]="updateEmpForm">
     <label for="id">ID:
         <input type="number" id="id" [value]="originalEmp()?.id" required readonly>
@@ -154,3 +155,50 @@
 
     <a routerLink="/manager">main</a>
 </div>
+}@else{
+    <div>
+        <label for="id">ID:
+        <input type="number" id="id" readonly [value]="originalEmp()?.id">
+    </label><br><br>
+
+    <label for="firstname">Firstname:
+        <input type="text" id="firstname" readonly [value]="originalEmp()?.firstname">
+    </label><br><br>
+
+    <label for="lastname">Lastname:
+        <input type="text" id="lastname" readonly [value]="originalEmp()?.lastname">
+    </label><br><br>
+
+    <label for="email">Email:
+        <input type="email" id="email" readonly [value]="originalEmp()?.email">
+    </label><br><br>
+
+    <label for="hire_date">HireDate:
+        <input type="date" id="hire_date" readonly [value]="originalEmp()?.hireDate">
+    </label><br><br>
+
+    <label for="salary">Salary:
+        <input type="number" id="salary" readonly [value]="originalEmp()?.salary">
+    </label><br><br>
+
+    <label for="department">Department:
+        <input type="text" id="department" readonly [value]="originalEmp()?.department">
+    </label><br><br>
+
+    <label for="role">Role:
+        <input type="text" id="role" readonly [value]="originalEmp()?.role">
+    </label><br><br>
+
+    @for(language of originalEmp()?.languages; track language.language_name){
+    <label for="language">Language:
+        <input type="text" id="language" readonly [value]="language.language_name">
+    </label><br><br>
+
+    <label for="level">Level:
+        <input type="text" id="level" readonly [value]="language.language_level">
+    </label><br><br>
+    }
+    </div>
+    <a routerLink="/admin">main</a>
+}
+

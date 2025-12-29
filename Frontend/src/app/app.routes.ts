@@ -7,6 +7,10 @@ import { authGuard, AuthGuard } from './services/authGuard';
 import { ErrorPage } from './views/error/error';
 import { NewEmp } from './views/new-emp/new-emp';
 import { EmpDetail } from './views/emp-detail/emp-detail';
+import { DeptDetail } from './views/dept-detail/dept-detail';
+import { RoleDetail } from './views/role-detail/role-detail';
+import { LangDetail } from './views/lang-detail/lang-detail';
+import { LangLevelDetail } from './views/lang-level-detail/lang-level-detail';
 
 export const routes: Routes = [
     {
@@ -26,27 +30,51 @@ export const routes: Routes = [
     {
         path:'emp/:id',
         canActivate: [authGuard],
-        data: {role: 'manager'},
+        data: {role: ['manager','admin']},
         component: EmpDetail
     },
     {
         path:'manager',
         canActivate: [authGuard],
-        data: {role: 'manager'},
+        data: {role: ['manager']},
         component: Manager,
         //loadChildren: ()=> import('./views/manager/manager.routes').then(m=>m.MANAGER_ROUTE)
     },
     {
         path:'register/:minSal',
         canActivate: [authGuard],
-        data: {role: 'manager'},
+        data: {role: ['manager']},
         component: NewEmp
     },
     {
         path:'admin',
         canActivate: [authGuard],
-        data: {role: 'admin'},
+        data: {role: ['admin']},
         component: Admin
+    },
+    {
+        path:'department/:id',
+        canActivate: [authGuard],
+        data: {role: ['admin']},
+        component: DeptDetail
+    },
+    {
+        path:'role/:id',
+        canActivate: [authGuard],
+        data: {role: ['admin']},
+        component: RoleDetail
+    },
+    {
+        path:'lang/:id',
+        canActivate: [authGuard],
+        data: {role: ['admin']},
+        component: LangDetail
+    },
+    {
+        path:'lang-level/:id',
+        canActivate: [authGuard],
+        data: {role: ['admin']},
+        component: LangLevelDetail
     },
     {
         path:'error/401',

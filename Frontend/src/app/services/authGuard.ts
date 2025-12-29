@@ -53,12 +53,12 @@ export const authGuard: CanActivateFn = (route: ActivatedRouteSnapshot, state: R
                 return router.createUrlTree(['login']);
             }
 
-            const requireRole=route.data['role'] as string;
+            const requireRole=route.data['role'] as string[];
 
             console.log(requireRole);
             console.log()
 
-            if(requireRole && requireRole!==empRole){
+            if(requireRole && !requireRole.includes(empRole)){
                 return router.createUrlTree(['error/403']);
             }
 

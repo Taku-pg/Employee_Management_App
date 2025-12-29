@@ -46,15 +46,16 @@ router.get('/admin', authenticate, authorize(['admin']), async (req, res) => {
 
 router.get('/manager', authenticate, authorize(['manager']), async (req, res) => {
     console.log('manager accessed');
-    const empId = req.emp.empId;
-    console.log(empId);
+    const mngId = req.emp.empId;
+    console.log(mngId);
     try {
-        const dept = await DeptModel.findDeptByEmpId(empId);
+        const dept = await DeptModel.findDeptByEmpId(mngId);
         //const mng=await EmpModel.findEmployeeById(empId);
         console.log(dept);
-        const employeesByDept = await EmpModel.findAllEmployeeByDeptId(dept.id,empId);
-        console.log(employeesByDept);
-        res.json({ employees: employeesByDept });
+        const employeesByDept = await EmpModel.findAllEmployeeByDeptId(dept.id);
+        const withoutManager=employeesByDept.filter(e=>e.id!==mngId);
+        console.log(withoutManager);
+        res.json({ employees: withoutManager });
     } catch (err) {
         console.log(err);
         res.status(500).json({ message: 'Internal server error' });
@@ -96,7 +97,8 @@ router.get('/:id', authenticate, authorize(['manager', 'admin']), isSameDept, as
     try {
         const empId = req.params.id;
         const employeeInfo = await EmployeeModel.findEmployeeById(empId);
-        console.log(employeeInfo);
+        console.log('empId',empId);
+        console.log('empInfo',employeeInfo);
         res.json({ emp: employeeInfo });
     } catch (err) {
         res.status(500).json({ message: 'internal server error' });
