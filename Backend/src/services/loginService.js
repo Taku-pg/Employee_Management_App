@@ -20,7 +20,7 @@ class LoginService{
                 role: emp.role_name
             },
             process.env.JWT_SECRET_KEY,
-            {expiresIn: '1h'}
+            {expiresIn: '15m'}
         );
         return {token: token,emp: {id: emp.id, role: emp.role_name}};
     }

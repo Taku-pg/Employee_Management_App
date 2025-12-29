@@ -1,9 +1,11 @@
 const express = require('express');
+const bcrypt=require('bcrypt');
 const EmpModel = require('../models/employeeModel');
 const DeptModel = require('../models/departmentModel');
 const router = express.Router();
 const authenticate = require('../middleware/jwtMiddleware');
 const authorize = require('../middleware/roleMiddleware');
+const isSamDept = require('../middleware/deptMiddleware');
 const EmployeeModel = require('../models/employeeModel');
 const TransactionService = require('../services/transactionService');
 const newEmpValidator = require('../middleware/validators/newEmpValidator');
@@ -13,6 +15,9 @@ const LanguageLevelModel = require('../models/languageLevelModel');
 const LanguageSkillModel = require('../models/languageSkillModel');
 const DepartmentModel = require('../models/departmentModel');
 const updateEmpValidator = require('../middleware/validators/updateEmpValidator');
+const RoleModel = require('../models/roleModel');
+const ValidationResultService = require('../services/validationResultService');
+const passwordValidator = require('../middleware/validators/passwordValidator');
 
 router.get('/me', authenticate, async (req, res) => {
     console.log('call /me api');
@@ -47,7 +52,7 @@ router.get('/manager', authenticate, authorize(['manager']), async (req, res) =>
         const dept = await DeptModel.findDeptByEmpId(empId);
         //const mng=await EmpModel.findEmployeeById(empId);
         console.log(dept);
-        const employeesByDept = await EmpModel.findAllEmployeeByDeptId(dept.id);
+        const employeesByDept = await EmpModel.findAllEmployeeByDeptId(dept.id,empId);
         console.log(employeesByDept);
         res.json({ employees: employeesByDept });
     } catch (err) {
@@ -86,23 +91,10 @@ router.get('/check-email', authenticate, authorize(['manager']), async (req, res
     }
 })
 
-router.get('/:id', authenticate, authorize(['manager', 'admin']), async (req, res) => {
+router.get('/:id', authenticate, authorize(['manager', 'admin']), isSamDept, async (req, res) => {
     console.log('get emp detail');
     try {
         const empId = req.params.id;
-        if (req.emp.role === 'manager') {
-            const mngId = req.emp.empId;
-            const empDept = await DeptModel.findDeptByEmpId(empId);
-            const mngDept = await DeptModel.findDeptByEmpId(mngId);
-            console.log(empDept);
-            console.log(mngDept);
-
-            if (empDept.id !== mngDept.id) {
-                return res.status(403)
-                    .json({ message: 'You are not authorized to view this employee' });
-            }
-        }
-
         const employeeInfo = await EmployeeModel.findEmployeeById(empId);
         console.log(employeeInfo);
         res.json({ emp: employeeInfo });
@@ -118,24 +110,7 @@ router.post('/new-emp', authenticate, authorize(['manager']), newEmpValidator, a
 
     const vr = validationResult(req);
     if (!vr.isEmpty()) {
-        const errorMsg = {};
-        vr.array().forEach(e => {
-            const languageError = e.path.split(/[\.\[\]]/);
-            console.log(languageError);
-            if (languageError.length > 1) {
-                const index = parseInt(languageError[1]);
-                const key = languageError[3];
-                if (!errorMsg.selectedLanguages)
-                    errorMsg.selectedLanguages = [];
-
-                if (!errorMsg.selectedLanguages[index])
-                    errorMsg.selectedLanguages[index] = {};
-
-                errorMsg.selectedLanguages[index][key] = e.msg;
-            } else {
-                errorMsg[e.path] = e.msg;
-            }
-        });
+        const errorMsg = ValidationResultService.setErrors(vr);
         console.log(errorMsg);
         return res.status(400).json({ errors: errorMsg });
     }
@@ -167,6 +142,19 @@ router.post('/new-emp', authenticate, authorize(['manager']), newEmpValidator, a
     }
 })
 
+router.post('/change-password',authenticate,passwordValidator, async(req,res)=>{
+    console.log('change password');
+    console.log(req.body);
+    try{
+        const password=req.body.password;
+        const hasehdPassword=await bcrypt.hash(password,10);
+        await EmployeeModel.updatePassword(hasehdPassword,req.emp.empId);
+        res.status(200).json();
+    }catch{
+        res.status(500).json({message: 'Internal server error'});
+    }
+})
+
 router.patch('/:id', authenticate, authorize(['manager']), updateEmpValidator, async (req, res) => {
     console.log(req.body);
     const empId = req.params.id;
@@ -174,24 +162,7 @@ router.patch('/:id', authenticate, authorize(['manager']), updateEmpValidator, a
 
     const vr = validationResult(req);
     if (!vr.isEmpty()) {
-        const errorMsg = {};
-        vr.array().forEach(e => {
-            const languageError = e.path.split(/[\.\[\]]/);
-            console.log(languageError);
-            if (languageError.length > 1) {
-                const index = parseInt(languageError[1]);
-                const key = languageError[3];
-                if (!errorMsg.selectedLanguages)
-                    errorMsg.selectedLanguages = [];
-
-                if (!errorMsg.selectedLanguages[index])
-                    errorMsg.selectedLanguages[index] = {};
-
-                errorMsg.selectedLanguages[index][key] = e.msg;
-            } else {
-                errorMsg[e.path] = e.msg;
-            }
-        });
+        const errorMsg = ValidationResultService.setErrors(vr);
         console.log(errorMsg);
         return res.status(400).json({ errors: errorMsg });
     }
@@ -203,10 +174,10 @@ router.patch('/:id', authenticate, authorize(['manager']), updateEmpValidator, a
 
         const keys = Object.keys(patchData);
         const empKeys = Object.keys(patchData).filter(k => k !== 'languages');
-        if(empKeys.includes('department')){
-            const deptId=await DepartmentModel.findDeptByName(patchData['department']);
-            patchData['department_id']=deptId;
-            empKeys[empKeys.findIndex(k=>k==='department')]='department_id';
+        if (empKeys.includes('department')) {
+            const deptId = await DepartmentModel.findDeptByName(patchData['department']);
+            patchData['department_id'] = deptId;
+            empKeys[empKeys.findIndex(k => k === 'department')] = 'department_id';
         }
         const empUpdateSQL = {};
         const langUpdateSQLs = {};
@@ -224,8 +195,6 @@ router.patch('/:id', authenticate, authorize(['manager']), updateEmpValidator, a
             console.log(empPatchValues);
             empUpdateSQL[empUpdateQuery] = empPatchValues;
         }
-
-
 
 
         if (keys.includes('languages')) {
@@ -258,10 +227,6 @@ router.patch('/:id', authenticate, authorize(['manager']), updateEmpValidator, a
                     }
                 }
             }
-
-            // console.log(langInsSQLs);
-            // console.log(langUpdateSQLs);
-
         }
 
         await TransactionService.updateEmp(empUpdateSQL, langUpdateSQLs, langInsSQLs);
@@ -269,8 +234,22 @@ router.patch('/:id', authenticate, authorize(['manager']), updateEmpValidator, a
     } catch {
         res.status(500).json({ message: 'Internal server error' });
     }
+})
 
+router.delete('/:id', authenticate, authorize(['manager']), isSamDept, async (req, res) => {
+    const empId = req.params.id;
 
+    try {
+        const isExist = EmployeeModel.existsEmployee(empId);
+        if (!isExist) return res.status(400).json({ message: 'Employee does not exist' });
+        const empRole=await RoleModel.findRoleByEmpId(empId);
+        if(empRole.role_name!=='employee')return res.status(400).json({message: 'You can not delete this employee'});
+
+        await EmployeeModel.deleteEmployeeById(empId);
+        res.status(200).json();
+    } catch {
+        res.status(500).json({ message: 'Internal server error' });
+    }
 
 })
 

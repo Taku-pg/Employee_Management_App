@@ -5,7 +5,7 @@ module.exports=function authenticate(req,res,next){
     const authHeader=req.headers.authorization;
     const token=authHeader?.split(' ')[1];
 
-    if(!token)res.sendStatus(401);
+    if(!token)return res.sendStatus(401);
 
     try{
         console.log('decoding...')

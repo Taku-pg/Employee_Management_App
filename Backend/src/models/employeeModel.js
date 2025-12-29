@@ -10,13 +10,6 @@ class EmployeeModel {
                 const result = rows.map(r => ({
                     id: r.id,
                     firstname: r.firstname,
-                    /*lastname: r.lastname,
-                    email: r.email,
-                    password: r.password,
-                    hireDate: r.hired_date,
-                    salary: r.salary,
-                    department_id: r.department_id,
-                    role_id: r.role_id*/
                 }));
 
                 resolve(result);
@@ -25,7 +18,7 @@ class EmployeeModel {
 
     }
 
-    static findAllEmployeeByDeptId(department_id){
+    static findAllEmployeeByDeptId(department_id, mngId){
         return new Promise((resolve,reject)=>{
             const sql=`SELECT e.id, e.firstname FROM employee AS e `+ 
                         `INNER JOIN department AS d ON e.department_id=d.id `+
@@ -36,8 +29,19 @@ class EmployeeModel {
                 const result=rows.map(r => ({
                     id: r.id,
                     firstname: r.firstname
-                }));
+                })).filter(e=>e.id!==mngId);
                 resolve(result);
+            });
+        });
+    }
+
+    static existsEmployee(id){
+        return new Promise((resolve, reject) => {
+            const sql = `SELECT 1 FROM employee WHERE EXISTS `+ 
+                        `(SELECT * FROM employee WHERE id=?)`;
+            db.get(sql, [id], (err,row) => {
+                if (err) return reject(err);
+                resolve(row);
             });
         });
     }
@@ -93,8 +97,6 @@ class EmployeeModel {
 
     static findEmployeeById(id) {
         return new Promise((resolve,reject)=>{
-            //should join and query dept, role name and region  table
-            //inner selectしなければならない
             const sql = `SELECT e.id,e.firstname,e.lastname,e.email,`+
                         `e.hired_date,e.salary,d.department_name,r.role_name,`+
                         `ll.language_level,l.language_name `+ 
@@ -195,6 +197,16 @@ class EmployeeModel {
                 resolve();
             });
         });
+    }
+
+    static updatePassword(password,empId){
+        return new Promise((resolve,reject)=>{
+            const sql=`UPDATE employee SET password=? WHERE id=?`;
+            db.run(sql,[password,empId],(err)=>{
+                if(err) return reject(err);
+                resolve();
+            })
+        })
     }
 
     static deleteEmployeeById(id) {

@@ -3,7 +3,7 @@ module.exports=function authorize(roles=[]){
         console.log(roles);
         console.log(req.emp.role)
         if(!roles.includes(req.emp.role)){
-            res.sendStatus(403);
+            return res.sendStatus(403);
         }
         next();
     }
