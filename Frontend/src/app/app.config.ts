@@ -25,7 +25,7 @@ function errorInterceptor(request: HttpRequest<unknown>, next: HttpHandlerFn){
 
   return next(request).pipe(
     catchError(err=>{
-      if(err.satus===401){
+      if(err.status===401){
         router.navigate(['error/401']);
       }else if(err.status===403){
         router.navigate(['error/403']);

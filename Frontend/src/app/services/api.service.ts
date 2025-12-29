@@ -56,7 +56,15 @@ export class ApiService{
         return this.httpClient.post(`${this.baseUrl}/emp/new-emp`,newEmp)
     }
 
+    changePassword(passwords: any){
+        return this.httpClient.post(`${this.baseUrl}/emp/change-password`,passwords);
+    }
+
     patchEmp(id: string, patchData: any){
         return this.httpClient.patch(`${this.baseUrl}/emp/${id}`,patchData);
+    }
+
+    deleteEmp(id: string){
+        return this.httpClient.delete(`${this.baseUrl}/emp/${id}`);
     }
 }
