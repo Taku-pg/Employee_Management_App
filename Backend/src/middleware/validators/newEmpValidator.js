@@ -4,14 +4,13 @@ const DeptModel = require('../../models/departmentModel');
 const LanguageModel = require('../../models/languageModel');
 const LanguageLevelModel = require('../../models/languageLevelModel');
 
-module.exports= [
+module.exports = [
     body('firstname')
         .notEmpty().withMessage('Firstname is required'),
     body('lastname')
         .notEmpty().withMessage('Lastname is required'),
     body('email')
         .custom(value => {
-            console.log('email', value);
             const emailRegex = /\S+@\S+\.\S{2,4}/
             if (!emailRegex.test(value)) {
                 throw new Error('Invalid email');
@@ -19,7 +18,6 @@ module.exports= [
             return true;
         }).bail()
         .custom(async value => {
-            console.log(value);
             const isExist = await EmployeeModel.existsEmail(value);
             if (isExist) {
                 throw new Error('This email is already used');
@@ -31,16 +29,10 @@ module.exports= [
         .notEmpty().withMessage('Salary is required')
         .isInt()
         .custom(async (value, { req }) => {
-            console.log('validating sal');
-            console.log('sal', value);
-            console.log('req', req.body);
-            console.log('mngId', req.emp.empId);
             const mngId = req.emp.empId;
             const dept = await DeptModel.findDeptByEmpId(mngId);
             const minSal = await DeptModel.findMinSalById(dept.id);
-            console.log(minSal);
             if (Number(value) < minSal) {
-                console.log('error on sal')
                 throw new Error(`Minimum salary is ${minSal}`);
             }
 

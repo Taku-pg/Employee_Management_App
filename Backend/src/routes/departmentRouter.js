@@ -1,45 +1,41 @@
-const express=require('express');
-const router=express.Router();
-const authenticate=require('../middleware/jwtMiddleware');
-const authorize=require('../middleware/roleMiddleware');
-const DepartmentModel=require('../models/departmentModel');
+const express = require('express');
+const router = express.Router();
+const authenticate = require('../middleware/jwtMiddleware');
+const authorize = require('../middleware/roleMiddleware');
+const DepartmentModel = require('../models/departmentModel');
 const EmployeeModel = require('../models/employeeModel');
 const TransactionService = require('../services/transactionService');
 
-router.get('',async (req,res)=>{
-    try{
-        const depts=await DepartmentModel.findAllDept();
-        const deptNames=depts.map(d=>d.name).filter(name=>name!=='President');
+router.get('', async (req, res) => {
+    try {
+        const depts = await DepartmentModel.findAllDept();
+        const deptNames = depts.map(d => d.name).filter(name => name !== 'President');
         res.json(deptNames);
-    }catch{
-        res.status(500).json({message: 'Internal server error'});
+    } catch {
+        res.status(500).json({ message: 'Internal server error' });
     }
 });
 
-router.get('/min-salary', authenticate, authorize(['manager','admin']), async(req,res)=>{
-    try{
-        const mngId=req.emp.empId;
-        const dept=await DepartmentModel.findDeptByEmpId(mngId);
-        const minSal=await DepartmentModel.findMinSalById(dept.id);
-        console.log(dept);
-        console.log(minSal);
+router.get('/min-salary', authenticate, authorize(['manager', 'admin']), async (req, res) => {
+    try {
+        const mngId = req.emp.empId;
+        const dept = await DepartmentModel.findDeptByEmpId(mngId);
+        const minSal = await DepartmentModel.findMinSalById(dept.id);
         res.json(minSal);
-    }catch(err){
-        res.status(500).json({message: 'Internal server error'});
+    } catch (err) {
+        res.status(500).json({ message: 'Internal server error' });
     }
 });
 
-router.get('/:id', authenticate, authorize(['admin']), async(req,res)=>{
-    console.log('get dept');
-    try{
-        const deptId=req.params.id;
-        console.log(deptId);
+router.get('/:id', authenticate, authorize(['admin']), async (req, res) => {
+    try {
+        const deptId = req.params.id;
 
-        const dept=await DepartmentModel.findDeptById(deptId);
-        const employees=await EmployeeModel.findAllEmployeeByDeptId(dept.id);
-        const managerId=await EmployeeModel.findManagerByDeptId(dept.id);
+        const dept = await DepartmentModel.findDeptById(deptId);
+        const employees = await EmployeeModel.findAllEmployeeByDeptId(dept.id);
+        const managerId = await EmployeeModel.findManagerByDeptId(dept.id);
 
-        const response={
+        const response = {
             id: dept.id,
             name: dept.department_name,
             minSal: dept.minimum_salary,
@@ -48,22 +44,21 @@ router.get('/:id', authenticate, authorize(['admin']), async(req,res)=>{
         }
 
         res.json(response);
-    }catch{
+    } catch {
         res.status(500).json();
     }
 });
 
-router.post('/:id', authenticate, authorize(['admin']), async(req,res)=>{
-    const oldManagerId=req.body.oldId;
-    const newManagerId=req.body.newId;
-    const deptId=req.params.id;
-    console.log(newManagerId, oldManagerId, deptId);
+router.post('/:id', authenticate, authorize(['admin']), async (req, res) => {
+    const oldManagerId = req.body.oldId;
+    const newManagerId = req.body.newId;
+    const deptId = req.params.id;
 
-    try{
-        await TransactionService.changeManager(deptId,oldManagerId,newManagerId);
+    try {
+        await TransactionService.changeManager(deptId, oldManagerId, newManagerId);
         res.status(200).json();
-    }catch{
+    } catch {
         res.status(500).json();
     }
 })
-module.exports=router;
+module.exports = router;

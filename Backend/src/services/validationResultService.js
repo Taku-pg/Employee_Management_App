@@ -1,11 +1,9 @@
-const {validationResult}=require('express-validator');
 
-class ValidationResultService{
-    static setErrors(vr){
-        const errorMsg={};
+class ValidationResultService {
+    static setErrors(vr) {
+        const errorMsg = {};
         vr.array().forEach(e => {
             const languageError = e.path.split(/[\.\[\]]/);
-            console.log(languageError);
             if (languageError.length > 1) {
                 const index = parseInt(languageError[1]);
                 const key = languageError[3];
@@ -24,4 +22,4 @@ class ValidationResultService{
     }
 }
 
-module.exports=ValidationResultService;
+module.exports = ValidationResultService;

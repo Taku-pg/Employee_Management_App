@@ -1,4 +1,4 @@
-const DeptModel=require('../models/departmentModel');
+const DeptModel = require('../models/departmentModel');
 
 module.exports = async function isSameDept(req, res, next) {
 
@@ -9,8 +9,7 @@ module.exports = async function isSameDept(req, res, next) {
     try {
         const empDept = await DeptModel.findDeptByEmpId(empId);
         const mngDept = await DeptModel.findDeptByEmpId(mngId);
-        console.log(empDept, 'from middle');
-        console.log(mngDept, 'from middle');
+
 
         if (empDept.id !== mngDept.id) {
             return res.sendStatus(403);

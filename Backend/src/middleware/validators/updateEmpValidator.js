@@ -1,10 +1,10 @@
-const {body}=require('express-validator');
+const { body } = require('express-validator');
 const EmployeeModel = require('../../models/employeeModel');
 const DeptModel = require('../../models/departmentModel');
 const LanguageModel = require('../../models/languageModel');
 const LanguageLevelModel = require('../../models/languageLevelModel');
 
-module.exports=[
+module.exports = [
     body('firstname')
         .optional()
         .notEmpty().withMessage('Firstname is required'),
@@ -14,7 +14,6 @@ module.exports=[
     body('email')
         .optional()
         .custom(value => {
-            console.log('email', value);
             const emailRegex = /\S+@\S+\.\S{2,4}/
             if (!emailRegex.test(value)) {
                 throw new Error('Invalid email');
@@ -22,7 +21,6 @@ module.exports=[
             return true;
         }).bail()
         .custom(async value => {
-            console.log(value);
             const isExist = await EmployeeModel.existsEmail(value);
             if (isExist) {
                 throw new Error('This email is already used');
@@ -35,14 +33,9 @@ module.exports=[
         .notEmpty().withMessage('Salary is required')
         .isInt()
         .custom(async (value, { req }) => {
-            console.log('validating sal');
-            console.log('sal', value);
-            console.log('req', req.body);
-            console.log('mngId', req.emp.empId);
             const mngId = req.emp.empId;
             const dept = await DeptModel.findDeptByEmpId(mngId);
             const minSal = await DeptModel.findMinSalById(dept.id);
-            console.log(minSal);
             if (Number(value) < minSal) {
                 console.log('error on sal')
                 throw new Error(`Minimum salary is ${minSal}`);
@@ -55,7 +48,6 @@ module.exports=[
         .notEmpty().withMessage('Select department').bail()
         .custom(async value => {
             const allDept = await DeptModel.findAllDeptName();
-            console.log(allDept);
             if (!allDept.includes(value)) {
                 throw new Error('Invalid department');
             }

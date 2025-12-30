@@ -1,5 +1,5 @@
 const express = require('express');
-const bcrypt=require('bcrypt');
+const bcrypt = require('bcrypt');
 const EmpModel = require('../models/employeeModel');
 const DeptModel = require('../models/departmentModel');
 const router = express.Router();
@@ -20,85 +20,63 @@ const ValidationResultService = require('../services/validationResultService');
 const passwordValidator = require('../middleware/validators/passwordValidator');
 
 router.get('/me', authenticate, async (req, res) => {
-    console.log('call /me api');
     const empId = req.emp.empId;
-    console.log(req.emp);
     try {
         const employeeInfo = await EmpModel.findEmployeeById(empId);
-        console.log(employeeInfo)
         res.json({ emp: employeeInfo });
     } catch (err) {
-        console.log(err);
         res.status(500).json({ message: 'Internal server error' });
     }
 });
 
 router.get('/admin', authenticate, authorize(['admin']), async (req, res) => {
-    console.log('admin accessed');
     try {
         const allEmployees = await EmpModel.findAllEmployee();
         res.json({ employees: allEmployees });
     } catch (err) {
-        console.log(err);
         res.status(500).json({ message: 'Internal server error' });
     }
 });
 
 router.get('/manager', authenticate, authorize(['manager']), async (req, res) => {
-    console.log('manager accessed');
     const mngId = req.emp.empId;
-    console.log(mngId);
     try {
         const dept = await DeptModel.findDeptByEmpId(mngId);
-        //const mng=await EmpModel.findEmployeeById(empId);
-        console.log(dept);
         const employeesByDept = await EmpModel.findAllEmployeeByDeptId(dept.id);
-        const withoutManager=employeesByDept.filter(e=>e.id!==mngId);
-        console.log(withoutManager);
+        const withoutManager = employeesByDept.filter(e => e.id !== mngId);
         res.json({ employees: withoutManager });
     } catch (err) {
-        console.log(err);
         res.status(500).json({ message: 'Internal server error' });
     }
 });
 
 router.get('/role', authenticate, async (req, res) => {
-    console.log('get role called');
     try {
         const empId = req.emp.empId;
         const emp = await EmpModel.findEmployeeWithRoleNameById(empId);
-        console.log(emp);
         res.json({ role: emp.role_name });
     } catch (err) {
-        console.log(err);
         res.status(500).json({ message: 'Internal server error' });
     }
 });
 
 router.get('/check-email', authenticate, authorize(['manager']), async (req, res) => {
-    console.log('validate email');
     try {
         var result = true;
         const isExist = await EmployeeModel.existsEmail(req.query.email);
         if (isExist) {
             result = false;
         }
-        console.log(isExist);
-        console.log(result);
         res.json(result);
     } catch (err) {
-        console.log(err);
         res.status(500).json({ message: 'internal server error' });
     }
 })
 
 router.get('/:id', authenticate, authorize(['manager', 'admin']), isSameDept, async (req, res) => {
-    console.log('get emp detail');
     try {
         const empId = req.params.id;
         const employeeInfo = await EmployeeModel.findEmployeeById(empId);
-        console.log('empId',empId);
-        console.log('empInfo',employeeInfo);
         res.json({ emp: employeeInfo });
     } catch (err) {
         res.status(500).json({ message: 'internal server error' });
@@ -106,19 +84,13 @@ router.get('/:id', authenticate, authorize(['manager', 'admin']), isSameDept, as
 })
 
 router.post('/new-emp', authenticate, authorize(['manager']), newEmpValidator, async (req, res) => {
-    console.log('create new employee');
-    console.log(req.body);
-    console.log(req.body.languages);
-
     const vr = validationResult(req);
     if (!vr.isEmpty()) {
         const errorMsg = ValidationResultService.setErrors(vr);
-        console.log(errorMsg);
         return res.status(400).json({ errors: errorMsg });
     }
 
     const mngId = req.emp.empId;
-    console.log(mngId);
     try {
         const dept = await DeptModel.findDeptByEmpId(mngId);
         const password = req.body.firstname;
@@ -144,28 +116,24 @@ router.post('/new-emp', authenticate, authorize(['manager']), newEmpValidator, a
     }
 })
 
-router.post('/change-password',authenticate,passwordValidator, async(req,res)=>{
-    console.log('change password');
-    console.log(req.body);
-    try{
-        const password=req.body.password;
-        const hasehdPassword=await bcrypt.hash(password,10);
-        await EmployeeModel.updatePassword(hasehdPassword,req.emp.empId);
+router.post('/change-password', authenticate, passwordValidator, async (req, res) => {
+    try {
+        const password = req.body.password;
+        const hasehdPassword = await bcrypt.hash(password, 10);
+        await EmployeeModel.updatePassword(hasehdPassword, req.emp.empId);
         res.status(200).json();
-    }catch{
-        res.status(500).json({message: 'Internal server error'});
+    } catch {
+        res.status(500).json({ message: 'Internal server error' });
     }
 })
 
 router.patch('/:id', authenticate, authorize(['manager']), updateEmpValidator, async (req, res) => {
-    console.log(req.body);
     const empId = req.params.id;
     const patchData = req.body;
 
     const vr = validationResult(req);
     if (!vr.isEmpty()) {
         const errorMsg = ValidationResultService.setErrors(vr);
-        console.log(errorMsg);
         return res.status(400).json({ errors: errorMsg });
     }
 
@@ -192,9 +160,7 @@ router.patch('/:id', authenticate, authorize(['manager']), updateEmpValidator, a
             const empUpdateQuery = `UPDATE employee ` +
                 `SET ${empSet} ` +
                 `WHERE id=?`;
-            console.log(empUpdateQuery);
             empPatchValues.push(empId);
-            console.log(empPatchValues);
             empUpdateSQL[empUpdateQuery] = empPatchValues;
         }
 
@@ -207,25 +173,19 @@ router.patch('/:id', authenticate, authorize(['manager']), updateEmpValidator, a
 
                 const langId = await LanguageModel.findLanguageIdByName(name);
                 const langLevelId = await LanguageLevelModel.findLanguageLevelIdByName(level);
-                console.log(langId, langLevelId);
 
                 const isExist = await LanguageSkillModel.existsLanguage(langId, empId);
-                console.log('is Exists lang', isExist);
                 if (!isExist) {
                     //insert
-                    console.log('create insert sql');
                     const values = [empId, langId, langLevelId];
                     langInsSQLs['INSERT INTO language_skill(employee_id, language_id, language_level_id) VALUES(?,?,?)'] = values;
-                    console.log('langInsSQL', langInsSQLs);
                 } else {
                     //update or ignore
                     const isSameLevel = await LanguageSkillModel.existsLanguageLevel(langId, langLevelId, empId);
-                    console.log('is same level', isSameLevel);
                     if (!isSameLevel) {
                         //update
                         const values = [langLevelId, empId, langId];
                         langUpdateSQLs['UPDATE language_skill SET language_level_id=? WHERE employee_id=? AND language_id=?'] = values;
-                        console.log('lang update', langUpdateSQLs);
                     }
                 }
             }
@@ -244,8 +204,8 @@ router.delete('/:id', authenticate, authorize(['manager']), isSameDept, async (r
     try {
         const isExist = EmployeeModel.existsEmployee(empId);
         if (!isExist) return res.status(400).json({ message: 'Employee does not exist' });
-        const empRole=await RoleModel.findRoleByEmpId(empId);
-        if(empRole.role_name!=='employee')return res.status(400).json({message: 'You can not delete this employee'});
+        const empRole = await RoleModel.findRoleByEmpId(empId);
+        if (empRole.role_name !== 'employee') return res.status(400).json({ message: 'You can not delete this employee' });
 
         await EmployeeModel.deleteEmployeeById(empId);
         res.status(200).json();

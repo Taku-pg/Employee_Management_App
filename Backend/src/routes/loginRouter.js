@@ -1,24 +1,25 @@
-const express=require('express')
-const router=express.Router();
-const LoginService=require('../services/loginService');
+const express = require('express')
+const router = express.Router();
+const LoginService = require('../services/loginService');
 
 
-router.post('', async (req,res)=>{
-    console.log('receive request');
-    const {email,password}=req.body;
-    console.log(email+' '+password);
-    const {token,emp}=await LoginService.checkCredencial(email,password);
-    console.log(token);
-    console.log(emp);
-    if(!token){
-        return res.status(400).json({message:'Email or Password is not correct'});
-    }
-    
-    return res.json({
+router.post('', async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        const { token, emp } = await LoginService.checkCredencial(email, password);
+        if (!token) {
+            return res.status(400).json({ message: 'Email or Password is not correct' });
+        }
+
+        res.json({
             token,
             emp
         });
-   
+    } catch {
+        res.status(500).json();
+    }
+
+
 })
 
-module.exports=router;
+module.exports = router;
