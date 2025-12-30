@@ -65,7 +65,7 @@ export const routes: Routes = [
         component: RoleDetail
     },
     {
-        path:'lang/:id',
+        path:'language/:id',
         canActivate: [authGuard],
         data: {role: ['admin']},
         component: LangDetail

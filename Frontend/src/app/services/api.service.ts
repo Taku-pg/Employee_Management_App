@@ -8,6 +8,7 @@ import { NewEmployeeModel } from "../models/newEmp.model";
 import { DeptModel } from "../models/dept.model";
 import { RoleDetail } from "../views/role-detail/role-detail";
 import { RoleModel } from "../models/role.model";
+import { LanguageModel } from "../models/lang.model";
 
 
 @Injectable({
@@ -52,6 +53,10 @@ export class ApiService{
 
     getRoleDetail(roleId: string){
         return this.httpClient.get<RoleModel>(`${this.baseUrl}/role/${roleId}`);
+    }
+
+    getLangDetail(langId: string){
+        return this,this.httpClient.get<LanguageModel>(`${this.baseUrl}/language/${langId}`);
     }
 
     getMinSalary(){

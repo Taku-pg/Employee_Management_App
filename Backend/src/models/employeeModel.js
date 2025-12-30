@@ -63,6 +63,25 @@ class EmployeeModel {
         });
     }
 
+    static findAllEmployeeByLangId(langId){
+        return new Promise((resolve,reject)=>{
+            const sql=`SELECT e.id, e.firstname, ll.language_level FROM employee AS e `+ 
+                        `INNER JOIN language_skill AS ls ON e.id=ls.employee_id `+
+                        `INNER JOIN language_level AS ll ON ls.language_level_id=ll.id `+
+                        `WHERE ls.language_id=?`;
+
+            db.all(sql,[langId],(err,rows)=>{
+                if(err)return reject(err);
+                const result=rows.map(r => ({
+                    id: r.id,
+                    firstname: r.firstname,
+                    language_level: r.language_level
+                }));
+                resolve(result);
+            });
+        });
+    }
+
     static existsEmployee(empId){
         return new Promise((resolve, reject) => {
             const sql = `SELECT 1 FROM employee WHERE EXISTS `+ 
