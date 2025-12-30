@@ -1,9 +1,7 @@
-import { Component, inject, input, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { type EmployeeModel } from '../../models/emp.model';
-import { env } from '../../../environment/env';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { ApiService } from '../../services/api.service';
-import { map } from 'rxjs';
 import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { PasswordMismatchValidator } from '../../services/validators/passwordValidator';
 import { AuthService } from '../../services/auth.service';
@@ -23,22 +21,6 @@ export class Emp implements OnInit {
   role = signal<string | null>(null);
   isBothFieldEmpty = signal<boolean>(true);
 
-  ngOnInit() {
-    this.apiService.getMyInfo().subscribe({
-      next: (e) => {
-        this.emp.set(e);
-      }
-    }
-    );
-    this.role.set(this.authService.getRole());
-
-    this.passwordForm.valueChanges.subscribe(() => {
-      const password = this.passwordForm.get('password')?.value;
-      const confirmPassword = this.passwordForm.get('confirmPassword')?.value;
-      this.isBothFieldEmpty.set(!(password || confirmPassword));
-    })
-  }
-
   passwordForm = this.fb.group({
     password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(20)]],
     confirmPassword: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(20)]]
@@ -52,6 +34,23 @@ export class Emp implements OnInit {
     return this.passwordForm.get('confirmPassword');
   }
 
+
+  ngOnInit() {
+    this.apiService.getMyInfo().subscribe({
+      next: (e) => {
+        this.emp.set(e);
+      }
+    });
+
+    this.role.set(this.authService.getRole());
+
+    this.passwordForm.valueChanges.subscribe(() => {
+      const password = this.passwordForm.get('password')?.value;
+      const confirmPassword = this.passwordForm.get('confirmPassword')?.value;
+      this.isBothFieldEmpty.set(!(password || confirmPassword));
+    })
+  }
+  
   onChangePassword() {
     if (this.passwordForm.invalid) {
       this.passwordForm.markAllAsTouched();

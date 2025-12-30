@@ -1,5 +1,5 @@
-export interface JwtPayloadModel{
-    empId:number,
+export interface JwtPayloadModel {
+    empId: number,
     role: string,
     iat: number,
     exp: number

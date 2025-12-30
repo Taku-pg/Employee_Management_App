@@ -9,32 +9,32 @@ import { Router } from "@angular/router";
 @Injectable({
     providedIn: 'root'
 })
-export class AuthService{
-    private baseUrl=env.aplUrl;
-    private httpClient=inject(HttpClient);
-    private router=inject(Router);
+export class AuthService {
+    private baseUrl = env.aplUrl;
+    private httpClient = inject(HttpClient);
+    private router = inject(Router);
 
-    login(email:string,password: string){
-        const url=this.baseUrl+'/login';
-        return this.httpClient.post<SessionInfoModel>(url,{
+    login(email: string, password: string) {
+        const url = this.baseUrl + '/login';
+        return this.httpClient.post<SessionInfoModel>(url, {
             email,
             password
         });
     }
 
-    logout(){
+    logout() {
         sessionStorage.removeItem('token');
         this.router.navigate(['/login']);
     }
 
-    getCurrentEmpRole(){
-        return this.httpClient.get<{role:string}>(`${this.baseUrl}/emp/role`);
+    getCurrentEmpRole() {
+        return this.httpClient.get<{ role: string }>(`${this.baseUrl}/emp/role`);
     }
 
-    getRole(){
-        const token=sessionStorage.getItem('token');
-        if(!token)return null;
-        const decode=jwtDecode<JwtPayloadModel>(token)
+    getRole() {
+        const token = sessionStorage.getItem('token');
+        if (!token) return null;
+        const decode = jwtDecode<JwtPayloadModel>(token)
         return decode.role;
     }
 }

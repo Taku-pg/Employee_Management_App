@@ -135,7 +135,6 @@
                     <p>You can't select same language</p>
                 }
             </div>
-            <!-- iが元の長さ以上であれば -->
             @if(selectedLanguages.length>originalLanguageLength && i>=originalLanguageLength){
                 <button type="button" (click)="onRemoveSelectedLanguage(i)">remove language</button>
             } 

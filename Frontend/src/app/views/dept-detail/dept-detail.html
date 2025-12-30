@@ -4,8 +4,8 @@
         <input type="number" id="id" readonly [value]="dept()?.id">
     </label><br><br>
 
-    <label for="lastname">Department name:
-        <input type="text" id="lastname" readonly [value]="dept()?.name">
+    <label for="deptName">Department name:
+        <input type="text" id="deptName" readonly [value]="dept()?.name">
     </label><br><br>
 
     <label for="min-salary">Minimum Salary:
@@ -13,12 +13,6 @@
     </label><br><br>
 
     <h3>Department employees</h3>
-    <!-- <table>
-            <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Manager</th>
-        </tr> -->
         <form [formGroup]="managerSelectForm" (ngSubmit)="onChangeManager()">
             <table>
             <tr>

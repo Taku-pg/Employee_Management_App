@@ -1,4 +1,4 @@
-export interface SimpleEmployeeModel{
+export interface SimpleEmployeeModel {
     id: string,
     firstname: string,
     department: string,

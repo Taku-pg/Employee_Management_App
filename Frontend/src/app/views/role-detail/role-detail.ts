@@ -9,20 +9,20 @@ import { RoleModel } from '../../models/role.model';
   templateUrl: './role-detail.html',
   styleUrl: './role-detail.css',
 })
-export class RoleDetail implements OnInit{
-  private apiSrvice=inject(ApiService);
-  private route=inject(ActivatedRoute);
-  private router=inject(Router);
+export class RoleDetail implements OnInit {
+  private apiSrvice = inject(ApiService);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
 
-  roleId='';
-  role= signal<RoleModel|null>(null);
+  roleId = '';
+  role = signal<RoleModel | null>(null);
 
-  ngOnInit(){
+  ngOnInit() {
     this.route.paramMap.subscribe({
-      next:(params)=>this.roleId=params.get('id')!,
-      error: ()=>this.router.navigate(['error/404'])
+      next: (params) => this.roleId = params.get('id')!,
+      error: () => this.router.navigate(['error/404'])
     })
-    this.apiSrvice.getRoleDetail(this.roleId!).subscribe(res=>{
+    this.apiSrvice.getRoleDetail(this.roleId!).subscribe(res => {
       this.role.set(res);
     })
   }

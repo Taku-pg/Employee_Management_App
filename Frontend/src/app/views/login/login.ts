@@ -10,46 +10,44 @@ import { Router } from '@angular/router';
   styleUrl: './login.css',
 })
 export class Login {
-  private authService=inject(AuthService);
-  private router=inject(Router);
+  private authService = inject(AuthService);
+  private router = inject(Router);
 
-  switchRole(role: string){
-    switch(role){
-      case 'employee': 
-        console.log('emp login');
+  switchRole(role: string) {
+    switch (role) {
+      case 'employee':
         this.router.navigate(['/emp']);
         break;
-      
+
       case 'manager':
         this.router.navigate(['/manager']);
         break;
-      
+
       case 'admin':
         this.router.navigate(['/admin']);
         break;
-      
+
     }
   }
 
-  email='';
-  password='';
-  errorMessage=signal<string>('');
-  
-  onLogin(){
+  email = '';
+  password = '';
+  errorMessage = signal<string>('');
+
+  onLogin() {
     console.log(this.email);
     console.log(this.password);
-    this.authService.login(this.email,this.password).subscribe(
+    this.authService.login(this.email, this.password).subscribe(
       {
-        next:(res)=>{
+        next: (res) => {
           sessionStorage.setItem('token', res.token);
           this.switchRole(res.emp.role);
         },
-        error:(err)=>{
-          if(err.status===400 && err.error?.message){
+        error: (err) => {
+          if (err.status === 400 && err.error?.message) {
             this.errorMessage.set(err.error?.message);
           }
         }
-
       }
     );
   }

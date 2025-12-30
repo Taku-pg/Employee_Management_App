@@ -10,19 +10,19 @@ import { LanguageModel } from '../../models/lang.model';
   styleUrl: './lang-detail.css',
 })
 export class LangDetail {
-  private apiSrvice=inject(ApiService);
-  private route=inject(ActivatedRoute);
-  private router=inject(Router);
+  private apiSrvice = inject(ApiService);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
 
-  langId='';
-  lang= signal<LanguageModel|null>(null);
+  langId = '';
+  lang = signal<LanguageModel | null>(null);
 
-  ngOnInit(){
+  ngOnInit() {
     this.route.paramMap.subscribe({
-      next:(params)=>this.langId=params.get('id')!,
-      error: ()=>this.router.navigate(['error/404'])
+      next: (params) => this.langId = params.get('id')!,
+      error: () => this.router.navigate(['error/404'])
     })
-    this.apiSrvice.getLangDetail(this.langId!).subscribe(res=>{
+    this.apiSrvice.getLangDetail(this.langId!).subscribe(res => {
       this.lang.set(res);
     })
   }

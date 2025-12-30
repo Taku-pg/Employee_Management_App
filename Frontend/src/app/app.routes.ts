@@ -3,7 +3,7 @@ import { Login } from './views/login/login';
 import { Emp } from './views/emp/emp';
 import { Admin } from './views/admin/admin';
 import { Manager } from './views/manager/manager';
-import { authGuard, AuthGuard } from './services/authGuard';
+import { authGuard } from './services/authGuard';
 import { ErrorPage } from './views/error/error';
 import { NewEmp } from './views/new-emp/new-emp';
 import { EmpDetail } from './views/emp-detail/emp-detail';
@@ -14,7 +14,6 @@ import { LangLevelDetail } from './views/lang-level-detail/lang-level-detail';
 
 export const routes: Routes = [
     {
-        //fix using pathmatch?
         path: '',
         redirectTo: 'login',
         pathMatch: 'full'

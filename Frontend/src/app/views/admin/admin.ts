@@ -1,9 +1,7 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { SimpleEmployeeModel } from '../../models/simpleEmp.model';
 import { ApiService } from '../../services/api.service';
 import { AuthService } from '../../services/auth.service';
 import { type TableDataModel } from '../../models/tableData.model';
-import { RouterUpgradeInitializer } from '@angular/router/upgrade';
 import { Router, RouterLink } from '@angular/router';
 
 @Component({
@@ -24,9 +22,7 @@ export class Admin implements OnInit{
   ngOnInit(){
     this.apiService.getAllInfo().subscribe({
       next:(res)=>{
-        console.log(res);
         this.contents.set(res);
-        //this.content.set(res[0]);
         this.setPageContent();
       }    
     })

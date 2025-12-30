@@ -1,6 +1,6 @@
 import { Language } from "./emp.model";
 
-export interface UpdateEmpModel{
+export interface UpdateEmpModel {
     firstname?: string,
     lastname?: string,
     email?: string,

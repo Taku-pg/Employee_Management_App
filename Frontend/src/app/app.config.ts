@@ -7,29 +7,29 @@ import { catchError } from 'rxjs';
 
 
 
-function authInterceptor(request: HttpRequest<unknown>, next: HttpHandlerFn){
+function authInterceptor(request: HttpRequest<unknown>, next: HttpHandlerFn) {
   const token = sessionStorage.getItem('token');
 
-  if(token){
-    const newReq=request.clone({
-      headers: request.headers.set('Authorization',`Bearer ${token}`)
+  if (token) {
+    const newReq = request.clone({
+      headers: request.headers.set('Authorization', `Bearer ${token}`)
     })
     return next(newReq);
   }
 
   return next(request);
-} 
+}
 
-function errorInterceptor(request: HttpRequest<unknown>, next: HttpHandlerFn){
-  const router=inject(Router);
+function errorInterceptor(request: HttpRequest<unknown>, next: HttpHandlerFn) {
+  const router = inject(Router);
 
   return next(request).pipe(
-    catchError(err=>{
-      if(err.status===401){
+    catchError(err => {
+      if (err.status === 401) {
         router.navigate(['error/401']);
-      }else if(err.status===403){
+      } else if (err.status === 403) {
         router.navigate(['error/403']);
-      }else if(err.status===500){
+      } else if (err.status === 500) {
         router.navigate(['error/500']);
       }
 
@@ -41,7 +41,7 @@ function errorInterceptor(request: HttpRequest<unknown>, next: HttpHandlerFn){
 export const appConfig: ApplicationConfig = {
   providers: [
     provideHttpClient(
-      withInterceptors([authInterceptor,errorInterceptor])
+      withInterceptors([authInterceptor, errorInterceptor])
     ),
     provideRouter(routes)
   ]

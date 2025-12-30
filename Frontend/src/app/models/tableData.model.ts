@@ -1,8 +1,8 @@
-interface TableData{
+interface TableData {
     id: string,
     name: string
 }
-export interface TableDataModel{
+export interface TableDataModel {
     table: string,
     data: TableData[]
 }

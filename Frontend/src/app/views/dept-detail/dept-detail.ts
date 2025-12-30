@@ -22,14 +22,11 @@ export class DeptDetail implements OnInit{
 
   ngOnInit(){
     this.route.paramMap.subscribe({
-      next:(params)=>{
-        this.deptId=params.get('id')!;
-      }
+      next:(params)=>this.deptId=params.get('id')!,
+      error: ()=>this.router.navigate(['error/404'])
     })
 
     this.apiService.getDeptDetail(this.deptId).subscribe(res=>{
-      this.dept.set(res);
-      console.log(res);
       this.managerSelectForm.get('managerId')?.setValue(res.managerId);
       this.originalManagerId=res.managerId;
     })
@@ -53,7 +50,7 @@ export class DeptDetail implements OnInit{
       return;
     }
 
-    this.apiService.changeManager(this.deptId, this.originalManagerId, managerId).subscribe(res=>{
+    this.apiService.changeManager(this.deptId, this.originalManagerId, managerId).subscribe(()=>{
       this.router.navigate(['admin']);
     })
   }

@@ -1,9 +1,9 @@
-export interface Language{
+export interface Language {
     language_name: string,
     language_level: string
 }
 
-export interface EmployeeModel{
+export interface EmployeeModel {
     id: number,
     firstname: string,
     lastname: string,

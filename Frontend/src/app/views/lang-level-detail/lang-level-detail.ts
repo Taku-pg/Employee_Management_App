@@ -10,19 +10,19 @@ import { LanguageLevelModel } from '../../models/langLevel.model';
   styleUrl: './lang-level-detail.css',
 })
 export class LangLevelDetail {
-  private apiSrvice=inject(ApiService);
-  private route=inject(ActivatedRoute);
-  private router=inject(Router);
+  private apiSrvice = inject(ApiService);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
 
-  langLevelId='';
-  langLevel= signal<LanguageLevelModel|null>(null);
+  langLevelId = '';
+  langLevel = signal<LanguageLevelModel | null>(null);
 
-  ngOnInit(){
+  ngOnInit() {
     this.route.paramMap.subscribe({
-      next:(params)=>this.langLevelId=params.get('id')!,
-      error: ()=>this.router.navigate(['error/404'])
+      next: (params) => this.langLevelId = params.get('id')!,
+      error: () => this.router.navigate(['error/404'])
     })
-    this.apiSrvice.getLangLevelDetail(this.langLevelId!).subscribe(res=>{
+    this.apiSrvice.getLangLevelDetail(this.langLevelId!).subscribe(res => {
       this.langLevel.set(res);
     })
   }
