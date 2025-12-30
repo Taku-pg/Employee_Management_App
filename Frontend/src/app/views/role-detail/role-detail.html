@@ -1,0 +1,16 @@
+<h2>Role: '{{role()?.name}}' employees</h2>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Firstname</th>
+        <th>Department</th>
+    </tr>
+    @for(emp of role()?.employees; track emp.id){
+        <tr>
+            <td>{{emp.id}}</td>
+            <td>{{emp.firstname}}</td>
+            <td>{{emp.department}}</td>
+        </tr>
+    }
+</table>
+<a routerLink="/admin">main</a>

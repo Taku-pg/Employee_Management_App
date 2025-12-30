@@ -19,5 +19,6 @@ app.use('/api/admin',require('./routes/adminRouter'));
 app.use('/api/login',require('./routes/loginRouter'));
 app.use('/api/dept',require('./routes/departmentRouter'));
 app.use('/api/language',require('./routes/languageRouter'));
+app.use('/api/role', require('./routes/roleRouter'));
 
 module.exports=app;
