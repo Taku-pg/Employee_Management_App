@@ -41,6 +41,27 @@ router.get('/:id', authenticate, authorize(['admin']), async(req,res)=>{
     }
 })
 
+router.get('/language-level/:id',authenticate,authorize(['admin']), async(req,res)=>{
+    try{
+        console.log('get level');
+        const langLevelId=req.params.id;
+        console.log(langLevelId);
+        const langLevel=await LanguageLevelModel.findLanguageLevelById(langLevelId);
+        console.log(langLevel);
+        const employees=await LanguageLevelModel.findAllEmployeeById(langLevelId);
+        console.log(employees);
+
+        
+
+        res.json({
+            name: langLevel.language_level,
+            employees: employees
+        });
+    }catch{
+        res.status(500).json();
+    }
+})
+
 
 
 module.exports=router;

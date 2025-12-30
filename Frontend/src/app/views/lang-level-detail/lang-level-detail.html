@@ -1,0 +1,20 @@
+<h2>Language level detail</h2>
+<label for="langLevel">Language_level:
+        <input type="text" id="langLevel" readonly [value]="langLevel()?.name">
+    </label><br><br>
+
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Firstname</th>
+        <th>Language</th>
+    </tr>
+    @for(emp of langLevel()?.employees; track emp.id){
+        <tr>
+            <td>{{emp.id}}</td>
+            <td>{{emp.firstname}}</td>
+            <td>{{emp.language}}</td>
+        </tr>
+    }
+</table>
+<a routerLink="/admin">main</a>

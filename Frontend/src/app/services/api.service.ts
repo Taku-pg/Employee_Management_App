@@ -9,6 +9,7 @@ import { DeptModel } from "../models/dept.model";
 import { RoleDetail } from "../views/role-detail/role-detail";
 import { RoleModel } from "../models/role.model";
 import { LanguageModel } from "../models/lang.model";
+import { LanguageLevelModel } from "../models/langLevel.model";
 
 
 @Injectable({
@@ -57,6 +58,10 @@ export class ApiService{
 
     getLangDetail(langId: string){
         return this,this.httpClient.get<LanguageModel>(`${this.baseUrl}/language/${langId}`);
+    }
+
+    getLangLevelDetail(langLevelId: string){
+        return this.httpClient.get<LanguageLevelModel>(`${this.baseUrl}/language/language-level/${langLevelId}`);
     }
 
     getMinSalary(){
