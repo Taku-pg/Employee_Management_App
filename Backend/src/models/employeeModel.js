@@ -20,9 +20,7 @@ class EmployeeModel {
 
     static findAllEmployeeByDeptId(deptId){
         return new Promise((resolve,reject)=>{
-            const sql=`SELECT e.id, e.firstname FROM employee AS e `+ 
-                        `INNER JOIN department AS d ON e.department_id=d.id `+
-                        `WHERE e.department_id=?`
+            const sql=`SELECT id, firstname FROM employee WHERE department_id=?`
 
             db.all(sql,[deptId],(err,rows)=>{
                 if(err)return reject(err);
@@ -43,6 +41,24 @@ class EmployeeModel {
             db.get(sql,[deptId],(err,row)=>{
                 if(err)return reject(err);
                 resolve(row);
+            });
+        });
+    }
+
+    static findAllEmployeeByRoleId(roleId){
+        return new Promise((resolve,reject)=>{
+            const sql=`SELECT e.id, e.firstname, d.department_name FROM employee AS e `+ 
+                        `INNER JOIN department AS d ON e.department_id=d.id `+
+                        `WHERE e.role_id=?`
+
+            db.all(sql,[roleId],(err,rows)=>{
+                if(err)return reject(err);
+                const result=rows.map(r => ({
+                    id: r.id,
+                    firstname: r.firstname,
+                    department: r.department_name
+                }));
+                resolve(result);
             });
         });
     }

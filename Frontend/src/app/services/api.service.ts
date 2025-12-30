@@ -6,6 +6,8 @@ import { map } from "rxjs";
 import { SimpleEmployeeModel } from "../models/simpleEmp.model";
 import { NewEmployeeModel } from "../models/newEmp.model";
 import { DeptModel } from "../models/dept.model";
+import { RoleDetail } from "../views/role-detail/role-detail";
+import { RoleModel } from "../models/role.model";
 
 
 @Injectable({
@@ -46,6 +48,10 @@ export class ApiService{
 
     getDeptDetail(deptId: string){
         return this.httpClient.get<DeptModel>(`${this.baseUrl}/dept/${deptId}`);
+    }
+
+    getRoleDetail(roleId: string){
+        return this.httpClient.get<RoleModel>(`${this.baseUrl}/role/${roleId}`);
     }
 
     getMinSalary(){

@@ -1,4 +1,5 @@
 export interface SimpleEmployeeModel{
     id: string,
-    firstname: string
+    firstname: string,
+    department: string
 }
