@@ -10,12 +10,15 @@ router.post('', async (req,res)=>{
     const {token,emp}=await LoginService.checkCredencial(email,password);
     console.log(token);
     console.log(emp);
-    if(token){
-        return res.json({
+    if(!token){
+        return res.status(400).json({message:'Email or Password is not correct'});
+    }
+    
+    return res.json({
             token,
             emp
         });
-    }
+   
 })
 
 module.exports=router;
