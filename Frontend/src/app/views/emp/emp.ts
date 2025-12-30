@@ -53,6 +53,7 @@ export class Emp implements OnInit {
   
   onChangePassword() {
     if (this.passwordForm.invalid) {
+      this.isBothFieldEmpty.set(false);
       this.passwordForm.markAllAsTouched();
       return;
     }
@@ -66,6 +67,7 @@ export class Emp implements OnInit {
 
     this.apiService.changePassword(passwords).subscribe({
       next: () => {
+        window.alert('password changed');
         this.passwordForm.reset();
       }
     })

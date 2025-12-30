@@ -10,47 +10,48 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
   templateUrl: './dept-detail.html',
   styleUrl: './dept-detail.css',
 })
-export class DeptDetail implements OnInit{
-  private apiService=inject(ApiService);
-  private route=inject(ActivatedRoute);
-  private router=inject(Router);
-  private fb=inject(FormBuilder);
+export class DeptDetail implements OnInit {
+  private apiService = inject(ApiService);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private fb = inject(FormBuilder);
 
-  deptId='';
-  originalManagerId='';
-  dept=signal<DeptModel|null>(null);
+  deptId = '';
+  originalManagerId = '';
+  dept = signal<DeptModel | null>(null);
 
-  ngOnInit(){
+  ngOnInit() {
     this.route.paramMap.subscribe({
-      next:(params)=>this.deptId=params.get('id')!,
-      error: ()=>this.router.navigate(['error/404'])
+      next: (params) => this.deptId = params.get('id')!,
+      error: () => this.router.navigate(['error/404'])
     })
 
-    this.apiService.getDeptDetail(this.deptId).subscribe(res=>{
+    this.apiService.getDeptDetail(this.deptId).subscribe(res => {
       this.managerSelectForm.get('managerId')?.setValue(res.managerId);
-      this.originalManagerId=res.managerId;
+      this.originalManagerId = res.managerId;
+      this.dept.set(res);
     })
   }
 
-  managerSelectForm=this.fb.group({
-    managerId:['', Validators.required]
+  managerSelectForm = this.fb.group({
+    managerId: ['', Validators.required]
   })
 
-  get managerId(){
+  get managerId() {
     return this.managerSelectForm.get('managerId');
   }
 
-  onChangeManager(){
-    if(this.managerSelectForm.invalid){
+  onChangeManager() {
+    if (this.managerSelectForm.invalid) {
       this.managerSelectForm.markAllAsTouched();
       return;
     }
-    const managerId=this.managerSelectForm.get('managerId')?.value;
-    if(!managerId || managerId===this.originalManagerId){
+    const managerId = this.managerSelectForm.get('managerId')?.value;
+    if (!managerId || managerId === this.originalManagerId) {
       return;
     }
 
-    this.apiService.changeManager(this.deptId, this.originalManagerId, managerId).subscribe(()=>{
+    this.apiService.changeManager(this.deptId, this.originalManagerId, managerId).subscribe(() => {
       this.router.navigate(['admin']);
     })
   }

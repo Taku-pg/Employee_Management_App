@@ -287,6 +287,8 @@ export class EmpDetail implements OnInit {
   }
 
   onDelete() {
+    const confirm=window.confirm(`Do you want delete this employee? (ID: ${this.empId})`);
+    if(!confirm)return;
     this.apiService.deleteEmp(this.empId).subscribe({
       next: () => this.router.navigate(['manager']),
       error: (err) => {

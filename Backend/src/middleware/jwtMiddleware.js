@@ -8,7 +8,6 @@ module.exports = function authenticate(req, res, next) {
     if (!token) return res.sendStatus(401);
 
     try {
-        console.log('decoding...')
         req.emp = jwt.verify(token, process.env.JWT_SECRET_KEY);
         next();
     } catch {
