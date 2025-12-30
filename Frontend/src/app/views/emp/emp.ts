@@ -16,22 +16,27 @@ import { AuthService } from '../../services/auth.service';
 })
 export class Emp implements OnInit {
   private apiService = inject(ApiService);
-  private authService=inject(AuthService);
+  private authService = inject(AuthService);
   private fb = inject(FormBuilder);
-  
-  emp = signal<EmployeeModel | undefined>(undefined);
-  role=signal<string|null>(null);
+
+  emp = signal<EmployeeModel | null>(null);
+  role = signal<string | null>(null);
+  isBothFieldEmpty = signal<boolean>(true);
 
   ngOnInit() {
-    console.log('emp page');
     this.apiService.getMyInfo().subscribe({
       next: (e) => {
-        console.log(e);
         this.emp.set(e);
       }
     }
     );
     this.role.set(this.authService.getRole());
+
+    this.passwordForm.valueChanges.subscribe(() => {
+      const password = this.passwordForm.get('password')?.value;
+      const confirmPassword = this.passwordForm.get('confirmPassword')?.value;
+      this.isBothFieldEmpty.set(!(password || confirmPassword));
+    })
   }
 
   passwordForm = this.fb.group({
@@ -48,24 +53,26 @@ export class Emp implements OnInit {
   }
 
   onChangePassword() {
-    if(this.passwordForm.invalid){
+    if (this.passwordForm.invalid) {
       this.passwordForm.markAllAsTouched();
       return;
     }
 
-    const pass=this.password?.value;
-    const confirmPass=this.confirmPassword?.value;
+    const pass = this.password?.value;
+    const confirmPass = this.confirmPassword?.value;
 
-    if(!pass || !confirmPass)return;
+    if (!pass || !confirmPass) return;
 
-    const passwords={password: pass,confirmPassword: confirmPass};
+    const passwords = { password: pass, confirmPassword: confirmPass };
 
     this.apiService.changePassword(passwords).subscribe({
-      next:()=>this.ngOnInit(),
+      next: () => {
+        this.passwordForm.reset();
+      }
     })
   }
 
-  onLogout(){
+  onLogout() {
     this.authService.logout();
   }
 

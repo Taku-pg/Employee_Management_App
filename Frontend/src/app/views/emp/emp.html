@@ -41,7 +41,7 @@
         <label for="password">Password:
             <input type="password" id="password" formControlName="password" required>
         </label><br><br>
-        @if(password?.invalid && (password?.dirty || password?.touched)){
+        @if(!isBothFieldEmpty() && password?.invalid && (password?.dirty || password?.touched)){
             @if(password?.hasError('required')){
             <p>password is required</p>
             }
@@ -59,7 +59,7 @@
         <label for="confirmPassword">Confirm Password:
             <input type="password" id="confirmPassword" formControlName="confirmPassword" required>
         </label><br><br>
-        @if(confirmPassword?.invalid && (confirmPassword?.dirty || confirmPassword?.touched)){
+        @if(!isBothFieldEmpty() && confirmPassword?.invalid && (confirmPassword?.dirty || confirmPassword?.touched)){
             @if(confirmPassword?.hasError('required')){
                 <p>confirm password is required</p>
             }
