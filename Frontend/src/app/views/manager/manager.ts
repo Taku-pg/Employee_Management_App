@@ -3,10 +3,11 @@ import { SimpleEmployeeModel } from '../../models/simpleEmp.model';
 import { ApiService } from '../../services/api.service';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-manager',
-  imports: [RouterLink],
+  imports: [RouterLink,TranslatePipe],
   templateUrl: './manager.html',
   styleUrl: './manager.css',
 })

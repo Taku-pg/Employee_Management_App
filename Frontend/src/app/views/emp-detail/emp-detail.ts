@@ -7,6 +7,7 @@ import { uniqueEmailValidator } from '../../services/validators/emailValidator';
 import { duplicateLanguageValidator } from '../../services/validators/languageValidator';
 import { UpdateEmpModel } from '../../models/updateEmp.model';
 import { AuthService } from '../../services/auth.service';
+import { TranslatePipe } from '@ngx-translate/core';
 
 function setPatch<K extends keyof UpdateEmpModel>(patch: Partial<UpdateEmpModel>, key: K, value: UpdateEmpModel[K]) {
   patch[key] = value;
@@ -14,7 +15,7 @@ function setPatch<K extends keyof UpdateEmpModel>(patch: Partial<UpdateEmpModel>
 
 @Component({
   selector: 'app-emp-detail',
-  imports: [FormsModule, ReactiveFormsModule, RouterLink],
+  imports: [FormsModule, ReactiveFormsModule, RouterLink, TranslatePipe],
   templateUrl: './emp-detail.html',
   styleUrl: './emp-detail.css',
 })
@@ -28,8 +29,9 @@ export class EmpDetail implements OnInit {
 
   empId: string = '';
   depts: string[] = [];
-  minSalary = 0;
+  minSalary = signal<number>(0);
   originalEmail = '';
+  originalDepartment = signal<string | null>(null);
   availableLanguages: string[] = [];
   languageLevels: string[] = [];
   originalLanguageLength = 0;
@@ -45,7 +47,7 @@ export class EmpDetail implements OnInit {
     lastname: ['', Validators.required],
     email: ['', [Validators.required, Validators.pattern(this.emailRegex)]
       , uniqueEmailValidator(this.apiService, this.originalEmail)],
-    salary: [0, [Validators.required, Validators.min(this.minSalary)]],
+    salary: [0, [Validators.required, Validators.min(this.minSalary())]],
     department: ['', Validators.required],
     selectedLanguages: this.fb.array([], { validators: duplicateLanguageValidator })
   });
@@ -129,6 +131,7 @@ export class EmpDetail implements OnInit {
         //set validator to email
         this.originalEmail = res.email;
         this.setEmailValidator(res.email);
+        this.originalDepartment.set(res.department);
       }
     });
 
@@ -144,6 +147,15 @@ export class EmpDetail implements OnInit {
         department: value.department!,
         languages: value.selectedLanguages as Language[],
       });
+
+      if (value.department && (value.department !== this.originalDepartment())) {
+          this.apiService.getMinSalaryWithDeptName(value.department!).subscribe(res => {
+            this.originalDepartment.set(value.department);
+            this.minSalary.set(res);
+            this.setSalaryValidator(res);
+        })
+      }
+
     })
 
     this.apiService.getAllDept().subscribe({
@@ -155,10 +167,8 @@ export class EmpDetail implements OnInit {
 
     this.apiService.getMinSalary().subscribe({
       next: (res) => {
-        this.minSalary = res;
+        this.minSalary.set(res);
         this.setSalaryValidator(res);
-        console.log(res);
-        console.log(this.minSalary);
       }
     });
 
@@ -287,14 +297,14 @@ export class EmpDetail implements OnInit {
   }
 
   onDelete() {
-    const confirm=window.confirm(`Do you want delete this employee? (ID: ${this.empId})`);
-    if(!confirm)return;
+    const confirm = window.confirm(`Do you want delete this employee? (ID: ${this.empId})`);
+    if (!confirm) return;
     this.apiService.deleteEmp(this.empId).subscribe({
       next: () => this.router.navigate(['manager']),
       error: (err) => {
         if (err.status === 400 && err.error?.message) {
           this.deleteErrMsg.set(err.error?.message);
-        } 
+        }
       }
     })
   }

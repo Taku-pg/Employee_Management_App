@@ -3,10 +3,11 @@ import { ApiService } from '../../services/api.service';
 import { AuthService } from '../../services/auth.service';
 import { type TableDataModel } from '../../models/tableData.model';
 import { Router, RouterLink } from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-admin',
-  imports: [RouterLink],
+  imports: [RouterLink, TranslatePipe],
   templateUrl: './admin.html',
   styleUrl: './admin.css',
 })

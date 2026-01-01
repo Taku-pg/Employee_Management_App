@@ -1,13 +1,13 @@
-<h2>Language level detail</h2>
-<label for="langLevel">Language_level:
+<h2>{{'LANGUAGE_LEVEL.TITLE'|translate}}</h2>
+<label for="langLevel">{{'LANGUAGE_LEVEL.NAME'|translate}}:
         <input type="text" id="langLevel" readonly [value]="langLevel()?.name">
     </label><br><br>
 
 <table>
     <tr>
         <th>ID</th>
-        <th>Firstname</th>
-        <th>Language</th>
+        <th>{{'EMPLOYEE.FIRSTNAME'|translate}}</th>
+        <th>{{'LANGUAGE.NAME'|translate}}</th>
     </tr>
     @for(emp of langLevel()?.employees; track emp.id){
         <tr>
@@ -17,4 +17,4 @@
         </tr>
     }
 </table>
-<a routerLink="/admin">main</a>
+<a routerLink="/admin">{{'EMPLOYEE.MAIN'|translate}}</a>

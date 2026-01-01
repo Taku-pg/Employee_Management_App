@@ -1,24 +1,24 @@
 <div>
-    <h2>Department detail</h2>
+    <h2>{{'DEPARTMENT.TITLE'|translate}}</h2>
     <label for="id">ID:
         <input type="number" id="id" readonly [value]="dept()?.id">
     </label><br><br>
 
-    <label for="deptName">Department name:
+    <label for="deptName">{{'DEPARTMENT.NAME'|translate}}:
         <input type="text" id="deptName" readonly [value]="dept()?.name">
     </label><br><br>
 
-    <label for="min-salary">Minimum Salary:
+    <label for="min-salary">{{'DEPARTMENT.MIN'|translate}}:
         <input type="number" id="min-salary" readonly [value]="dept()?.minSal">
     </label><br><br>
 
-    <h3>Department employees</h3>
+    <h3>{{'DEPARTMENT.EMPLOYEE'|translate}}</h3>
         <form [formGroup]="managerSelectForm" (ngSubmit)="onChangeManager()">
             <table>
             <tr>
                 <th>ID</th>
-                <th>Name</th>
-                <th>Manager</th>
+                <th>{{'EMPLOYEE.FIRSTNAME'|translate}}</th>
+                <th>{{'DEPARTMENT.MANAGER'|translate}}</th>
             </tr>
             @for(emp of dept()?.employees; track emp.id){
 
@@ -34,7 +34,7 @@
                 </tr>
             }
             </table>
-            <button type="submit">change manager</button>
+            <button type="submit">{{'ADMIN.CHANGE_MANAGER'|translate}}</button>
     </form>
-    <a routerLink="/admin">main</a>
+    <a routerLink="/admin">{{'EMPLOYEE.MAIN'|translate}}</a>
 </div>

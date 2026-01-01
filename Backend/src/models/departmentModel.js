@@ -62,6 +62,17 @@ class DepartmentModel {
             });
         })
     }
+
+    static findMinSalByName(deptName) {
+        return new Promise((resolve, reject) => {
+            const sql = `SELECT minimum_salary FROM department WHERE department_name=?`;
+
+            db.get(sql, [deptName], (err, row) => {
+                if (err) return reject(err);
+                resolve(row.minimum_salary);
+            });
+        })
+    }
 }
 
 module.exports = DepartmentModel;

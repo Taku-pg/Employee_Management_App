@@ -2,10 +2,11 @@ import { Component, inject, signal } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { LanguageLevelModel } from '../../models/langLevel.model';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-lang-level-detail',
-  imports: [RouterLink],
+  imports: [RouterLink,TranslatePipe],
   templateUrl: './lang-level-detail.html',
   styleUrl: './lang-level-detail.css',
 })

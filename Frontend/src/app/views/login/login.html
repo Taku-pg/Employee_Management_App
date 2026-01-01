@@ -1,12 +1,12 @@
 <form (ngSubmit)="onLogin()">
-    <label for="email">Email: 
+    <label for="email">{{'LOGIN.EMAIL'|translate}}: 
       <input type="text" id="email" name="email" [(ngModel)]="email">
     </label><br><br>
-    <label for="password">Password: 
+    <label for="password">{{'LOGIN.PASSWORD'|translate}}: 
       <input type="password" id="password" name="passeord" [(ngModel)]="password">
     </label><br><br>
     @if(errorMessage()){
-      <p>{{errorMessage()}}</p>
+      <p>{{'LOGIN.ERROR'|translate}}</p>
     }
-    <button type="submit">login</button>
+    <button type="submit">{{'LOGIN.LOGIN'|translate}}</button>
 </form>

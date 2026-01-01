@@ -3,10 +3,11 @@ import { ApiService } from '../../services/api.service';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { type DeptModel } from '../../models/dept.model';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-dept-detail',
-  imports: [RouterLink, ReactiveFormsModule],
+  imports: [RouterLink, ReactiveFormsModule, TranslatePipe],
   templateUrl: './dept-detail.html',
   styleUrl: './dept-detail.css',
 })

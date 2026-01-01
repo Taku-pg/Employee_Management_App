@@ -1,0 +1,134 @@
+{
+    "LOGIN": {
+        "EMAIL": "Email",
+        "PASSWORD": "Password",
+        "ERROR": "Email or Password is not correct",
+        "LOGIN": "login"
+    },
+    "EMPLOYEE": {
+        "FIRSTNAME": "Firstname",
+        "LASTNAME": "Lastname",
+        "EMAIL": "Email",
+        "HIRE_DATE": "Hired date",
+        "SALARY": "Salary",
+        "DEPARTMENT": "Department",
+        "ROLE": "Role",
+        "LANGUAGE": "Language",
+        "LANGUAGE_LEVEL": "Language level",
+        "PASSWORD": "New Password",
+        "CONFIRM_PASSWORD": "Confirm Password",
+        "CHANGE_PASSWORD": "Change password",
+        "VIEW_DETAIL": "View detail",
+        "PERSONAL": "Personal info",
+        "MAIN": "main",
+        "LOGOUT": "logout"
+    },
+    "MANAGER": {
+        "ADD_LANGUAGE": "Add language",
+        "REMOVE_LANGUAGE": "Remove language",
+        "UPDATE_EMPLOYEE": "Update",
+        "DELETE_EMPLOYEE": "Delete",
+        "REGISTER": "Register"
+    },
+    "ADMIN": {
+        "employees":"Employees",
+        "department":"Department",
+        "role":"Role",
+        "language":"Language",
+        "language_level":"Language Level",
+        "CONTENT_NAME": "Name",
+        "PREV": "prev",
+        "NEXT": "next",
+        "CHANGE_MANAGER": "Change manager"
+    },
+    "DEPARTEMENT":{
+        "TITLE":"Department Detail",
+        "NAME": "Department name",
+        "MIN": "Minimum salary",
+        "EMPLOYEE": "Department employee",
+        "MANAGER":"Manager"
+    },
+    "ROLE":{
+        "TITLE":"ROLE: {{role}} employees",
+        "DEPARTMENT":"Department"
+    },
+    "LANGUAGE":{
+        "TITLE":"Language Detail",
+        "NAME": "Language",
+        "NUMBER_OF_COUNTRY":"Number of native country"
+    },
+    "LANGUAGE_LEVEL":{
+        "TITLE":"Languge Level Detai",
+        "NAME": "Language Level"
+    },
+    "ERROR": { 
+        "FIRSTNAME": {
+            "REQUIRED": "Firstname is required"
+        },
+        "LASTNAME": {
+            "REQUIRED": "Lastname is required"
+        },
+        "EMAIL": {
+            "REQUIRED": "Email is required",
+            "PATTERN": "Invalid email",
+            "UNIQUE": "This email is already used"
+        },
+        "SALARY": {
+            "REQUIRED": "Salary is required",
+            "MIN": "Minimum salaru is {{min}}"
+        },
+        "DEPARTMENT": {
+            "REQUIRED": "Select department",
+            "INVALID": "Invalid department"
+        },
+        "LANGUAGE": {
+            "LANGUAGE": {
+                "REQUIRED": "Select language",
+                "INVALID": "Invalid language"
+            },
+            "LANGUAGE_LEVEL": {
+                "REQUIRED": "Select language level",
+                "INVALID": "Invalid language level"
+            },
+            "DUPLICATE": "You can not select same language"
+        },
+        "PASSWORD": {
+            "REQUIRED": "Password is required",
+            "MIN_LENGTH": "Password has to be more than 8 characters",
+            "MAX_LENGTH": "Password has to be less than 20 characters",
+            "PASSWORD_LENGTH": "Password length has to be between 8 to 20"
+        },
+        "CONFIRM_PASSWORD": {
+            "REQUIRED": "Password is required",
+            "MIN_LENGTG": "Password has to be more than 8 characters",
+            "MAX_LENGTH": "Password has to be less than 20 characters",
+            "PASSWORD_LENGTH": "Password length has to be between 8 to 20"
+        },
+        "PASSWORDS": {
+            "PASSWORD_MISMATCH": "Password does not match"
+        },
+        "ERROR_PAGE": {
+            "401": {
+                "TITLE": "401 unauthorized",
+                "MESSAGE": "Please login"
+            },
+            "403": {
+                "TITLE": "403 forbidden ",
+                "MESSAGE": "You do not have access privileges"
+            },
+            "404": {
+                "TITLE": "404 not found",
+                "MESSAGE": "Page not found"
+            },
+            "500": {
+                "TITLE": "500 internal server error",
+                "MESSAGE": "Server error occurred"
+            },
+            "LOGIN_MENU": "Back to login menu"
+        },
+        "DELETE": {
+            "EMPLOYEE_NOT_EXISTS": "Employee does not exist",
+            "INVALID": "You can not delete this employee"
+        }
+    }
+}

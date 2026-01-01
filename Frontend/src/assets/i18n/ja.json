@@ -1,0 +1,139 @@
+{
+    "LOGIN": {
+        "EMAIL": "メールアドレス",
+        "PASSWORD": "パスワード",
+        "ERROR": "メールアドレス、もしくはパスワードが違います",
+        "LOGIN": "ログイン"
+    },
+    "EMPLOYEE": {
+        "FIRSTNAME": "名前",
+        "LASTNAME": "姓",
+        "EMAIL": "メールアドレス",
+        "HIRE_DATE": "雇用日",
+        "SALARY": "給料",
+        "DEPARTMENT": "部署",
+        "ROLE": "役職",
+        "LANGUAGE": "言語",
+        "LANGUAGE_LEVEL": "言語レベル",
+        "PASSWORD": "新しいパスワード",
+        "CONFIRM_PASSWORD": "確認用パスワード",
+        "CHANGE_PASSWORD": "パスワード変更",
+        "ADD_LANGUAGE": "言語追加",
+        "REMOVE_LANGUAGE":"言語削除",
+        "UPDATE_EMPLOYEE": "更新",
+        "DELETE_EMPLOYEE": "削除",
+        "REGISTER": "登録",
+        "VIEW_DETAIL": "詳細",
+        "PERSONAL": "個人情報",
+        "MAIN": "メインメニュー",
+        "LOGOUT": "ログアウト"
+    },
+     "MANAGER": {
+        "ADD_LANGUAGE": "Add language",
+        "REMOVE_LANGUAGE": "Remove language",
+        "UPDATE_EMPLOYEE": "Update",
+        "DELETE_EMPLOYEE": "Delete",
+        "REGISTER": "Register"
+    },
+    "DEPARTMENT":{
+        "TITLE":"部署詳細",
+        "NAME": "部署名",
+        "MIN": "最低賃金",
+        "EMPLOYEE": "従業員",
+        "MANAGER":"マネージャー"
+    },
+    "ROLE":{
+        "TITLE":"役職: {{role}}の従業員",
+        "DEPARTMENT":"部署"
+    },
+    "LANGUAGE":{
+        "TITLE":"言語詳細",
+        "NAME": "言語",
+        "NUMBER_OF_COUNTRY":"公用語の国の数"
+    },
+    "LANGUAGE_LEVEL":{
+        "TITLE":"言語レベル詳細",
+        "NAME": "言語レベル"
+    },
+    "ADMIN": {
+        "employees":"従業員一覧",
+        "department":"部署一覧",
+        "role":"役職一覧",
+        "language":"言語一覧",
+        "language_level":"言語レベル一覧",
+        "CONTENT_NAME": "名前",
+        "PREV": "前へ",
+        "NEXT": "次へ",
+        "CHANGE_MANAGER": "マネージャー変更"
+    },
+    "ERROR": {
+        "FIRSTNAME":{
+            "REQUIRED":"姓を入力してください"
+        },
+        "LASTNAME":{
+            "REQUIRED":"名を入力してください"
+        },
+        "EMAIL":{
+            "REQUIRED":"メールアドレスを入力してください",
+            "PATTERN": "不正なメールアドレスです",
+            "UNIQUE":"このメールアドレスは既に使われています"
+        },
+        "SALARY":{
+            "REQUIRED":"給料を入力してください",
+            "MIN":"最低賃金は{{min}}です"
+        },
+        "DEPARTMENT":{
+            "REQUIRED":"部署を選択してください",
+            "INVALID": "不正な部署です"
+        },
+        "LANGUAGE":{
+            "LANGUAGE":{
+                "REQUIRED":"言語を入力してください",
+                "INVALID": "不正な言語です"
+            },
+            "LANGUAGE_LEVEL":{
+                "REQUIRED":"言語レベルを入力してください",
+                "INVALID": "不正な言語レベルです"
+            },
+            "DUPLICATE":"同じ言語を二つ以上選べません"
+        },
+        "PASSWORD": {
+            "REQUIRED": "パスワードは必要なフィールドです",
+            "MIN_LENGTH": "設定可能なパスワードは8文字以上です",
+            "MAX_LENGTH": "設定可能なパスワードは20文字以下です",
+            "PASSWORD_LENGTH": "設定可能なパスワードは8文字以上20文字以下です"
+        },
+        "CONFIRM_PASSWORD": {
+            "REQUIRED": "パスワードは必要なフィールドです",
+            "MIN_LENGTH": "設定可能なパスワードは8文字以上です",
+            "MAX_LENGTH": "設定可能なパスワードは20文字以下です",
+            "PASSWORD_LENGTH": "設定可能なパスワードは8文字以上20文字以下です"
+        },
+        "PASSWORDS": {
+            "PASSWORD_MISMATCH": "パスワードが一致していません"
+        },
+        "ERROR_PAGE":{
+            "401":{
+                "TITLE":"401 unauthorized",
+                "MESSAGE":"認証されていません"
+            },
+            "403":{
+                "TITLE":"403 forbidden",
+                "MESSAGE":"アクセス権限がありません"
+            },
+            "404":{
+                "TITLE":"404 not found",
+                "MESSAGE":"ページが見つかりませんでした"
+            },
+            "500":{
+                "TITLE":"500 internal server error",
+                "MESSAGE":"サーバーエラーが起こりました"
+            },
+            "LOGIN_MENU":"ログインメニュー"
+        },
+        "DELETE": {
+            "EMPLOYEE_NOT_EXISTS":"従業員が存在していません",
+            "INVALID": "この従業員を削除できません"
+        }
+    }
+}

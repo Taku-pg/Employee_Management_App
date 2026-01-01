@@ -2,10 +2,11 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { RoleModel } from '../../models/role.model';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-role-detail',
-  imports: [RouterLink],
+  imports: [RouterLink, TranslatePipe],
   templateUrl: './role-detail.html',
   styleUrl: './role-detail.css',
 })

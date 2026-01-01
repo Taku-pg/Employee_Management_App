@@ -1,7 +1,7 @@
 <table>
     <tr>
         <th>ID</th>
-        <th>Firstname</th>
+        <th>{{'EMPLOYEE.FIRSTNAME'|translate}}</th>
         <th></th>
     </tr>
     @for(emp of deptEmployees(); track emp.id){
@@ -10,15 +10,15 @@
             <td>{{emp.firstname}}</td>
 
             <td>
-                <button type="button" (click)="onViewDetail(emp.id)">view detail</button>
+                <button type="button" (click)="onViewDetail(emp.id)">{{'EMPLOYEE.VIEW_DETAIL'|translate}}</button>
             </td>
         </tr>
     }
 </table>
 
-<button type="button" (click)="onRegister()">register</button><br>
-<a routerLink="/emp">Personal Info</a>
-<button type="button" (click)="onLogout()">logout</button><br>
+<button type="button" (click)="onRegister()">{{'MANAGER.REGISTER'|translate}}</button><br>
+<a routerLink="/emp">{{'EMPLOYEE.PERSONAL'|translate}}</a>
+<button type="button" (click)="onLogout()">{{'EMPLOYEE.LOGOUT'|translate}}</button><br>
 
 
 

@@ -5,82 +5,84 @@
         <input type="number" id="id" [value]="originalEmp()?.id" required readonly>
     </label><br><br>
 
-    <label for="firstname">Firstname:
+    <label for="firstname">{{'EMPLOYEE.FIRSTNAME'|translate}}:
         <input type="text" id="firstname" [value]="originalEmp()?.firstname" formControlName="firstname" required>
     </label><br><br>
     @if(firstname?.invalid && (firstname?.dirty || firstname?.touched)){
         @if(firstname?.hasError('required')){
-            <p>Firstname is required</p>
+            <p>{{'ERROR.FIRSTNAME.REQUIRED'|translate}}</p>
         }
         @if(firstname?.hasError('serverValidationError')){
-            <p>{{updateEmpForm.get('firstname')?.errors?.['serverValidationError']}}</p>
+            <p>{{'ERROR.FIRSTNAME.'+updateEmpForm.get('firstname')?.errors?.['serverValidationError']|translate}}</p>
         }
     }
 
-    <label for="lastname">Lastname:
+    <label for="lastname">{{'EMPLOYEE.LASTNAME'|translate}}:
         <input type="text" id="lastname" [value]="originalEmp()?.lastname" formControlName="lastname" required>
     </label><br><br>
     @if(lastname?.invalid && (lastname?.dirty || lastname?.touched)){
         @if(lastname?.hasError('required')){
-            <p>Lastname is required</p>
+            <p>{{'ERROR.LASTNAME.REQUIRED'|translate}}</p>
         }
         @if(lastname?.hasError('serverValidationError')){
-            <p>{{updateEmpForm.get('lastname')?.errors?.['serverValidationError']}}</p>
+            <p>{{'ERROR.LASTNAME.'+updateEmpForm.get('lastname')?.errors?.['serverValidationError']|translate}}</p>
         }
     }
 
-    <label for="email">Email:
+    <label for="email">{{'EMPLOYEE.EMAIL'|translate}}:
         <input type="email" id="email" [value]="originalEmp()?.email" formControlName="email" required>
     </label><br><br>
     @if(email?.invalid && (email?.dirty || email?.touched)){
         @if(email?.hasError('required')){
-            <p>Email is required</p>
+            <p>{{'ERROR.EMAIL.REQUIRED'|translate}}</p>
         }
         @if(email?.hasError('pattern')){
-            <p>Invalid email</p>
+            <p>{{'ERROR.EMAIL.PATTERN'|translate}}</p>
         }
          @if(email?.hasError('isUniqueEmail')){
-            <p>This email is already used</p>
+            <p>{{'ERROR.EMAIL.UNIQUE'|translate}}</p>
         }
         @if(email?.hasError('serverValidationError')){
-            <p>{{updateEmpForm.get('email')?.errors?.['serverValidationError']}}</p>
+            <p>{{'ERROR.EMAIL.'+updateEmpForm.get('email')?.errors?.['serverValidationError']|translate}}</p>
         } 
     }
 
-    <label for="hire_date">HireDate:
+    <label for="hire_date">{{'EMPLOYEE.HIRE_DATE'|translate}}:
         <input type="date" id="hire_date" [value]="originalEmp()?.hireDate" readonly>
     </label><br><br>
 
-    <label for="salary">Salary:
+    <label for="salary">{{'EMPLOYEE.SALARY'|translate}}:
         <input type="number" id="salary" [value]="originalEmp()?.salary" formControlName="salary" required>
     </label><br><br>
     @if(salary?.invalid && (salary?.dirty || salary?.touched)){
         @if(salary?.hasError('required')){
-            <p>Salary is required</p>
+            <p>{{'ERROR.SALARY.REQUIRED'|translate}}</p>
         }
         @if(salary?.hasError('min')){
-            <p>Minimum salary is {{minSalary}}</p>
+            <p>{{ 'ERROR.SALARY.MIN'|translate:{min:minSalary()} }}</p>
         }
         @if(salary?.hasError('serverValidationError')){
-            <p>{{updateEmpForm.get('salary')?.errors?.['serverValidationError']}}</p>
+            <p>{{ 'ERROR.SALARY.'+updateEmpForm.get('salary')?.errors?.['serverValidationError']|translate:{min:minSalary()} }}</p>
         }
     }
 
-    <select formControlName="department">
+    <label for="department">{{'EMPLOYEE.DEPARTMENT'|translate}}
+    <select formControlName="department" id="department">
         @for(dept of depts; track dept){
             <option [value]="dept">{{dept}}</option>
         }
         @if(department?.invalid && (department?.dirty || department?.touched)){
         @if(department?.hasError('required')){
-            <p>Select department</p>
+            <p>{{'ERROR.DEPARTMENT.REQUIRED'|translate}}</p>
         }
         @if(department?.hasError('serverValidationError')){
-            <p>{{updateEmpForm.get('department')?.errors?.['serverValidationError']}}</p>
+            <p>{{'ERROR.DEPARTMENT.'+updateEmpForm.get('department')?.errors?.['serverValidationError']|translate}}</p>
         }
     }
     </select>
+    </label>
 
-    <label for="role">Role:
+    <label for="role">{{'EMPLOYEE.ROLE'|translate}}:
         <input type="text" id="role" [value]="originalEmp()?.role" readonly>
     </label><br><br>
 
@@ -88,11 +90,11 @@
         @for(selectedLanguage of selectedLanguages.controls; track selectedLanguage; let i=$index){
             <div [formGroupName]="i"> 
                 <!-- for language -->
-                <label>Language: 
+                <label>{{'EMPLOYEE.LANGUAGE'|translate}}: 
                      <select formControlName="language_name">
                         @for(language of availableLanguages; track language){
                               @if(!isSelectedLanguage(language,i)){
-                                <option [ngValue]="language">{{language}}</option>
+                                <option [value]="language">{{language}}</option>
                             }  
                         }
                     </select><br><br> 
@@ -101,19 +103,19 @@
                         (selectedLanguage.get('language_name')?.dirty || selectedLanguage.get('language_name')?.touched)
                         ){
                         @if(selectedLanguage.get('language_name')?.hasError('required')){
-                            <p>select language</p>
+                            <p>{{'ERROR.LANGUAGE.LANGUAGE.REQUIRED'|translate}}</p>
                         }
                         @if(selectedLanguage.get('language_name')?.hasError('serverValidationError')){
-                            <p>{{selectedLanguage.get('language_name')?.errors?.['serverValidationError']}}</p>
+                            <p>{{'ERROR.LANGUAGE.LANGUAGE.'+selectedLanguage.get('language_name')?.errors?.['serverValidationError']|translate}}</p>
                         }
                     }
                 </label>
 
                 <!-- for level -->
-                <label for="level">Level:
+                <label for="level">{{'EMPLOYEE.LANGUAGE_LEVEL'|translate}}:
                     <select formControlName="language_level">
                          @for(languageLevel of languageLevels; track languageLevel){
-                                <option [ngValue]="languageLevel">{{languageLevel}}</option>
+                                <option [value]="languageLevel">{{languageLevel}}</option>
                         }
                     </select><br><br>
                 </label><br><br>
@@ -122,37 +124,37 @@
                     (selectedLanguage.get('language_level')?.dirty || selectedLanguage.get('language_level')?.touched)
                     ){
                     @if(selectedLanguage.get('language_level')?.hasError('required')){
-                        <p>Enter your level of language</p>
+                            <p>{{'ERROR.LANGUAGE.LANGUAGE_LEVEL.REQUIRED'|translate}}</p>
                     }
                     @if(selectedLanguage.get('language_level')?.hasError('serverValidationError')){
-                        <p>{{selectedLanguage.get('language_level')?.errors?.['serverValidationError']}}</p>
+                        <p>{{'ERROR.LANGUAGE.LANGUAGE_LEVEL.'+selectedLanguage.get('language_level')?.errors?.['serverValidationError']|translate}}</p>
                     }
                 }
 
                  
 
                 @if(selectedLanguage?.hasError('duplicate')){
-                    <p>You can't select same language</p>
+                    <p>{{'ERROR.LANGUAGE.LANGUAGE.DUPLICATE'|translate}}</p>
                 }
             </div>
             @if(selectedLanguages.length>originalLanguageLength && i>=originalLanguageLength){
-                <button type="button" (click)="onRemoveSelectedLanguage(i)">remove language</button>
+                <button type="button" (click)="onRemoveSelectedLanguage(i)">{{'MANAGER.REMOVE_LANGUAGE'|translate}}</button>
             } 
         }
          @if(!isSelectedAll()){
-            <button type="button" (click)="onAddSelectedLanguage()" [disabled]="!isValidLanguageForm()">add language</button>
+            <button type="button" (click)="onAddSelectedLanguage()" [disabled]="!isValidLanguageForm()">{{'MANAGER.ADD_LANGUAGE'|translate}}</button>
         }
     </div>
 
     
-    <button type="submit">Update</button>
+    <button type="submit">{{'MANAGER.UPDATE_EMPLOYEE'|translate}}</button>
     </form>
     @if(deleteErrMsg()){
-        <p>{{deleteErrMsg()}}</p>
+        <p>{{'ERROR.DELETE.'+deleteErrMsg()|translate}}</p>
     }
-    <button type="button" (click)="onDelete()">Delete</button>
+    <button type="button" (click)="onDelete()">{{'MANAGER.DELETE_EMPLOYEE'|translate}}</button>
 
-    <a routerLink="/manager">main</a>
+    <a routerLink="/manager">{{'EMPLOYEE.MAIN'|translate}}</a>
 </div>
 }@else{
     <div>
@@ -160,44 +162,44 @@
         <input type="number" id="id" readonly [value]="originalEmp()?.id">
     </label><br><br>
 
-    <label for="firstname">Firstname:
+    <label for="firstname">{{'EMPLOYEE.FIRSTNAME'|translate}}:
         <input type="text" id="firstname" readonly [value]="originalEmp()?.firstname">
     </label><br><br>
 
-    <label for="lastname">Lastname:
+    <label for="lastname">{{'EMPLOYEE.LASTNAME'|translate}}:
         <input type="text" id="lastname" readonly [value]="originalEmp()?.lastname">
     </label><br><br>
 
-    <label for="email">Email:
+    <label for="email">{{'EMPLOYEE.EMAIL'|translate}}:
         <input type="email" id="email" readonly [value]="originalEmp()?.email">
     </label><br><br>
 
-    <label for="hire_date">HireDate:
+    <label for="hire_date">{{'EMPLOYEE.HIRE_DATE'|translate}}:
         <input type="date" id="hire_date" readonly [value]="originalEmp()?.hireDate">
     </label><br><br>
 
-    <label for="salary">Salary:
+    <label for="salary">{{'EMPLOYEE.SALARY'|translate}}:
         <input type="number" id="salary" readonly [value]="originalEmp()?.salary">
     </label><br><br>
 
-    <label for="department">Department:
+    <label for="department">{{'EMPLOYEE.DEPARTMENT'|translate}}:
         <input type="text" id="department" readonly [value]="originalEmp()?.department">
     </label><br><br>
 
-    <label for="role">Role:
+    <label for="role">{{'EMPLOYEE.ROLE'|translate}}:
         <input type="text" id="role" readonly [value]="originalEmp()?.role">
     </label><br><br>
 
     @for(language of originalEmp()?.languages; track language.language_name){
-    <label for="language">Language:
+    <label for="language">{{'EMPLOYEE.LANGUAGE'|translate}}:
         <input type="text" id="language" readonly [value]="language.language_name">
     </label><br><br>
 
-    <label for="level">Level:
+    <label for="level">{{'EMPLOYEE.LANGUAGE_LEVEL'|translate}}:
         <input type="text" id="level" readonly [value]="language.language_level">
     </label><br><br>
     }
     </div>
-    <a routerLink="/admin">main</a>
+    <a routerLink="/admin">{{'EMPLOYEE.MAIN'|translate}}</a>
 }
 

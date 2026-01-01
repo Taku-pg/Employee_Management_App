@@ -67,6 +67,10 @@ export class ApiService {
         return this.httpClient.get<number>(`${this.baseUrl}/dept/min-salary`);
     }
 
+    getMinSalaryWithDeptName(deptName:string){
+        return this.httpClient.get<number>(`${this.baseUrl}/dept/${deptName}/min-salary`);
+    }
+
     checkUniqueEmail(email: string) {
         return this.httpClient.get<boolean>(`${this.baseUrl}/emp/check-email`, { params: { email } });
     }
@@ -76,7 +80,7 @@ export class ApiService {
     }
 
     changePassword(passwords: any) {
-        return this.httpClient.post(`${this.baseUrl}/emp/change-password`, passwords);
+        return this.httpClient.post(`${this.baseUrl}/emp/change-password`, {passwords});
     }
 
     changeManager(deptId: string, oldManagerID: string, newManagerId: string) {

@@ -6,53 +6,53 @@ const LanguageLevelModel = require('../../models/languageLevelModel');
 
 module.exports = [
     body('firstname')
-        .notEmpty().withMessage('Firstname is required'),
+        .notEmpty().withMessage('REQUIRED'),
     body('lastname')
-        .notEmpty().withMessage('Lastname is required'),
+        .notEmpty().withMessage('REQUIRED'),
     body('email')
         .custom(value => {
             const emailRegex = /\S+@\S+\.\S{2,4}/
             if (!emailRegex.test(value)) {
-                throw new Error('Invalid email');
+                throw new Error('PATTERN');
             }
             return true;
         }).bail()
         .custom(async value => {
             const isExist = await EmployeeModel.existsEmail(value);
             if (isExist) {
-                throw new Error('This email is already used');
+                throw new Error('UNIQUE');
             }
             return true;
         })
-        .notEmpty().withMessage('Email is required'),
+        .notEmpty().withMessage('REQUIRED'),
     body('salary')
-        .notEmpty().withMessage('Salary is required')
+        .notEmpty().withMessage('REQUIRED')
         .isInt()
         .custom(async (value, { req }) => {
             const mngId = req.emp.empId;
             const dept = await DeptModel.findDeptByEmpId(mngId);
             const minSal = await DeptModel.findMinSalById(dept.id);
             if (Number(value) < minSal) {
-                throw new Error(`Minimum salary is ${minSal}`);
+                throw new Error(`MIN`);
             }
 
             return true
         }),
     body('languages.*.language_name')
-        .notEmpty().withMessage('Select language').bail()
+        .notEmpty().withMessage('REQUIRED').bail()
         .custom(async value => {
             const isExist = await LanguageModel.existsLanguage(value);
             if (!isExist) {
-                throw new Error('Invalid language');
+                throw new Error('INVALID');
             }
             return true;
         }),
     body('languages.*.language_level')
-        .notEmpty().withMessage('Select your language level').bail()
+        .notEmpty().withMessage('REQUIRED').bail()
         .custom(async value => {
             const isExist = await LanguageLevelModel.existsLanguageLevel(value);
             if (!isExist) {
-                throw new Error('Invalid language level');
+                throw new Error('INVALID');
             }
             return true;
         })

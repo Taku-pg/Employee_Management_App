@@ -3,91 +3,96 @@
         <input type="number" id="id" readonly [value]="emp()?.id">
     </label><br><br>
 
-    <label for="lastname">Lastname:
+    <label for="firstname">{{'EMPLOYEE.FIRSTNAME'|translate}}:
+        <input type="text" id="firstname" readonly [value]="emp()?.firstname" >
+    </label><br><br>
+
+    <label for="lastname">{{'EMPLOYEE.LASTNAME'|translate}}:
         <input type="text" id="lastname" readonly [value]="emp()?.lastname">
     </label><br><br>
 
-    <label for="email">Email:
+    <label for="email">{{'EMPLOYEE.EMAIL'|translate}}:
         <input type="email" id="email" readonly [value]="emp()?.email">
     </label><br><br>
 
-    <label for="hire_date">HireDate:
+    <label for="hire_date">{{'EMPLOYEE.HIRE_DATE'|translate}}:
         <input type="date" id="hire_date" readonly [value]="emp()?.hireDate">
     </label><br><br>
 
-    <label for="salary">Salary:
+    <label for="salary">{{'EMPLOYEE.SALARY'|translate}}:
         <input type="number" id="salary" readonly [value]="emp()?.salary">
     </label><br><br>
 
-    <label for="department">Department:
+    <label for="department">{{'EMPLOYEE.DEPARTMENT'|translate}}:
         <input type="text" id="department" readonly [value]="emp()?.department">
     </label><br><br>
 
-    <label for="role">Role:
+    <label for="role">{{'EMPLOYEE.ROLE'|translate}}:
         <input type="text" id="role" readonly [value]="emp()?.role">
     </label><br><br>
 
     @for(language of emp()?.languages; track language.language_name){
-    <label for="language">Language:
+    <label for="language">{{'EMPLOYEE.LANGUAGE'|translate}}:
         <input type="text" id="language" readonly [value]="language.language_name">
     </label><br><br>
 
-    <label for="level">Level:
+    <label for="level">{{'EMPLOYEE.LANGUAGE_LEVEL'|translate}}:
         <input type="text" id="level" readonly [value]="language.language_level">
     </label><br><br>
     }
 
     <form [formGroup]="passwordForm" (ngSubmit)="onChangePassword()">
-        <label for="password">Password:
-            <input type="password" id="password" formControlName="password" required>
+        <label for="password">{{'EMPLOYEE.PASSWORD'|translate}}:
+            <input type="password" id="password" formControlName="password" >
         </label><br><br>
         @if(!isBothFieldEmpty() && password?.invalid && (password?.dirty || password?.touched)){
             @if(password?.hasError('required')){
-            <p>password is required</p>
+            <p>{{'ERROR.PASSWORD.REQUIRED'|translate}}</p>
             }
             @if(password?.hasError('minlength')){
-                <p>Password has to be more than 8 characters
+                <p>{{'ERROR.PASSWORD.MIN_LENGTH'|translate}}</p>
             }
             @if(password?.hasError('maxlength')){
-                <p>Password has to be less than 20 characters
+                <p>P{{'ERROR.PASSWORD.MAX_LENGTH'|translate}}</p>
             }
             @if(password?.hasError('serverValidationError')){
-            <p>{{passwordForm.get('password')?.errors?.['serverValidationError']}}</p>
+                <p>{{'ERROR.PASSWORD.'+passwordForm.get('password')?.errors?.['serverValidationError']|translate}}</p>
             }
         }
 
-        <label for="confirmPassword">Confirm Password:
+        <label for="confirmPassword">{{'EMPLOYEE.CONFIRM_PASSWORD'|translate}}:
             <input type="password" id="confirmPassword" formControlName="confirmPassword" required>
         </label><br><br>
         @if(!isBothFieldEmpty() && confirmPassword?.invalid && (confirmPassword?.dirty || confirmPassword?.touched)){
             @if(confirmPassword?.hasError('required')){
-                <p>confirm password is required</p>
+                <p>{{'ERROR.CONFIRM_PASSWORD.REQUIRED'|translate}}</p>
             }
             @if(confirmPassword?.hasError('minlength')){
-                <p>Password has to be more than 8 characters
+                <p>{{'ERROR.CONFIRM_PASSWORD.MIN_LENGTH'|translate}}</p>
             }
             @if(confirmPassword?.hasError('maxlength')){
-                <p>Password has to be less than 20 characters
+                <p>{{'ERROR.CONFIRM_PASSWORD.MAX_LENGTH'|translate}}</p>
             }
             @if(confirmPassword?.hasError('serverValidationError')){
-                <p>{{passwordForm.get('confirmPassword')?.errors?.['serverValidationError']}}</p>
+                <p>{{'ERROR.CONFIRM_PASSWORD.'+passwordForm.get('confirmPassword')?.errors?.['serverValidationError']|translate}}</p>
             }
         }
 
-        @if(passwordForm.hasError('passwordMismatch')
-            && (confirmPassword?.dirty || confirmPassword?.touched)
+        @if((confirmPassword?.dirty || confirmPassword?.touched)
             && (password?.dirty || password?.touched)
             ){
-            <p>password does not match</p>
+                @if(passwordForm.hasError('passwordMismatch') || passwordForm.hasError('serverValidationError')){
+                    <p>{{'ERROR.PASSWORDS.PASSWORD_MISMATCH'|translate}}</p>
+                }   
         }
 
-        <button type="submit">change password</button>
+        <button type="submit">{{'EMPLOYEE.CHANGE_PASSWORD'|translate}}</button>
     </form>
     @if(role()==='employee'){
-        <button type="button" (click)="onLogout()">logout</button>
+        <button type="button" (click)="onLogout()">{{'EMPLOYEE.LOGOUT'|translate}}</button>
     }@else if(role()==='manager'){
-        <a routerLink="/manager">main</a>
+        <a routerLink="/manager">{{'EMPLOYEE.MAIN'|translate}}</a>
     }@else{
-        <a routerLink="/admin">main</a>
+        <a routerLink="/admin">{{'EMPLOYEE.MAIN'|translate}}</a>
     }
 </div>

@@ -9,7 +9,7 @@ DROP TABLE IF EXISTS department;
 
 CREATE TABLE IF NOT EXISTS department(
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            department_name TEXT NOT NULL,
+            department_name TEXT NOT NULL UNIQUE,
             minimum_salary INTEGER NOT NULL
             );
         
@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS employee(
 INSERT OR IGNORE INTO employee(id, firstname, lastname, email, [password], hired_date, salary, department_id, role_id) VALUES(1, 'Yamada', 'Taro', 'yamada@mail.com', '$2a$10$lThzzyhG7yg2ss/TT02wl.CFHveY84CbW5VhIRdgJ9zE0IpQPMQWu', '2016-10-23', 38000, 6, 1);
 INSERT OR IGNORE INTO employee(id, firstname, lastname, email, [password], hired_date, salary, department_id, role_id) VALUES(2, 'Smith', 'John', 'smith@mail.com', '$2a$10$mSyf9b7OT837uBlLhX2JP.mfKe1nMxa/PFhBW.8PJmgAiGfGVDO1O','2020-01-23', 17000, 1, 2);
 INSERT OR IGNORE INTO employee(id, firstname, lastname, email, [password], hired_date, salary, department_id, role_id) VALUES(3, 'Ball', 'Ball', 'ball@mail.com', '$2a$10$OpQWjvJsb3NV015qsf8b5.dWVd9UHeRk208HpCCuZkbs7OOqyd05C','2019-03-27', 16000, 2, 2);
-INSERT OR IGNORE INTO employee(id, firstname, lastname, email, [password], hired_date, salary, department_id, role_id) VALUES(4, 'Moss', 'Hollis', 'moss@mail.com', '$2a$10$5yzP/dQRVxwW3A6VYYFmJOM73slbXaHL25Vrn7Ty9qZPRabPe3f9S','2020-10-38', 12500, 3, 2);
+INSERT OR IGNORE INTO employee(id, firstname, lastname, email, [password], hired_date, salary, department_id, role_id) VALUES(4, 'Moss', 'Hollis', 'moss@mail.com', '$2a$10$5yzP/dQRVxwW3A6VYYFmJOM73slbXaHL25Vrn7Ty9qZPRabPe3f9S','2020-10-30', 12500, 3, 2);
 INSERT OR IGNORE INTO employee(id, firstname, lastname, email, [password], hired_date, salary, department_id, role_id) VALUES(5, 'Mejia', 'Markus', 'mejia@mail.com', '$2a$10$ArwHr4rbs9HLdJqmd9P8f.q7z.ILtlG/rbRCdy9zhb.9Svcn3Olim','2019-07-08', 16000, 4, 2);
 INSERT OR IGNORE INTO employee(id, firstname, lastname, email, [password], hired_date, salary, department_id, role_id) VALUES(6, 'Hendrix', 'Dollie', 'hendrix@mail.com', '$2a$10$1nQV4yUg3LKbLL/X7hjui.1oO1gyP9tdbxdz6GLfq5BPFq8Blnquq','2020-06-29', 17000, 5, 2);
 INSERT OR IGNORE INTO employee(id, firstname, lastname, email, [password], hired_date, salary, manager_id, department_id, role_id) VALUES(7, 'Tucker', 'Marcel', 'turcker@mail.com', '$2a$10$SdQh6ZiF3g23/WuhkJ7Gouw/o0ARAXKqTlayXZEFn9uC./95WiHmS','2022-10-22', 7500, 3, 2, 3);

@@ -5,10 +5,11 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { duplicateLanguageValidator } from '../../services/validators/languageValidator';
 import { type NewEmployeeModel } from '../../models/newEmp.model';
 import { uniqueEmailValidator } from '../../services/validators/emailValidator';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-new-emp',
-  imports: [FormsModule, ReactiveFormsModule, RouterLink],
+  imports: [FormsModule, ReactiveFormsModule, RouterLink,TranslatePipe],
   templateUrl: './new-emp.html',
   styleUrl: './new-emp.css',
 })

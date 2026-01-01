@@ -1,17 +1,17 @@
-<h2>Language detail</h2>
-<label for="langName">Language:
+<h2>{{'LANGUAGE.TITLE'|translate}}</h2>
+<label for="langName">{{'LANGUAGE.NAME'|translate}}:
         <input type="text" id="langName" readonly [value]="lang()?.name">
     </label><br><br>
 
-    <label for="numberOfNative">Number of native country:
+    <label for="numberOfNative">{{'LANGUAGE.NUMBER_OF_COUNTRY'|translate}}:
         <input type="number" id="numberOfNative" readonly [value]="lang()?.numberOfNativeCountry">
     </label><br><br>
 
 <table>
     <tr>
         <th>ID</th>
-        <th>Firstname</th>
-        <th>Level</th>
+        <th>{{'EMPLOYEE.FIRSTNAME'|translate}}</th>
+        <th>{{'LANGUAGE_LEVEL.NAME'|translate}}</th>
     </tr>
     @for(emp of lang()?.employees; track emp.id){
         <tr>
@@ -21,4 +21,4 @@
         </tr>
     }
 </table>
-<a routerLink="/admin">main</a>
+<a routerLink="/admin">{{'EMPLOYEE.MAIN'|translate}}</a>

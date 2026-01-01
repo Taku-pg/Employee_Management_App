@@ -5,10 +5,11 @@ import { ApiService } from '../../services/api.service';
 import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { PasswordMismatchValidator } from '../../services/validators/passwordValidator';
 import { AuthService } from '../../services/auth.service';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-emp',
-  imports: [FormsModule, ReactiveFormsModule, RouterLink],
+  imports: [FormsModule, ReactiveFormsModule, RouterLink, TranslatePipe],
   templateUrl: './emp.html',
   styleUrl: './emp.css',
 })
@@ -50,7 +51,7 @@ export class Emp implements OnInit {
       this.isBothFieldEmpty.set(!(password || confirmPassword));
     })
   }
-  
+
   onChangePassword() {
     if (this.passwordForm.invalid) {
       this.isBothFieldEmpty.set(false);
@@ -69,10 +70,25 @@ export class Emp implements OnInit {
       next: () => {
         window.alert('password changed');
         this.passwordForm.reset();
+      },
+      error: (err) => {
+        if (err.status === 400 && err.error) {
+          this.setServerError(err.error);
+        }
       }
     })
   }
 
+  setServerError(errors: Record<string, string>) {
+    Object.keys(errors).forEach(key => {
+      const control = key.includes('.') ? this.passwordForm.get(key.split('.').slice(1).join('.')) : this.passwordForm;
+      if (control) {
+        control.setErrors({
+          serverValidationError: errors[key]
+        })
+      }
+    })
+  }
   onLogout() {
     this.authService.logout();
   }

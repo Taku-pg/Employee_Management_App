@@ -1,6 +1,7 @@
-import { ApplicationConfig, inject, provideBrowserGlobalErrorListeners } from '@angular/core';
+import { ApplicationConfig, inject } from '@angular/core';
 import { provideRouter, Router } from '@angular/router';
-
+import { provideTranslateService, provideTranslateLoader } from '@ngx-translate/core'
+import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { routes } from './app.routes';
 import { HttpHandlerFn, HttpRequest, provideHttpClient, withInterceptors } from '@angular/common/http';
 import { catchError } from 'rxjs';
@@ -43,6 +44,12 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(
       withInterceptors([authInterceptor, errorInterceptor])
     ),
-    provideRouter(routes)
+    provideRouter(routes),
+    provideTranslateService({
+      loader: provideTranslateHttpLoader({
+        prefix: '/assets/i18n/',
+        suffix: '.json'
+      })
+    })
   ]
 };

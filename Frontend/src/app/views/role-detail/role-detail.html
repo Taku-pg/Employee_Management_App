@@ -1,9 +1,9 @@
-<h2>Role: '{{role()?.name}}' employees</h2>
+<h2>{{'ROLE.TITLE'|translate:{role: role()?.name} }}</h2>
 <table>
     <tr>
         <th>ID</th>
-        <th>Firstname</th>
-        <th>Department</th>
+        <th>{{'EMPLOYEE.FIRSTNAME'|translate}}</th>
+        <th>{{'ROLE.DEPARTMENT'|translate}}</th>
     </tr>
     @for(emp of role()?.employees; track emp.id){
         <tr>
@@ -13,4 +13,4 @@
         </tr>
     }
 </table>
-<a routerLink="/admin">main</a>
+<a routerLink="/admin">{{'EMPLOYEE.MAIN'|translate}}</a>

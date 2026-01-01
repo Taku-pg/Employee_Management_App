@@ -118,12 +118,22 @@ router.post('/new-emp', authenticate, authorize(['manager']), newEmpValidator, a
 
 router.post('/change-password', authenticate, passwordValidator, async (req, res) => {
     try {
-        const password = req.body.password;
+        const vr = validationResult(req);
+        if (!vr.isEmpty()) {
+            const errMsg={};
+            vr.array().forEach(e=>{
+                errMsg[e.path]=e.msg;
+            });
+            return res.status(400).json(errMsg);
+        }
+        console.log('pass validation');
+
+        const password = req.body.passwords.password;
         const hasehdPassword = await bcrypt.hash(password, 10);
         await EmployeeModel.updatePassword(hasehdPassword, req.emp.empId);
         res.status(200).json();
     } catch {
-        res.status(500).json({ message: 'Internal server error' });
+        res.status(500).json();
     }
 })
 
@@ -203,9 +213,9 @@ router.delete('/:id', authenticate, authorize(['manager']), isSameDept, async (r
 
     try {
         const isExist = EmployeeModel.existsEmployee(empId);
-        if (!isExist) return res.status(400).json({ message: 'Employee does not exist' });
+        if (!isExist) return res.status(400).json({ message: 'EMPLOYEE_NOT_EXISTS' });
         const empRole = await RoleModel.findRoleByEmpId(empId);
-        if (empRole.role_name !== 'employee') return res.status(400).json({ message: 'You can not delete this employee' });
+        if (empRole.role_name !== 'employee') return res.status(400).json({ message: 'INVALID' });
 
         await EmployeeModel.deleteEmployeeById(empId);
         res.status(200).json();
