@@ -88,9 +88,7 @@
 
         <button type="submit">{{'EMPLOYEE.CHANGE_PASSWORD'|translate}}</button>
     </form>
-    @if(role()==='employee'){
-        <button type="button" (click)="onLogout()">{{'EMPLOYEE.LOGOUT'|translate}}</button>
-    }@else if(role()==='manager'){
+    @if(role()==='manager'){
         <a routerLink="/manager">{{'EMPLOYEE.MAIN'|translate}}</a>
     }@else{
         <a routerLink="/admin">{{'EMPLOYEE.MAIN'|translate}}</a>

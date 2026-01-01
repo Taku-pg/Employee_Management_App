@@ -93,6 +93,6 @@ export const routes: Routes = [
     {
         path:'**',
         component: ErrorPage,
-        data: {errorCode: 404}
+        data: {errorCode: 404, hideFooter: true}
     }
 ];

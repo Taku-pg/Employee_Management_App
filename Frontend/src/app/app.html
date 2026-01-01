@@ -1,4 +1,8 @@
 <!--headerとfooterを入れてもいいかも-->
+<app-header/>
 <main>
   <router-outlet />
 </main>
+@if(displayFooter()){
+  <app-footer/>
+}
