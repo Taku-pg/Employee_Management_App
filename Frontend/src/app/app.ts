@@ -12,7 +12,6 @@ import { filter } from 'rxjs';
   styleUrl: './app.css'
 })
 export class App implements OnInit{
-  protected readonly title = signal('Frontend');
   private translate=inject(TranslateService);
   private router=inject(Router);
   private route=inject(ActivatedRoute);
