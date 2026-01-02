@@ -37,7 +37,6 @@ export const routes: Routes = [
         canActivate: [authGuard],
         data: {role: ['manager']},
         component: Manager,
-        //loadChildren: ()=> import('./views/manager/manager.routes').then(m=>m.MANAGER_ROUTE)
     },
     {
         path:'register/:minSal',
