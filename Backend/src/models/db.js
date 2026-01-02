@@ -5,8 +5,6 @@ const path = require('path');
 const dbPath = path.join(__dirname, '../../db/database.db');
 const sqlPath = path.join(__dirname, '../../db/init.sql');
 
-console.log(dbPath);
-
 const db = new sqlite3.Database(
     dbPath,
     sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE,
