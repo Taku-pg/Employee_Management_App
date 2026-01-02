@@ -18,7 +18,6 @@ router.get('', async (req, res) => {
 
 router.get('/min-salary', authenticate, authorize(['manager', 'admin']), async (req, res) => {
     try {
-        console.log('without');
         const mngId = req.emp.empId;
         const dept = await DepartmentModel.findDeptByEmpId(mngId);
         const minSal = await DepartmentModel.findMinSalById(dept.id);
@@ -30,9 +29,7 @@ router.get('/min-salary', authenticate, authorize(['manager', 'admin']), async (
 
 router.get('/:name/min-salary',authenticate, authorize(['manager', 'admin']),async(req,res)=>{
     try{
-        console.log('with name',req.params.name);
         const minSal=await DepartmentModel.findMinSalByName(req.params.name);
-        console.log(minSal);
         res.json(minSal);
     }catch{
         res.status(500).json();
