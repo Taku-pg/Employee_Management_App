@@ -100,7 +100,7 @@
         },
         "CONFIRM_PASSWORD": {
             "REQUIRED": "Password is required",
-            "MIN_LENGTG": "Password has to be more than 8 characters",
+            "MIN_LENGTH": "Password has to be more than 8 characters",
             "MAX_LENGTH": "Password has to be less than 20 characters",
             "PASSWORD_LENGTH": "Password length has to be between 8 to 20"
         },

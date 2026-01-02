@@ -7,7 +7,7 @@ import { uniqueEmailValidator } from '../../services/validators/emailValidator';
 import { duplicateLanguageValidator } from '../../services/validators/languageValidator';
 import { UpdateEmpModel } from '../../models/updateEmp.model';
 import { AuthService } from '../../services/auth.service';
-import { TranslatePipe } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 
 function setPatch<K extends keyof UpdateEmpModel>(patch: Partial<UpdateEmpModel>, key: K, value: UpdateEmpModel[K]) {
   patch[key] = value;
@@ -26,6 +26,7 @@ export class EmpDetail implements OnInit {
   private router = inject(Router);
   private fb = inject(FormBuilder);
   private route = inject(ActivatedRoute);
+  private translateService=inject(TranslateService);
 
   empId: string = '';
   depts: string[] = [];
@@ -38,6 +39,7 @@ export class EmpDetail implements OnInit {
   emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
   deleteErrMsg = signal<string>('');
   role = signal<string | null>(null);
+  currentLang=signal<string>('');
 
   originalEmp = signal<EmployeeModel | null>(null);
   currentEmp = signal<Partial<UpdateEmpModel>>({});
@@ -161,7 +163,6 @@ export class EmpDetail implements OnInit {
     this.apiService.getAllDept().subscribe({
       next: (res) => {
         this.depts = res;
-        console.log(res);
       }
     });
 
@@ -172,7 +173,12 @@ export class EmpDetail implements OnInit {
       }
     });
 
+    this.translateService.onLangChange.subscribe(()=>{
+      this.currentLang.set(this.translateService.getCurrentLang());
+    })
+
     this.role.set(this.authService.getRole());
+    this.currentLang.set(this.translateService.getCurrentLang());
   }
 
 
@@ -297,7 +303,13 @@ export class EmpDetail implements OnInit {
   }
 
   onDelete() {
-    const confirm = window.confirm(`Do you want delete this employee? (ID: ${this.empId})`);
+    var confirm=true;
+    if(this.translateService.getCurrentLang()==='en'){
+        confirm = window.confirm(`Do you want delete this employee? (ID: ${this.empId})`);
+    }else{
+        confirm = window.confirm(`この従業員を削除しますか? (ID: ${this.empId})`);
+    }
+    
     if (!confirm) return;
     this.apiService.deleteEmp(this.empId).subscribe({
       next: () => this.router.navigate(['manager']),

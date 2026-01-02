@@ -6,6 +6,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/api/emp',require('./routes/employeeRouter'));
+app.use('/api/manager',require('./routes/managerRouter'));
 app.use('/api/admin',require('./routes/adminRouter'));
 app.use('/api/login',require('./routes/loginRouter'));
 app.use('/api/dept',require('./routes/departmentRouter'));

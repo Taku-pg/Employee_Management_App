@@ -24,11 +24,7 @@ export class ApiService {
     }
 
     getAllDeptEmp() {
-        return this.httpClient.get<{ employees: SimpleEmployeeModel[] }>(`${this.baseUrl}/emp/manager`);
-    }
-
-    getAllEmp() {
-        return this.httpClient.get<{ employees: SimpleEmployeeModel[] }>(`${this.baseUrl}/emp/admin`);
+        return this.httpClient.get<{ employees: SimpleEmployeeModel[] }>(`${this.baseUrl}/manager`);
     }
 
     getAllDept() {
@@ -72,11 +68,11 @@ export class ApiService {
     }
 
     checkUniqueEmail(email: string) {
-        return this.httpClient.get<boolean>(`${this.baseUrl}/emp/check-email`, { params: { email } });
+        return this.httpClient.get<boolean>(`${this.baseUrl}/manager/check-email`, { params: { email } });
     }
 
     createEmployee(newEmp: NewEmployeeModel) {
-        return this.httpClient.post(`${this.baseUrl}/emp/new-emp`, newEmp)
+        return this.httpClient.post(`${this.baseUrl}/manager/new-emp`, newEmp)
     }
 
     changePassword(passwords: any) {
@@ -92,11 +88,11 @@ export class ApiService {
     }
 
     patchEmp(id: string, patchData: any) {
-        return this.httpClient.patch(`${this.baseUrl}/emp/${id}`, patchData);
+        return this.httpClient.patch(`${this.baseUrl}/manager/emp/${id}`, patchData);
     }
 
     deleteEmp(id: string) {
-        return this.httpClient.delete(`${this.baseUrl}/emp/${id}`);
+        return this.httpClient.delete(`${this.baseUrl}/manager/emp/${id}`);
     }
 
     getAllInfo() {

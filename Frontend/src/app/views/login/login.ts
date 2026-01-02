@@ -36,8 +36,6 @@ export class Login {
   errorMessage = signal<string>('');
 
   onLogin() {
-    console.log(this.email);
-    console.log(this.password);
     this.authService.login(this.email, this.password).subscribe(
       {
         next: (res) => {

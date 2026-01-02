@@ -5,7 +5,7 @@ import { ApiService } from '../../services/api.service';
 import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { PasswordMismatchValidator } from '../../services/validators/passwordValidator';
 import { AuthService } from '../../services/auth.service';
-import { TranslatePipe } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-emp',
@@ -17,10 +17,12 @@ export class Emp implements OnInit {
   private apiService = inject(ApiService);
   private authService = inject(AuthService);
   private fb = inject(FormBuilder);
+  private translateService=inject(TranslateService);
 
   emp = signal<EmployeeModel | null>(null);
   role = signal<string | null>(null);
   isBothFieldEmpty = signal<boolean>(true);
+  currentLang=signal<string>('');
 
   passwordForm = this.fb.group({
     password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(20)]],
@@ -49,7 +51,13 @@ export class Emp implements OnInit {
       const password = this.passwordForm.get('password')?.value;
       const confirmPassword = this.passwordForm.get('confirmPassword')?.value;
       this.isBothFieldEmpty.set(!(password || confirmPassword));
-    })
+    });
+
+    this.translateService.onLangChange.subscribe(()=>{
+        this.currentLang.set(this.translateService.getCurrentLang());
+    });
+
+    this.currentLang.set(this.translateService.getCurrentLang());
   }
 
   onChangePassword() {
@@ -68,7 +76,12 @@ export class Emp implements OnInit {
 
     this.apiService.changePassword(passwords).subscribe({
       next: () => {
-        window.alert('password changed');
+        if(this.translateService.getCurrentLang()==='en'){
+          window.alert('password changed');
+        }else{
+          window.alert('パスワードが変更されました');
+        }
+        
         this.passwordForm.reset();
       },
       error: (err) => {

@@ -90,7 +90,7 @@
     </form>
     @if(role()==='manager'){
         <a routerLink="/manager">{{'EMPLOYEE.MAIN'|translate}}</a>
-    }@else{
+    }@else if(role()==='admin'){
         <a routerLink="/admin">{{'EMPLOYEE.MAIN'|translate}}</a>
     }
 </div>
