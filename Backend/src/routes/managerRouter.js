@@ -1,5 +1,6 @@
 const express=require('express');
 const router=express.Router();
+const bcrypt = require('bcrypt');
 const { validationResult } = require('express-validator');
 const authenticate = require('../middleware/jwtMiddleware');
 const authorize = require('../middleware/roleMiddleware');
@@ -52,6 +53,7 @@ router.post('/new-emp', authenticate, authorize(['manager']), newEmpValidator, a
     try {
         const dept = await DeptModel.findDeptByEmpId(mngId);
         const password = req.body.firstname;
+        const hasehdPassword = await bcrypt.hash(password, 10);
         const now = new Date();
         var mm = now.getMonth()+1;
         var dd=now.getDate();
@@ -70,7 +72,7 @@ router.post('/new-emp', authenticate, authorize(['manager']), newEmpValidator, a
             req.body.firstname,
             req.body.lastname,
             req.body.email,
-            password,
+            hasehdPassword,
             formattedDate,
             req.body.salary,
             mngId,
@@ -91,6 +93,7 @@ router.patch('/emp/:id', authenticate, authorize(['manager']), updateEmpValidato
     const vr = validationResult(req);
     if (!vr.isEmpty()) {
         const errorMsg = ValidationResultService.setErrors(vr);
+        console.log(errorMsg);
         return res.status(400).json({ errors: errorMsg });
     }
 

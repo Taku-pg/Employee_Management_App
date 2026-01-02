@@ -85,7 +85,7 @@
                                 <option [value]="languageLevel">{{languageLevel}}</option>
                         }
                     </select><br><br>
-                </label><br><br>
+                </label>
 
                 @if(selectedLanguage.get('language_level')?.invalid &&
                     (selectedLanguage.get('language_level')?.dirty || selectedLanguage.get('language_level')?.touched)
@@ -115,7 +115,9 @@
         }
 
     </div>
+    <br><br>
 
     <button type="submit">{{'MANAGER.REGISTER'|translate}}</button>
+    <br>
     <a routerLink="/manager">{{'EMPLOYEE.MAIN'|translate}}</a>
 </form>

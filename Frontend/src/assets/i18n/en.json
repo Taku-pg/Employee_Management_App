@@ -26,13 +26,15 @@
         "LOGOUT": "logout"
     },
     "MANAGER": {
+        "TITLE":"Manager Main Menu",
         "ADD_LANGUAGE": "Add language",
         "REMOVE_LANGUAGE": "Remove language",
         "UPDATE_EMPLOYEE": "Update",
         "DELETE_EMPLOYEE": "Delete",
-        "REGISTER": "Register"
+        "REGISTER": "Register new employee"
     },
     "ADMIN": {
+        "TITLE": "Admin Main Menu",
         "employees": "Employees",
         "department": "Department",
         "role": "Role",
@@ -43,7 +45,7 @@
         "NEXT": "next",
         "CHANGE_MANAGER": "Change manager"
     },
-    "DEPARTEMENT": {
+    "DEPARTMENT": {
         "TITLE": "Department Detail",
         "NAME": "Department name",
         "MIN": "Minimum salary",
@@ -77,7 +79,7 @@
         },
         "SALARY": {
             "REQUIRED": "Salary is required",
-            "MIN": "Minimum salaru is {{min}}"
+            "MIN": "Minimum salary is {{min}}"
         },
         "DEPARTMENT": {
             "REQUIRED": "Select department",

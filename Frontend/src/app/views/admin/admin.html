@@ -21,4 +21,5 @@
 
 <button (click)="onPrev()" [disabled]="currentPage===0">{{'ADMIN.PREV'|translate}}</button>
 <button (click)="onNext()" [disabled]="currentPage===contents().length-1">{{'ADMIN.NEXT'|translate}}</button>
+<br>
 <a routerLink="/emp">{{'EMPLOYEE.PERSONAL'|translate}}</a>

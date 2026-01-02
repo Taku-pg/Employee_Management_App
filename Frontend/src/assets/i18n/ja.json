@@ -31,11 +31,24 @@
         "LOGOUT": "ログアウト"
     },
     "MANAGER": {
-        "ADD_LANGUAGE": "Add language",
-        "REMOVE_LANGUAGE": "Remove language",
-        "UPDATE_EMPLOYEE": "Update",
-        "DELETE_EMPLOYEE": "Delete",
-        "REGISTER": "Register"
+        "TITLE":"マネージャーメインメニュー",
+        "ADD_LANGUAGE": "言語追加",
+        "REMOVE_LANGUAGE": "言語削除",
+        "UPDATE_EMPLOYEE": "更新",
+        "DELETE_EMPLOYEE": "削除",
+        "REGISTER": "新規登録"
+    },
+    "ADMIN": {
+        "TITLE":"アドミンメインメニュー",
+        "employees": "従業員一覧",
+        "department": "部署一覧",
+        "role": "役職一覧",
+        "language": "言語一覧",
+        "language_level": "言語レベル一覧",
+        "CONTENT_NAME": "名前",
+        "PREV": "前へ",
+        "NEXT": "次へ",
+        "CHANGE_MANAGER": "マネージャー変更"
     },
     "DEPARTMENT": {
         "TITLE": "部署詳細",
@@ -56,17 +69,6 @@
     "LANGUAGE_LEVEL": {
         "TITLE": "言語レベル詳細",
         "NAME": "言語レベル"
-    },
-    "ADMIN": {
-        "employees": "従業員一覧",
-        "department": "部署一覧",
-        "role": "役職一覧",
-        "language": "言語一覧",
-        "language_level": "言語レベル一覧",
-        "CONTENT_NAME": "名前",
-        "PREV": "前へ",
-        "NEXT": "次へ",
-        "CHANGE_MANAGER": "マネージャー変更"
     },
     "ERROR": {
         "FIRSTNAME": {

@@ -78,7 +78,6 @@ export class NewEmp {
         const salaryControl = this.newEmpForm.get('salary');
         salaryControl?.setValidators([Validators.required, Validators.min(this.minSalary)]);
         salaryControl?.updateValueAndValidity();
-        console.log(this.minSalary);
       }
     })
   }

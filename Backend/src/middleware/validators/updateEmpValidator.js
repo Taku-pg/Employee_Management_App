@@ -33,9 +33,9 @@ module.exports = [
         .notEmpty().withMessage('REQUIRED')
         .isInt()
         .custom(async (value, { req }) => {
-            const mngId = req.emp.empId;
-            const dept = await DeptModel.findDeptByEmpId(mngId);
-            const minSal = await DeptModel.findMinSalById(dept.id);
+            const deptName = req.body.department;
+            const deptId = await DeptModel.findDeptByName(deptName);
+            const minSal = await DeptModel.findMinSalById(deptId);
             if (Number(value) < minSal) {
                 throw new Error(`MIN`);
             }

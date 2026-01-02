@@ -1,22 +1,12 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const EmpModel = require('../models/employeeModel');
-const DeptModel = require('../models/departmentModel');
 const router = express.Router();
 const authenticate = require('../middleware/jwtMiddleware');
 const authorize = require('../middleware/roleMiddleware');
 const isSameDept = require('../middleware/deptMiddleware');
 const EmployeeModel = require('../models/employeeModel');
-const TransactionService = require('../services/transactionService');
-const newEmpValidator = require('../middleware/validators/newEmpValidator');
 const { validationResult } = require('express-validator');
-const LanguageModel = require('../models/languageModel');
-const LanguageLevelModel = require('../models/languageLevelModel');
-const LanguageSkillModel = require('../models/languageSkillModel');
-const DepartmentModel = require('../models/departmentModel');
-const updateEmpValidator = require('../middleware/validators/updateEmpValidator');
-const RoleModel = require('../models/roleModel');
-const ValidationResultService = require('../services/validationResultService');
 const passwordValidator = require('../middleware/validators/passwordValidator');
 
 router.get('/me', authenticate, async (req, res) => {

@@ -1,6 +1,6 @@
 import { ApplicationConfig, inject } from '@angular/core';
 import { provideRouter, Router } from '@angular/router';
-import { provideTranslateService, provideTranslateLoader } from '@ngx-translate/core'
+import { provideTranslateService } from '@ngx-translate/core'
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { routes } from './app.routes';
 import { HttpHandlerFn, HttpRequest, provideHttpClient, withInterceptors } from '@angular/common/http';
