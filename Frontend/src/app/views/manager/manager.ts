@@ -22,7 +22,6 @@ export class Manager implements OnInit {
   minSalary=signal<number>(0);
 
   ngOnInit(){
-    console.log('display manager page');
     this.apiService.getAllDeptEmp().subscribe({
       next:(res)=>{
         this.deptEmployees.set(res.employees);

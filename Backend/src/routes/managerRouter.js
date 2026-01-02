@@ -53,7 +53,17 @@ router.post('/new-emp', authenticate, authorize(['manager']), newEmpValidator, a
         const dept = await DeptModel.findDeptByEmpId(mngId);
         const password = req.body.firstname;
         const now = new Date();
-        const formattedDate = now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + now.getDate();
+        var mm = now.getMonth()+1;
+        var dd=now.getDate();
+
+        if(mm<10){
+            mm='0'+mm;
+        }
+
+        if(dd<10){
+            dd='0'+dd;
+        }
+        const formattedDate = now.getFullYear() + '-' + mm + '-' + dd;
 
 
         await TransactionService.createNewEmp([
@@ -145,7 +155,7 @@ router.patch('/emp/:id', authenticate, authorize(['manager']), updateEmpValidato
     }
 });
 
-router.delete('/manager/:id', authenticate, authorize(['manager']), isSameDept, async (req, res) => {
+router.delete('/emp/:id', authenticate, authorize(['manager']), isSameDept, async (req, res) => {
     const empId = req.params.id;
 
     try {

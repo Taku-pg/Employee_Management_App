@@ -46,8 +46,9 @@ module.exports = [
         .optional()
         .notEmpty().withMessage('REQUIRED').bail()
         .custom(async value => {
-            const allDept = await DeptModel.findAllDeptName();
-            if (!allDept.includes(value)) {
+            const allDept = await DeptModel.findAllDept();
+            const allDeptName=allDept.map(d=>d.name);
+            if (!allDeptName.includes(value)) {
                 throw new Error('INVALID');
             }
             return true;

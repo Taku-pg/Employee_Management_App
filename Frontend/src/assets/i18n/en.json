@@ -20,6 +20,7 @@
         "CHANGE_PASSWORD": "Change password",
         "VIEW_DETAIL": "View detail",
         "PERSONAL": "Personal info",
+        "DETAIL": "Employee Detail Information",
         "MAIN": "main",
         "LOGOUT": "logout"
     },
@@ -31,37 +32,37 @@
         "REGISTER": "Register"
     },
     "ADMIN": {
-        "employees":"Employees",
-        "department":"Department",
-        "role":"Role",
-        "language":"Language",
-        "language_level":"Language Level",
+        "employees": "Employees",
+        "department": "Department",
+        "role": "Role",
+        "language": "Language",
+        "language_level": "Language Level",
         "CONTENT_NAME": "Name",
         "PREV": "prev",
         "NEXT": "next",
         "CHANGE_MANAGER": "Change manager"
     },
-    "DEPARTEMENT":{
-        "TITLE":"Department Detail",
+    "DEPARTEMENT": {
+        "TITLE": "Department Detail",
         "NAME": "Department name",
         "MIN": "Minimum salary",
         "EMPLOYEE": "Department employee",
-        "MANAGER":"Manager"
+        "MANAGER": "Manager"
     },
-    "ROLE":{
-        "TITLE":"ROLE: {{role}} employees",
-        "DEPARTMENT":"Department"
+    "ROLE": {
+        "TITLE": "ROLE: {{role}} employees",
+        "DEPARTMENT": "Department"
     },
-    "LANGUAGE":{
-        "TITLE":"Language Detail",
+    "LANGUAGE": {
+        "TITLE": "Language Detail",
         "NAME": "Language",
-        "NUMBER_OF_COUNTRY":"Number of native country"
+        "NUMBER_OF_COUNTRY": "Number of native country"
     },
-    "LANGUAGE_LEVEL":{
-        "TITLE":"Languge Level Detai",
+    "LANGUAGE_LEVEL": {
+        "TITLE": "Languge Level Detai",
         "NAME": "Language Level"
     },
-    "ERROR": { 
+    "ERROR": {
         "FIRSTNAME": {
             "REQUIRED": "Firstname is required"
         },

@@ -59,7 +59,6 @@ router.post('/change-password', authenticate, passwordValidator, async (req, res
             });
             return res.status(400).json(errMsg);
         }
-        console.log('pass validation');
 
         const password = req.body.passwords.password;
         const hasehdPassword = await bcrypt.hash(password, 10);

@@ -3,7 +3,7 @@ const { db } = require('./db');
 class DepartmentModel {
     static findAllDept() {
         return new Promise((resolve, reject) => {
-            const sql = `SELECT id,department_name FROM department`
+            const sql = `SELECT id,department_name FROM department ORDER BY id`
 
             db.all(sql, [], (err, rows) => {
                 if (err) return reject(err);

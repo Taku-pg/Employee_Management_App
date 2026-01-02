@@ -19,83 +19,84 @@
         "CONFIRM_PASSWORD": "確認用パスワード",
         "CHANGE_PASSWORD": "パスワード変更",
         "ADD_LANGUAGE": "言語追加",
-        "REMOVE_LANGUAGE":"言語削除",
+        "REMOVE_LANGUAGE": "言語削除",
         "UPDATE_EMPLOYEE": "更新",
         "DELETE_EMPLOYEE": "削除",
         "REGISTER": "登録",
         "VIEW_DETAIL": "詳細",
         "PERSONAL": "個人情報",
+        "DETAIL": "詳細情報",
         "MAIN": "メインメニュー",
         "LOGOUT": "ログアウト"
     },
-     "MANAGER": {
+    "MANAGER": {
         "ADD_LANGUAGE": "Add language",
         "REMOVE_LANGUAGE": "Remove language",
         "UPDATE_EMPLOYEE": "Update",
         "DELETE_EMPLOYEE": "Delete",
         "REGISTER": "Register"
     },
-    "DEPARTMENT":{
-        "TITLE":"部署詳細",
+    "DEPARTMENT": {
+        "TITLE": "部署詳細",
         "NAME": "部署名",
         "MIN": "最低賃金",
         "EMPLOYEE": "従業員",
-        "MANAGER":"マネージャー"
+        "MANAGER": "マネージャー"
     },
-    "ROLE":{
-        "TITLE":"役職: {{role}}の従業員",
-        "DEPARTMENT":"部署"
+    "ROLE": {
+        "TITLE": "役職: {{role}}の従業員",
+        "DEPARTMENT": "部署"
     },
-    "LANGUAGE":{
-        "TITLE":"言語詳細",
+    "LANGUAGE": {
+        "TITLE": "言語詳細",
         "NAME": "言語",
-        "NUMBER_OF_COUNTRY":"公用語の国の数"
+        "NUMBER_OF_COUNTRY": "公用語の国の数"
     },
-    "LANGUAGE_LEVEL":{
-        "TITLE":"言語レベル詳細",
+    "LANGUAGE_LEVEL": {
+        "TITLE": "言語レベル詳細",
         "NAME": "言語レベル"
     },
     "ADMIN": {
-        "employees":"従業員一覧",
-        "department":"部署一覧",
-        "role":"役職一覧",
-        "language":"言語一覧",
-        "language_level":"言語レベル一覧",
+        "employees": "従業員一覧",
+        "department": "部署一覧",
+        "role": "役職一覧",
+        "language": "言語一覧",
+        "language_level": "言語レベル一覧",
         "CONTENT_NAME": "名前",
         "PREV": "前へ",
         "NEXT": "次へ",
         "CHANGE_MANAGER": "マネージャー変更"
     },
     "ERROR": {
-        "FIRSTNAME":{
-            "REQUIRED":"姓を入力してください"
+        "FIRSTNAME": {
+            "REQUIRED": "姓を入力してください"
         },
-        "LASTNAME":{
-            "REQUIRED":"名を入力してください"
+        "LASTNAME": {
+            "REQUIRED": "名を入力してください"
         },
-        "EMAIL":{
-            "REQUIRED":"メールアドレスを入力してください",
+        "EMAIL": {
+            "REQUIRED": "メールアドレスを入力してください",
             "PATTERN": "不正なメールアドレスです",
-            "UNIQUE":"このメールアドレスは既に使われています"
+            "UNIQUE": "このメールアドレスは既に使われています"
         },
-        "SALARY":{
-            "REQUIRED":"給料を入力してください",
-            "MIN":"最低賃金は{{min}}です"
+        "SALARY": {
+            "REQUIRED": "給料を入力してください",
+            "MIN": "最低賃金は{{min}}です"
         },
-        "DEPARTMENT":{
-            "REQUIRED":"部署を選択してください",
+        "DEPARTMENT": {
+            "REQUIRED": "部署を選択してください",
             "INVALID": "不正な部署です"
         },
-        "LANGUAGE":{
-            "LANGUAGE":{
-                "REQUIRED":"言語を入力してください",
+        "LANGUAGE": {
+            "LANGUAGE": {
+                "REQUIRED": "言語を入力してください",
                 "INVALID": "不正な言語です"
             },
-            "LANGUAGE_LEVEL":{
-                "REQUIRED":"言語レベルを入力してください",
+            "LANGUAGE_LEVEL": {
+                "REQUIRED": "言語レベルを入力してください",
                 "INVALID": "不正な言語レベルです"
             },
-            "DUPLICATE":"同じ言語を二つ以上選べません"
+            "DUPLICATE": "同じ言語を二つ以上選べません"
         },
         "PASSWORD": {
             "REQUIRED": "パスワードは必要なフィールドです",
@@ -112,27 +113,27 @@
         "PASSWORDS": {
             "PASSWORD_MISMATCH": "パスワードが一致していません"
         },
-        "ERROR_PAGE":{
-            "401":{
-                "TITLE":"401 unauthorized",
-                "MESSAGE":"認証されていません"
+        "ERROR_PAGE": {
+            "401": {
+                "TITLE": "401 unauthorized",
+                "MESSAGE": "認証されていません"
             },
-            "403":{
-                "TITLE":"403 forbidden",
-                "MESSAGE":"アクセス権限がありません"
+            "403": {
+                "TITLE": "403 forbidden",
+                "MESSAGE": "アクセス権限がありません"
             },
-            "404":{
-                "TITLE":"404 not found",
-                "MESSAGE":"ページが見つかりませんでした"
+            "404": {
+                "TITLE": "404 not found",
+                "MESSAGE": "ページが見つかりませんでした"
             },
-            "500":{
-                "TITLE":"500 internal server error",
-                "MESSAGE":"サーバーエラーが起こりました"
+            "500": {
+                "TITLE": "500 internal server error",
+                "MESSAGE": "サーバーエラーが起こりました"
             },
-            "LOGIN_MENU":"ログインメニュー"
+            "LOGIN_MENU": "ログインメニュー"
         },
         "DELETE": {
-            "EMPLOYEE_NOT_EXISTS":"従業員が存在していません",
+            "EMPLOYEE_NOT_EXISTS": "従業員が存在していません",
             "INVALID": "この従業員を削除できません"
         }
     }
