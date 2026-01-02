@@ -78,17 +78,17 @@ export const routes: Routes = [
     {
         path:'error/401',
         component: ErrorPage,
-        data: {errorCode: 401}
+        data: {errorCode: 401, hideFooter: true}
     },
     {
         path:'error/403',
         component: ErrorPage,
-        data: {errorCode: 403}
+        data: {errorCode: 403, hideFooter: true}
     },
     {
         path:'error/500',
         component: ErrorPage,
-        data: {errorCode: 500}
+        data: {errorCode: 500, hideFooter: true}
     },
     {
         path:'**',

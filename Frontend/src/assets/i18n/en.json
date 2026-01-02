@@ -1,5 +1,6 @@
 {
     "LOGIN": {
+        "TITLE":"Login Menu",
         "EMAIL": "Email",
         "PASSWORD": "Password",
         "ERROR": "Email or Password is not correct",

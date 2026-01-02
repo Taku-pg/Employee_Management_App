@@ -20,14 +20,14 @@ export class App implements OnInit{
 
   constructor(){
     this.translate.addLangs(['en','ja']);
-    this.translate.use('ja');
+    this.translate.use('en');
   }
 
   ngOnInit(){
     this.router.events.pipe(filter(e=>e instanceof NavigationEnd)).subscribe(()=>{
       const child=this.route.firstChild;
       const hideFooter=child?.snapshot.data['hideFooter'];
-      if(this.router.url==='/login' || this.router.url.startsWith('/error') || hideFooter){
+      if(this.router.url==='/login' || hideFooter){
         this.displayFooter.set(false);
       }else{
         this.displayFooter.set(true);
