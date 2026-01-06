@@ -10,13 +10,16 @@ module.exports = async function isSameDept(req, res, next) {
         const empDept = await DeptModel.findDeptByEmpId(empId);
         const mngDept = await DeptModel.findDeptByEmpId(mngId);
 
+        if(!empDept) {
+            return res.sendStatus(404);
+        }
 
         if (empDept.id !== mngDept.id) {
             return res.sendStatus(403);
         }
 
         next();
-    } catch {
+    } catch (err){
         res.sendStatus(500);
     }
 

@@ -47,7 +47,7 @@ class DepartmentModel {
 
             db.get(sql, [name], (err, row) => {
                 if (err) return reject(err);
-                resolve(row.id);
+                resolve(row);
             });
         })
     }

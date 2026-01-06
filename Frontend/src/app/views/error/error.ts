@@ -16,7 +16,6 @@ export class ErrorPage implements OnInit {
 
   ngOnInit(){
     const errorCode =this.activatedRouter.snapshot.data['errorCode'];
-    console.log(errorCode);
 
     switch(errorCode){
       case 401:

@@ -15,7 +15,7 @@ router.get('/me', authenticate, async (req, res) => {
         const employeeInfo = await EmpModel.findEmployeeById(empId);
         res.json({ emp: employeeInfo });
     } catch (err) {
-        res.status(500).json({ message: 'Internal server error' });
+        res.status(500).json();
     }
 });
 
@@ -25,7 +25,7 @@ router.get('/role', authenticate, async (req, res) => {
         const emp = await EmpModel.findEmployeeWithRoleNameById(empId);
         res.json({ role: emp.role_name });
     } catch (err) {
-        res.status(500).json({ message: 'Internal server error' });
+        res.status(500).json();
     }
 });
 
@@ -35,7 +35,7 @@ router.get('/:id', authenticate, authorize(['manager', 'admin']), isSameDept, as
         const employeeInfo = await EmployeeModel.findEmployeeById(empId);
         res.json({ emp: employeeInfo });
     } catch (err) {
-        res.status(500).json({ message: 'internal server error' });
+        res.status(500).json();
     }
 })
 

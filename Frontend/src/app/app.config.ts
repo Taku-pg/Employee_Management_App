@@ -32,6 +32,8 @@ function errorInterceptor(request: HttpRequest<unknown>, next: HttpHandlerFn) {
         router.navigate(['error/403']);
       } else if (err.status === 500) {
         router.navigate(['error/500']);
+      } else if (err.status === 404) {
+        router.navigate(['error/404']);
       }
 
       throw err;

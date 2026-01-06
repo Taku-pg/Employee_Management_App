@@ -54,7 +54,7 @@
                 <p>{{'ERROR.PASSWORD.MIN_LENGTH'|translate}}</p>
             }
             @if(password?.hasError('maxlength')){
-                <p>P{{'ERROR.PASSWORD.MAX_LENGTH'|translate}}</p>
+                <p>{{'ERROR.PASSWORD.MAX_LENGTH'|translate}}</p>
             }
             @if(password?.hasError('serverValidationError')){
                 <p>{{'ERROR.PASSWORD.'+passwordForm.get('password')?.errors?.['serverValidationError']|translate}}</p>

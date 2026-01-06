@@ -47,7 +47,7 @@ export class EmpDetail implements OnInit {
   updateEmpForm = this.fb.group({
     firstname: ['', Validators.required],
     lastname: ['', Validators.required],
-    email: ['', [Validators.required, Validators.pattern(this.emailRegex)]
+    email: ['',[],//, [Validators.required, Validators.pattern(this.emailRegex)]
       , uniqueEmailValidator(this.apiService, this.originalEmail)],
     salary: [0, [Validators.required, Validators.min(this.minSalary())]],
     department: ['', Validators.required],

@@ -93,7 +93,6 @@ router.patch('/emp/:id', authenticate, authorize(['manager']), updateEmpValidato
     const vr = validationResult(req);
     if (!vr.isEmpty()) {
         const errorMsg = ValidationResultService.setErrors(vr);
-        console.log(errorMsg);
         return res.status(400).json({ errors: errorMsg });
     }
 
@@ -106,7 +105,7 @@ router.patch('/emp/:id', authenticate, authorize(['manager']), updateEmpValidato
         const empKeys = Object.keys(patchData).filter(k => k !== 'languages');
         if (empKeys.includes('department')) {
             const deptId = await DepartmentModel.findDeptByName(patchData['department']);
-            patchData['department_id'] = deptId;
+            patchData['department_id'] = deptId.id;
             empKeys[empKeys.findIndex(k => k === 'department')] = 'department_id';
         }
         const empUpdateSQL = {};
