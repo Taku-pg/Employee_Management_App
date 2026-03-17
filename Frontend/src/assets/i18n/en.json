@@ -1,4 +1,7 @@
 {
+    "HEADER": {
+        "LANGUAGE":"Language"
+    },
     "LOGIN": {
         "TITLE":"Login",
         "EMAIL": "Email",

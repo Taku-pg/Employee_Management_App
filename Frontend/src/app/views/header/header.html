@@ -1,2 +1,15 @@
-<button type="button" (click)="onChangeLang('en')">English</button>
-<button type="button" (click)="onChangeLang('ja')">日本語</button>
+<button mat-menu [matMenuTriggerFor]="menu">☰</button>
+<mat-menu #menu="matMenu" >
+    <button mat-menu-item [matMenuTriggerFor]="language">{{'HEADER.LANGUAGE'|translate}}</button>
+    @if(role()){
+         @if(role()!='employee'){
+            <button mat-menu-item (click)="onDisplayPersonalInfo()">{{'EMPLOYEE.PERSONAL'|translate}}</button>
+        }
+        <button mat-menu-item (click)="onLogout()">{{'EMPLOYEE.LOGOUT'|translate}}</button>
+    }
+</mat-menu>
+
+<mat-menu #language="matMenu">
+    <button mat-menu-item type="button" (click)="onChangeLang('en')">English</button>
+    <button mat-menu-item type="button" (click)="onChangeLang('ja')">日本語</button>
+</mat-menu>
