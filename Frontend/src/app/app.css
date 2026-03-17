@@ -2,12 +2,13 @@ main{
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 100vh;
 }
 
 app-header{
     position: fixed;
     top: 0;
-    right: 0;
+    left: 0;
     padding: 10px;
 }
 

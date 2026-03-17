@@ -1,17 +1,22 @@
 <div id="loginFormContainer">
-<div id="loginForm">
-<h2 id="loginTitle">{{'LOGIN.TITLE'|translate}}</h2>
-<form (ngSubmit)="onLogin()">
-    <label id="emailLabel" for="email">
-      <input type="text" id="email" name="email" [(ngModel)]="email" placeholder="{{'LOGIN.EMAIL'|translate}}">
-    </label><br><br>
-    <label id="passwordLabel" for="password">
-      <input type="password" id="password" name="password" [(ngModel)]="password" placeholder="{{'LOGIN.PASSWORD'|translate}}">
-    </label><br><br>
-    @if(errorMessage()){
-      <p>{{'LOGIN.ERROR'|translate}}</p>
-    }
-    <button id="loginButton" type="submit">{{'LOGIN.LOGIN'|translate}}</button>
-</form>
-</div>
+  <div id="loginForm">
+    <h2 id="loginTitle">{{'LOGIN.TITLE'|translate}}</h2>
+      <form (ngSubmit)="onLogin()">
+
+        <label id="emailLabel" for="email">
+          <input type="text" id="email" name="email" [(ngModel)]="email" placeholder="{{'LOGIN.EMAIL'|translate}}">
+        </label><br><br>
+
+        <label id="passwordLabel" for="password">
+          <input type="password" id="password" name="password" [(ngModel)]="password" placeholder="{{'LOGIN.PASSWORD'|translate}}">
+        </label><br><br>
+
+        @if(errorMessage()){
+          <p>{{'LOGIN.ERROR'|translate}}</p>
+        }
+
+        <button id="loginButton" type="submit">{{'LOGIN.LOGIN'|translate}}</button>
+        
+      </form>
+  </div>
 </div>

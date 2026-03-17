@@ -10,8 +10,4 @@ import { TranslatePipe } from '@ngx-translate/core';
 })
 export class Footer {
   authService=inject(AuthService);
-
-  onLogout(){
-    this.authService.logout();
-  }
 }
