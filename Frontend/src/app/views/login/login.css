@@ -1,0 +1,27 @@
+#loginFormContainer{
+    padding-top: 50%;
+}
+
+#loginForm{
+    padding-top: 10%;
+    background-color: white;
+    border-radius: 5%;
+    padding: 1rem;
+}
+
+#loginTitle{
+    text-align: center;
+}
+
+#email,#password{
+    background-color: rgb(237, 233, 233);
+    border: none;
+    padding: 10px;
+}
+
+#loginButton{
+    color: white;
+    background: linear-gradient(90deg,blue,plum);
+    border: none;
+    width: 100%;
+}
