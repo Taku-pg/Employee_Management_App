@@ -60,5 +60,5 @@ password: smith
 - Password: yamada  
 
 #### Managers
-Managers are assigned employee Id from 2 to 6.  
+Managers are assigned to employee Id from 2 to 6.  
 Rest of all employees have role as Employee.
