@@ -29,17 +29,17 @@ In addition to employee abilities:
 - JWT
 
 ## Setup
-1. Clone this repository
+1. Clone this repository  
    
 `git clone https://github.com/Taku-pg/Employee_Management_App.git`
 
-2.Go to /Employee_Management_App/Frontend directory
+2. Go to /Employee_Management_App/Frontend directory  
 
-3. Run command
+3. Run command  
 
 `ng serve`
 
-4. In different window, go to /Employee_Management_App/Backend directory
+4. In different window, go to /Employee_Management_App/Backend directory  
 
 5. Run command
 
@@ -48,15 +48,17 @@ In addition to employee abilities:
 6. You can access with url 'localhost:4200'
 
 ### Inserted Data:
-You can see [sql file](https://github.com/Taku-pg/Employee_Management_App/blob/main/Backend/db/init.sql).
-For employee table you can find inserted data. Their password is lowercase of firstname.
+You can see [sql file](https://github.com/Taku-pg/Employee_Management_App/blob/main/Backend/db/init.sql).  
+For employee table you can find inserted data.  
+Their password is lowercase of firstname.
 
-ex. 
-Email: Smith@gmail.com  password: smith
+ex.  
+Email: Smith@gmail.com    
+password: smith  
 
 #### President
-- Email: Yamada@gmail.com
-- Password: yamada
+- Email: Yamada@gmail.com  
+- Password: yamada  
 
 #### Managers
 Managers are assigned employee Id from 2 to 6.
