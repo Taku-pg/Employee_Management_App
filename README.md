@@ -1,5 +1,5 @@
 # Employee_Management_App
-This is a sample project using Node.js with express.js and Angular for learning purpose.
+This is a sample project using Node.js with express.js and Angular for learning purpose.  
 This application provides managing functionalities such as add/update/delete for employees.
 
 ## Features
@@ -31,25 +31,24 @@ In addition to employee abilities:
 ## Setup
 1. Clone this repository  
    
-`git clone https://github.com/Taku-pg/Employee_Management_App.git`
+   `git clone https://github.com/Taku-pg/Employee_Management_App.git`
 
 2. Go to /Employee_Management_App/Frontend directory  
 
 3. Run command  
 
-`ng serve`
+   `ng serve`
 
 4. In different window, go to /Employee_Management_App/Backend directory  
 
 5. Run command
 
-`node index.js`
+   `node index.js`
 
 6. You can access with url 'localhost:4200'
 
 ### Inserted Data:
-You can see [sql file](https://github.com/Taku-pg/Employee_Management_App/blob/main/Backend/db/init.sql).  
-For employee table you can find inserted data.  
+You can see [sql file](https://github.com/Taku-pg/Employee_Management_App/blob/main/Backend/db/init.sql). For employee table you can find inserted data.  
 Their password is lowercase of firstname.
 
 ex.  
@@ -61,5 +60,5 @@ password: smith
 - Password: yamada  
 
 #### Managers
-Managers are assigned employee Id from 2 to 6.
+Managers are assigned employee Id from 2 to 6.  
 Rest of all employees have role as Employee.
